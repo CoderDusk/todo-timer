@@ -21,7 +21,7 @@
 				})
 			}
 			
-			
+			// 以同步方式获取本地存储中的临时循环计数器组，如果不存在就设定一个初始值
 			let tempLoopTimerGroup = uni.getStorageSync('tempLoopTimerGroup')
 			if(tempLoopTimerGroup == ''){
 				uni.setStorage({
