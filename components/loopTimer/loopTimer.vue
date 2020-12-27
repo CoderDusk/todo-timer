@@ -1,6 +1,8 @@
 <template>
 	<view>
+		<!-- 修改测试 -->
 		<u-top-tips ref="noTitleError"></u-top-tips>
+		
 		
 		<view class="loopTimer">
 
