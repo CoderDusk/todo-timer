@@ -1,8 +1,5 @@
 <template>
 	<view>
-		<!-- 修改测试 -->
-		<!-- <u-top-tips ref="noTitleError"></u-top-tips>
-		<u-top-tips ref="noTimerListError"></u-top-tips> -->
 		<u-toast ref="warningToast" class="warningToast" />
 		
 		<view class="loopTimer">

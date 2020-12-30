@@ -6,7 +6,7 @@
 				<u-icon name="trash" color="red" size="40" class="deleteIcon" @click="remove(index)"></u-icon>
 			</view>
 		</scroll-view>
-		<u-picker v-model="isPickerShow" mode="time" :params="pickerParams" default-time="00:00:00" @confirm="confirmPicker"></u-picker>
+		<!-- <u-picker v-model="isPickerShow" mode="time" :params="pickerParams" default-time="00:00:00" @confirm="confirmPicker"></u-picker> -->
 		<view class="buttonGroup">
 			<!-- <view class="button" @click="isPickerShow = true">
 				<u-icon name="plus" size="50"></u-icon>
@@ -48,16 +48,16 @@
 				
 				// console.log(this.originList)
 			},
-			confirmPicker(e) {
-				if(e.hour*1+e.minute*1+e.second*1 !== 0){
-					this.originList.push(parseInt(e.hour * 3600 + e.minute * 60 + e.second * 1))
-					this.originList = Array.from(new Set(this.originList))
-					uni.setStorage({
-						key: 'singleTimerList',
-						data: this.originList
-					})
-				}
-			},
+			// confirmPicker(e) {
+			// 	if(e.hour*1+e.minute*1+e.second*1 !== 0){
+			// 		this.originList.push(parseInt(e.hour * 3600 + e.minute * 60 + e.second * 1))
+			// 		this.originList = Array.from(new Set(this.originList))
+			// 		uni.setStorage({
+			// 			key: 'singleTimerList',
+			// 			data: this.originList
+			// 		})
+			// 	}
+			// },
 			saveTimer(){
 				// this. Array.from(new Set(this.originList))
 			},
@@ -69,9 +69,13 @@
 				})
 			},
 			chooseTimerGroup(index){
+
 				uni.setStorage({
 					key:'tempLoopTimerGroup',
-					data:this.loopTimerGroupList[index].timerGroup
+					data:{
+						timerList:this.loopTimerGroupList[index].timerGroup,
+						count:this.loopTimerGroupList[index].count
+					}
 				})
 				uni.navigateTo({
 					url:'index'
@@ -80,6 +84,7 @@
 		},
 		onLoad() {
 			this.loopTimerGroupList = uni.getStorageSync('loopTimerGroupList')
+			// console.log(this.loopTimerGroupList);
 		}
 	}
 </script>
