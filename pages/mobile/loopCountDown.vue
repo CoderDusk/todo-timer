@@ -1,26 +1,28 @@
 <template>
 	<view>
-		<vac :left-time="3600000" ref="loopTimer">
-		  <template v-slot:process="{ timeObj }">
-		    <span class="loopTimerLeftTimeText">{{ `${timeObj.h}:${timeObj.m}:${timeObj.s}` }}</span>
-		  </template>
-		</vac>
-		
-		<u-line color="gray" length="75%" margin="30rpx auto" :hair-line="false"/>
-		<view class="nextTimerInfo">
-			<view class="infoBox">
-				<view class="info">23</view>
-				<view class="description">剩余次数</view>
-			</view>
+		<view class="main">
+			<vac :left-time="3600000" ref="loopTimer">
+			  <template v-slot:process="{ timeObj }">
+			    <span class="loopTimerLeftTimeText">{{ `${timeObj.h}:${timeObj.m}:${timeObj.s}` }}</span>
+			  </template>
+			</vac>
 			
-			<view class="infoBox">
-				<view class="info">休息</view>
-				<view class="description">下个步骤名称</view>
-			</view>
-			
-			<view class="infoBox">
-				<view class="info">12:12:23</view>
-				<view class="description">下个步骤时长</view>
+			<u-line color="gray" length="75%" margin="30rpx auto" :hair-line="false"/>
+			<view class="nextTimerInfo">
+				<view class="infoBox">
+					<view class="info">23</view>
+					<view class="description">剩余次数</view>
+				</view>
+				
+				<view class="infoBox">
+					<view class="info">休息</view>
+					<view class="description">下个步骤名称</view>
+				</view>
+				
+				<view class="infoBox">
+					<view class="info">12:12:23</view>
+					<view class="description">下个步骤时长</view>
+				</view>
 			</view>
 		</view>
 		
@@ -93,6 +95,12 @@
 </script>
 
 <style lang="less" scoped>
+	.main{
+		position: absolute;
+		top: 15%;
+		width: 100%;
+	}
+	
 	.buttonGroup {
 		width: 100%;
 		display: flex;
@@ -141,10 +149,10 @@
 			flex-direction: column;
 			align-items: center;
 			.info{
-				
+				font-size: 60rpx;
 			}
 			.description{
-				font-size: 20rpx;
+				font-size: 30rpx;
 				color: gray;
 			}
 		}
