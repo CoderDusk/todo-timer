@@ -183,14 +183,14 @@
 					})
 				}
 				
-				// getApp().globalData.currentTimer = {
-				// 	type:'loopTimer',
-				// 	timerList:this.tempLoopTimerGroup.timerList,
-				// 	count:this.tempLoopTimerGroup.count
-				// }
-				// uni.navigateTo({
-				// 	url:'../../pages/mobile/loopCountDown'
-				// })
+				getApp().globalData.currentTimer = {
+					type:'loopTimer',
+					timerList:this.tempLoopTimerGroup.timerList,
+					count:this.tempLoopTimerGroup.count
+				}
+				uni.navigateTo({
+					url:'../../pages/mobile/loopCountDown'
+				})
 			},
 			countChange(e){
 				this.tempLoopTimerGroup.count = e.value
