@@ -50,9 +50,9 @@
 				}
 			},
 			startSingleTimer(){
-				if(getApp().globalData.currentTimer.type === 'singleTimer'){
+				if(getApp().globalData.currentTimer.type === 'singleTimer' && getApp().globalData.currentTimer.time > 0){
 					uni.navigateTo({
-						url:'../../pages/mobile/timer'
+						url:'../../pages/mobile/singleCountDown'
 					})
 				}else{
 					this.$refs.warningToast.show({
@@ -61,6 +61,8 @@
 						position:'top'
 					})
 				}
+				
+				// console.log(getApp().globalData.currentTimer.time > 0);
 				
 			},
 			gotoSettingPage(){

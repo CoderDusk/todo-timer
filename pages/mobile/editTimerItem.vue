@@ -32,7 +32,7 @@
 				title:'',
 				time:0,
 				showtime:'',
-				newtempLoopTimerGroup:null
+				tempLoopTimerGroup:null
 				
 			}
 		},
@@ -50,7 +50,7 @@
 					})
 				}else{
 					
-					this.newtempLoopTimerGroup[this.index]={
+					this.tempLoopTimerGroup.timerList[this.index]={
 						title:this.title,
 						time:this.time,
 						showtime:this.showtime
@@ -58,7 +58,7 @@
 									
 					uni.setStorage({
 						key:'tempLoopTimerGroup',
-						data:this.newtempLoopTimerGroup
+						data:this.tempLoopTimerGroup
 					})
 					
 					uni.navigateTo({
@@ -67,10 +67,10 @@
 				}
 			},
 			deleteTimerItem(){
-				this.newtempLoopTimerGroup.splice(this.index,1)
+				this.tempLoopTimerGroup.timerList.splice(this.index,1)
 				uni.setStorage({
 					key:'tempLoopTimerGroup',
-					data:this.newtempLoopTimerGroup
+					data:this.tempLoopTimerGroup
 				})
 				
 				uni.navigateTo({
@@ -89,10 +89,10 @@
 				return
 			}
 			
-			this.newtempLoopTimerGroup = uni.getStorageSync('tempLoopTimerGroup');
-			this.title = this.newtempLoopTimerGroup[this.index].title
-			this.time = this.newtempLoopTimerGroup[this.index].time
-			this.showtime = this.newtempLoopTimerGroup[this.index].showtime
+			this.tempLoopTimerGroup = uni.getStorageSync('tempLoopTimerGroup');
+			this.title = this.tempLoopTimerGroup.timerList[this.index].title
+			this.time = this.tempLoopTimerGroup.timerList[this.index].time
+			this.showtime = this.tempLoopTimerGroup.timerList[this.index].showtime
 		}
 	}
 </script>

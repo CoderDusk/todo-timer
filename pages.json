@@ -61,6 +61,24 @@
             }
             
         }
+        ,{
+            "path" : "pages/mobile/singleCountDown",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "单次计时器",
+                "navigationStyle":"custom"
+            }
+            
+        }
+        ,{
+            "path" : "pages/mobile/loopCountDown",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "循环计时器",
+                "navigationStyle":"custom"
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

@@ -2,12 +2,13 @@
 	<view>
 		<!-- 修改测试 -->
 		<u-top-tips ref="noTitleError"></u-top-tips>
+		<u-top-tips ref="noTimerListError"></u-top-tips>
 		
 		
 		<view class="loopTimer">
 
 
-			<view v-if="tempLoopTimerGroup.timerList == []" class="noListTip">
+			<view v-if="tempLoopTimerGroup.timerList.length == 0" class="noListTip">
 				<text>循环计时器组为空，请按</text>
 				<view class="button timerButton" @click="gotoAddTimerItemPage">
 					<u-icon name="plus" size="27" color="white"></u-icon>
@@ -145,13 +146,21 @@
 				}
 			},
 			startLoopTimer(){
-				getApp().globalData.currentTimer = {
-					type:'loopTimer',
-					timerList:this.tempLoopTimerGroup
+				if(this.tempLoopTimerGroup.timerList == []){
+					this.$refs.noTimerListError.show({
+						title:'计时器组至少需要一个计时器',
+						type:'error'
+					})
 				}
-				uni.navigateTo({
-					url:'../../pages/mobile/timer'
-				})
+				
+				// getApp().globalData.currentTimer = {
+				// 	type:'loopTimer',
+				// 	timerList:this.tempLoopTimerGroup.timerList,
+				// 	count:this.tempLoopTimerGroup.count
+				// }
+				// uni.navigateTo({
+				// 	url:'../../pages/mobile/loopCountDown'
+				// })
 			},
 			countChange(e){
 				this.tempLoopTimerGroup.count = e.value
@@ -167,7 +176,6 @@
 		},
 		created() {
 			this.tempLoopTimerGroup = uni.getStorageSync('tempLoopTimerGroup')
-			
 		}
 	}
 </script>
