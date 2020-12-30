@@ -104,10 +104,6 @@
 </script>
 
 <style lang="less" scoped>
-	page{
-		// position: relative;
-	}
-	
 	.buttonGroup {
 		width: 100%;
 		display: flex;

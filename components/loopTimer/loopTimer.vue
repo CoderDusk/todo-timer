@@ -1,9 +1,9 @@
 <template>
 	<view>
 		<!-- 修改测试 -->
-		<u-top-tips ref="noTitleError"></u-top-tips>
-		<u-top-tips ref="noTimerListError"></u-top-tips>
-		
+		<!-- <u-top-tips ref="noTitleError"></u-top-tips>
+		<u-top-tips ref="noTimerListError"></u-top-tips> -->
+		<u-toast ref="warningToast" class="warningToast" />
 		
 		<view class="loopTimer">
 
@@ -44,7 +44,7 @@
 			</view>
 
 			<view class="buttonGroup">
-				<view class="button timerButton" @click="isShowSaveModal = true">
+				<view class="button timerButton" @click="showSaveModal">
 					<svg t="1608343189572" class="saveIcon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
 					 p-id="3723" data-spm-anchor-id="a313x.7781069.0.i0">
 						<path d="M262.00000039 186.9999998a74.99999971 74.99999971 0 0 0-75.00000058 75.00000059v499.99999922a74.99999971 74.99999971 0 0 0 75.00000058 75.00000058h499.99999922a74.99999971 74.99999971 0 0 0 75.00000058-75.00000058V262.00000039a74.99999971 74.99999971 0 0 0-75.00000058-75.00000058H262.00000039z m0-50.00000009h499.99999922a124.9999998 124.9999998 0 0 1 125.00000068 125.00000068v499.99999922a124.9999998 124.9999998 0 0 1-125.00000068 125.00000068H262.00000039a124.9999998 124.9999998 0 0 1-125.00000068-125.00000068V262.00000039a124.9999998 124.9999998 0 0 1 125.00000068-125.00000068z"
@@ -106,6 +106,21 @@
 			};
 		},
 		methods: {
+			showSaveModal(){
+				if(this.tempLoopTimerGroup.timerList.length == 0){
+					
+					this.$refs.warningToast.show({
+						title:'计时器组至少需要一个计时器',
+						type:'error',
+						position:'top',
+						icon:false
+					})
+					
+					return
+				}
+				
+				this.isShowSaveModal = true
+			},
 			gotoSettingPage() {
 				uni.navigateTo({
 					url: '../../pages/mobile/setting'
@@ -123,10 +138,24 @@
 				})
 			},
 			saveTimerGroup() {
+				// if(this.tempLoopTimerGroup.timerList.length == 0){
+					
+				// 	this.$refs.warningToast.show({
+				// 		title:'计时器组至少需要一个计时器',
+				// 		type:'error',
+				// 		position:'top',
+				// 		icon:false
+				// 	})
+					
+				// 	return
+				// }
+				
 				if(this.groupTitle.trim() == ''){
-					this.$refs.noTitleError.show({
+					
+					this.$refs.warningToast.show({
 						title:'请输入计时器组的标题',
-						type:'error'
+						type:'error',
+						position:'top'
 					})
 				}else{
 					let loopTimerGroupList = uni.getStorageSync('loopTimerGroupList')
@@ -146,10 +175,14 @@
 				}
 			},
 			startLoopTimer(){
-				if(this.tempLoopTimerGroup.timerList == []){
-					this.$refs.noTimerListError.show({
+				
+				if(this.tempLoopTimerGroup.timerList.length == 0){
+					
+					this.$refs.warningToast.show({
 						title:'计时器组至少需要一个计时器',
-						type:'error'
+						type:'error',
+						position:'top',
+						icon:false
 					})
 				}
 				
@@ -181,6 +214,11 @@
 </script>
 
 <style lang="less" scoped>
+
+	.warningToast{
+		font-size: 40rpx;
+		width: 400rpx;
+	}
 
 	.loopTimer {
 		height: 100%;
