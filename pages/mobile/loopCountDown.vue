@@ -1,7 +1,13 @@
 <template>
 	<view>
+		
+		
 		<view class="main">
-			<vac :left-time="currentCountDownTime * 1000" ref="loopTimer">
+			<view class="currentTitle">
+				{{currentTitle}}
+			</view>
+			
+			<vac :left-time="countDownTime * 1000" ref="loopTimer">
 			  <template v-slot:process="{ timeObj }">
 			    <span class="loopTimerLeftTimeText">{{ `${timeObj.h}:${timeObj.m}:${timeObj.s}` }}</span>
 			  </template>
@@ -15,7 +21,7 @@
 				</view>
 				
 				<view class="infoBox">
-					<view class="info">休息</view>
+					<view class="info">{{nextTitle}}</view>
 					<view class="description">下个步骤名称</view>
 				</view>
 				
@@ -51,6 +57,7 @@
 				currentTimer:{},
 				timerType:'',
 				singleTimerTime:0,
+				// 计时器组列表
 				timerList:[],
 				loopTimerCount:0,
 				state:'process',
@@ -90,19 +97,44 @@
 				})
 			}
 			
-			// this.leftCount = getApp().globalData.currentTimer.count
+			// 从全局变量中获取计时器组列表
 			this.timerList = getApp().globalData.currentTimer.timerList
+			// 从全局变量中获取计时器组循环次数
 			let loopCount = getApp().globalData.currentTimer.count
-			this.leftCount = this.timerList.length * loopCount
-			
-			// console.log(this.leftCount);
-			
-			
+			// 剩余步骤次数 = 计时器组列表长度 * 循环次数 - 1
+			this.leftCount = this.timerList.length * loopCount - 1
 		},
 		computed:{
-			currentCountDownTime:function(){
+			// 计时器组件的剩余时间
+			countDownTime:function(){
 				return this.timerList[this.currentIndex].time
-			}
+			},
+			// 下个步骤的索引号
+			nextIndex:function(){
+				if(this.currentIndex == this.timerList.length - 1){
+					return 0
+				}else{
+					return this.currentIndex + 1
+				}
+			},
+			// 下个计时器的标题
+			nextTitle:function(){
+				return this.timerList[this.nextIndex].title
+			},
+			// 下个计时器的时间
+			nextTime:function(){
+				return this.timerList[this.nextIndex].time
+			},
+			// 下个计时器时间的字符串
+			nextShowTime:function(){
+				// return this.mytime.secondsToString(this.nextTimerTime)
+				this.timerList[this.nextIndex].showtime
+			},
+			// 当前计时器的标题
+			currentTitle:function(){
+				return this.timerList[this.currentIndex].title
+			},
+			
 		}
 	}
 </script>
@@ -149,7 +181,7 @@
 		width: 100%;
 		display: flex;
 		justify-content: center;
-		margin-top:10%;
+		// margin-top:10%;
 		
 	}
 	
@@ -169,5 +201,11 @@
 				color: gray;
 			}
 		}
+	}
+	
+	.currentTitle{
+		text-align: center;
+		font-size: 50rpx;
+		color: gray;
 	}
 </style>
