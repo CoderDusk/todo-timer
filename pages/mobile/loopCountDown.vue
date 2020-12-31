@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class="main">
-			<vac :left-time="3600000" ref="loopTimer">
+			<vac :left-time="currentCountDownTime * 1000" ref="loopTimer">
 			  <template v-slot:process="{ timeObj }">
 			    <span class="loopTimerLeftTimeText">{{ `${timeObj.h}:${timeObj.m}:${timeObj.s}` }}</span>
 			  </template>
@@ -10,7 +10,7 @@
 			<u-line color="gray" length="75%" margin="30rpx auto" :hair-line="false"/>
 			<view class="nextTimerInfo">
 				<view class="infoBox">
-					<view class="info">23</view>
+					<view class="info">{{leftCount}}</view>
 					<view class="description">剩余次数</view>
 				</view>
 				
@@ -51,9 +51,12 @@
 				currentTimer:{},
 				timerType:'',
 				singleTimerTime:0,
-				loopTimerList:[],
+				timerList:[],
 				loopTimerCount:0,
-				state:'process'
+				state:'process',
+				leftCount:0,
+				currentIndex:0,
+				
 			}
 		},
 		methods: {
@@ -87,8 +90,18 @@
 				})
 			}
 			
-			if(this.currentTimer.type === 'singleTimer'){
-				
+			// this.leftCount = getApp().globalData.currentTimer.count
+			this.timerList = getApp().globalData.currentTimer.timerList
+			let loopCount = getApp().globalData.currentTimer.count
+			this.leftCount = this.timerList.length * loopCount
+			
+			// console.log(this.leftCount);
+			
+			
+		},
+		computed:{
+			currentCountDownTime:function(){
+				return this.timerList[this.currentIndex].time
 			}
 		}
 	}

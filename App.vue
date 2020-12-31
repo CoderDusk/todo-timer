@@ -28,7 +28,7 @@
 					key:'tempLoopTimerGroup',
 					data:{
 						timerList:[],
-						count:0
+						count:1
 					}
 				})
 			}
