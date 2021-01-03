@@ -1,9 +1,10 @@
 <template>
 	<view>
 		<vac :left-time="currentTimer.time*1000" ref="singleTimer" @process="onProcess" @finish="finished">
-		  <template v-slot:process="{ timeObj }">
+		  <!-- <template v-slot:process="{ timeObj }">
 		    <span class="singleTimerLeftTimeText">{{ `${timeObj.h}:${timeObj.m}:${timeObj.s}` }}</span>
-		  </template>
+		  </template> -->
+		  <view class="singleTimerLeftTimeText">{{showTime}}</view>
 		</vac>
 		
 		<view class="buttonGroup">
@@ -34,6 +35,7 @@
 				ringtoneAudio:null,
 				// ringtoneList:null,
 				volume:null,
+				showTime:''
 			};
 		},
 		methods:{
@@ -57,8 +59,8 @@
 				this.state = 'process'
 			},
 			onProcess(){
-				// console.log('正在继续');
-				let leftTime = Math.ceil(this.$refs.singleTimer.timeObj.leftTime/1000)
+				let leftTime = this.$refs.singleTimer.timeObj.ceil.s
+				this.showTime = this.mytime.secondsToString(leftTime)
 				if(leftTime == 5){
 					this.ringtoneAudio.play()
 				}
