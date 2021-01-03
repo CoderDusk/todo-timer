@@ -10,7 +10,8 @@ export function secondsToString(seconds) {
 	m = m < 10 ? '0' + m : m
 	let s = (seconds % 60) < 10 ? '0' + parseInt(seconds % 60) : parseInt(seconds % 60)
 
-	return h + ' : ' + m + ' : ' + s
+	// return h + ' : ' + m + ' : ' + s
+	return h + ':' + m + ':' + s
 }
 
 

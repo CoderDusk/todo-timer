@@ -40,6 +40,28 @@
 					data:[]
 				})
 			}
+			
+			uni.setStorage({
+				key:'ringtoneList',
+				data:[
+					{
+					value: 0,
+					label: '叮'
+					}, 
+					{
+					value: 1,
+					label: '咕咕钟'
+					},
+					{
+					value: 2,
+					label: '机械闹钟'
+					},
+					{
+					value:3,
+					label: '鸟叫和机械铃声'
+					}
+				]
+			})
 		},
 		onShow: function() {
 			// console.log('App Show')

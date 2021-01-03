@@ -26,7 +26,7 @@
 				</view>
 				
 				<view class="infoBox">
-					<view class="info">12:12:23</view>
+					<view class="info">{{nextShowTime}}</view>
 					<view class="description">下个步骤时长</view>
 				</view>
 			</view>
@@ -63,7 +63,7 @@
 				state:'process',
 				leftCount:0,
 				currentIndex:0,
-				
+				tempLoopTimerGroup:{}
 			}
 		},
 		methods: {
@@ -89,18 +89,24 @@
 		},
 		onLoad(){
 			
-			this.currentTimer = getApp().globalData.currentTimer
+			// this.currentTimer = getApp().globalData.currentTimer
 			
-			if(this.currentTimer.type == undefined){
-				uni.navigateTo({
-					url:'index'
-				})
-			}
+			// if(this.currentTimer.type == undefined){
+			// 	uni.navigateTo({
+			// 		url:'index'
+			// 	})
+			// }
+			
+			this.tempLoopTimerGroup = uni.getStorageSync('tempLoopTimerGroup')
 			
 			// 从全局变量中获取计时器组列表
-			this.timerList = getApp().globalData.currentTimer.timerList
+			// this.timerList = getApp().globalData.currentTimer.timerList
 			// 从全局变量中获取计时器组循环次数
-			let loopCount = getApp().globalData.currentTimer.count
+			// let loopCount = getApp().globalData.currentTimer.count
+			
+			this.timerList = this.tempLoopTimerGroup.timerList
+			let loopCount = this.tempLoopTimerGroup.count
+						
 			// 剩余步骤次数 = 计时器组列表长度 * 循环次数 - 1
 			this.leftCount = this.timerList.length * loopCount - 1
 		},
@@ -127,8 +133,8 @@
 			},
 			// 下个计时器时间的字符串
 			nextShowTime:function(){
-				// return this.mytime.secondsToString(this.nextTimerTime)
-				this.timerList[this.nextIndex].showtime
+				return this.mytime.secondsToString(this.nextTime)
+				// return this.timerList[this.nextIndex].showtime
 			},
 			// 当前计时器的标题
 			currentTitle:function(){
@@ -205,7 +211,7 @@
 	
 	.currentTitle{
 		text-align: center;
-		font-size: 50rpx;
+		font-size: 75rpx;
 		color: gray;
 	}
 </style>

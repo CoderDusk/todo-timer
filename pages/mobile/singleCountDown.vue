@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<vac :left-time="currentTimer.time*1000" ref="singleTimer">
+		<vac :left-time="currentTimer.time*1000" ref="singleTimer" @process="onProcess" @finish="finished">
 		  <template v-slot:process="{ timeObj }">
 		    <span class="singleTimerLeftTimeText">{{ `${timeObj.h}:${timeObj.m}:${timeObj.s}` }}</span>
 		  </template>
@@ -29,7 +29,11 @@
 			return {
 				time:0,
 				currentTimer:{},
-				state:'process'
+				state:'process',
+				// ringtone:null,
+				ringtoneAudio:null,
+				// ringtoneList:null,
+				volume:null,
 			};
 		},
 		methods:{
@@ -51,6 +55,18 @@
 			goOn(){
 				this.$refs.singleTimer.startCountdown()
 				this.state = 'process'
+			},
+			onProcess(){
+				// console.log('正在继续');
+				let leftTime = Math.ceil(this.$refs.singleTimer.timeObj.leftTime/1000)
+				if(leftTime == 5){
+					this.ringtoneAudio.play()
+				}
+				
+			},
+			finished(){
+				this.ringtoneAudio.stop()
+				this.goback()
 			}
 			
 		},
@@ -64,9 +80,16 @@
 				})
 			}
 			
-			if(this.currentTimer.type === 'singleTimer'){
-				
-			}
+			let volume = uni.getStorageSync('setting').volume;
+			let ringtone = uni.getStorageSync('setting').ringtone;
+			let ringtoneList = uni.getStorageSync('ringtoneList')
+			
+			this.ringtoneAudio = uni.createInnerAudioContext()
+			this.ringtoneAudio.src = '../../static/ringtone/' + ringtoneList[ringtone].label + '.mp3'
+			this.ringtoneAudio.volume = volume/100
+			
+			
+			
 		}
 	}
 </script>
