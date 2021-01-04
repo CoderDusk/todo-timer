@@ -50,6 +50,8 @@
 			},
 			goback(){
 				getApp().globalData.currentTimer = {}
+				this.$refs.singleTimer.stopCountdown()
+				this.ringtoneAudio.stop()
 				uni.navigateTo({
 					url:'index'
 				})
