@@ -1,9 +1,6 @@
 <template>
 	<view>
 		<vac :left-time="currentTimer.time*1000" ref="singleTimer" @process="onProcess" @finish="finished">
-		  <!-- <template v-slot:process="{ timeObj }">
-		    <span class="singleTimerLeftTimeText">{{ `${timeObj.h}:${timeObj.m}:${timeObj.s}` }}</span>
-		  </template> -->
 		  <view class="singleTimerLeftTimeText">{{showTime}}</view>
 		</vac>
 		
@@ -31,9 +28,7 @@
 				time:0,
 				currentTimer:{},
 				state:'process',
-				// ringtone:null,
 				ringtoneAudio:null,
-				// ringtoneList:null,
 				volume:null,
 				showTime:''
 			};
