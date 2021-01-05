@@ -25,7 +25,6 @@
 
 
 <script>
-	// document.title="土豆计时器"
 
 	export default {
 		data() {
@@ -68,10 +67,6 @@
 	page,
 	.content {
 		height: 100%;
-		// width: 100%;
-		// padding-top: 20rpx;
-		// box-sizing: border-box;
-
 	}
 
 	.tab {

@@ -6,11 +6,8 @@
 				<u-icon name="trash" color="red" size="40" class="deleteIcon" @click="remove(index)"></u-icon>
 			</view>
 		</scroll-view>
-		<!-- <u-picker v-model="isPickerShow" mode="time" :params="pickerParams" default-time="00:00:00" @confirm="confirmPicker"></u-picker> -->
+
 		<view class="buttonGroup">
-			<!-- <view class="button" @click="isPickerShow = true">
-				<u-icon name="plus" size="50"></u-icon>
-			</view> -->
 			<view class="button" @click="goback">
 				<u-icon name="checkmark" size="50"></u-icon>
 			</view>
@@ -33,33 +30,9 @@
 		},
 		methods: {
 			goback() {
-				// uni.setStorage({
-				// 	key:'singleTimerList',
-				// 	data:this.originList
-				// })
-
 				uni.navigateTo({
 					url: 'index'
 				})
-				
-				// console.log(this.originList)
-				
-				// this.originList = Array.from(new Set(this.originList))
-				
-				// console.log(this.originList)
-			},
-			// confirmPicker(e) {
-			// 	if(e.hour*1+e.minute*1+e.second*1 !== 0){
-			// 		this.originList.push(parseInt(e.hour * 3600 + e.minute * 60 + e.second * 1))
-			// 		this.originList = Array.from(new Set(this.originList))
-			// 		uni.setStorage({
-			// 			key: 'singleTimerList',
-			// 			data: this.originList
-			// 		})
-			// 	}
-			// },
-			saveTimer(){
-				// this. Array.from(new Set(this.originList))
 			},
 			remove(index){
 				this.loopTimerGroupList.splice(0,1)
@@ -84,7 +57,6 @@
 		},
 		onLoad() {
 			this.loopTimerGroupList = uni.getStorageSync('loopTimerGroupList')
-			// console.log(this.loopTimerGroupList);
 		}
 	}
 </script>
@@ -98,9 +70,7 @@
 		height: 100%;
 		display: flex;
 		flex-direction: column;
-		// justify-content: center;
 		align-items: center;
-		// background-color: pink;
 	}
 
 	.timerList {
@@ -114,12 +84,8 @@
 		justify-content: space-between;
 		width: 650rpx;
 		height: 100rpx;
-		// margin-bottom: 40rpx;
-		// margin-left: 50rpx;
-		// margin-right: 50rpx;
 		margin: 0 50rpx 40rpx 50rpx;
 		box-shadow: 0 7rpx 10rpx rgba(0, 0, 0, 0.19);
-		// background-color: pink;
 
 		.time {
 			padding-left: 80rpx;

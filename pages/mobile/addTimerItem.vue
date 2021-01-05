@@ -102,18 +102,11 @@
 		font-size: 40rpx;
 		border-bottom: 1rpx solid black;
 		text-align: center;
-		// background-color: pink;
 		.placeholder{
-			// color: green;
 			text-align: center;
 		}
 		
 	}
-	
-	// ::placeholder { 
-	// 	text-align: center;
-	// 	color: green;
-	// }
 	
 	.ringtoneButton{
 		font-size: 35rpx;

@@ -24,15 +24,8 @@
 					</view>
 				</view>
 			</scroll-view>
-
-
-			<!-- <view class="button plusLoopTimerButton">
-				<u-icon name="plus" size="50"></u-icon>
-			</view> -->
-
 			<u-modal v-model="isShowSaveModal" :show-title="false" :show-cancel-button="true" @confirm="saveTimerGroup">
 				<input type="text" placeholder="请输入计时器名称" class="inputTitle" placeholder-class="placeholder" v-model="groupTitle">
-				<!-- <u-line color="gray" /> -->
 			</u-modal>
 			
 			<view class="count">
@@ -74,14 +67,6 @@
 				</view>
 			</view>
 		</view>
-		<!-- <view class="bottomButtonGruop">
-			<view class="button">
-				<u-icon name="play-right-fill" size="50"></u-icon>
-			</view>
-			<view class="button">
-				<u-icon name="list-dot" size="50"></u-icon>
-			</view>
-		</view> -->
 	</view>
 </template>
 
@@ -134,19 +119,7 @@
 					url: '../../pages/mobile/addTimerItem'
 				})
 			},
-			saveTimerGroup() {
-				// if(this.tempLoopTimerGroup.timerList.length == 0){
-					
-				// 	this.$refs.warningToast.show({
-				// 		title:'计时器组至少需要一个计时器',
-				// 		type:'error',
-				// 		position:'top',
-				// 		icon:false
-				// 	})
-					
-				// 	return
-				// }
-				
+			saveTimerGroup() {				
 				if(this.groupTitle.trim() == ''){
 					
 					this.$refs.warningToast.show({
@@ -226,21 +199,13 @@
 		width: 750rpx;
 		
 		.loopTimerBox {
-			// background-color: pink;
 			
 			display: flex;
-			// flex-direction: column;
 			align-items: center;
 			justify-content: space-between;
 			width: 750rpx;
 			height: 100rpx;
-			// box-shadow: 0 7rpx 10rpx rgba(0, 0, 0, 0.19);
-			// border-bottom: 4rpx solid rgba(0, 0, 0, 0.03);
-			// box-shadow: 10rpx 10rpx 10rpx pink;
-			// background-color: pink;
-			// margin-bottom: 20rpx;
 			font-weight: bold;
-			// border-top: 3rpx solid gray;
 			border-bottom: 3rpx solid gray;
 			
 			::last-of-type{
@@ -292,7 +257,6 @@
 	.saveIcon {
 		width: 50rpx;
 		height: 50rpx;
-		// color: rgb(34,131,246);
 	}
 
 	.buttonGroup {
@@ -320,9 +284,7 @@
 		text-align: center;
 		width: 60%;
 
-		// background-color: pink;
 		.placeholder {
-			// color: green;
 			text-align: center;
 		}
 
@@ -336,13 +298,8 @@
 		width: 100%;
 		margin-top: 30rpx;
 	}
-	
-	// .shadow{
-	// 	box-shadow: 0 7rpx 10rpx rgba(0, 0, 0, 0.19);
-	// }
-	
+		
 	.noListTip{
-		// background-color: pink;
 		border: dashed gray;
 		width: 75%;
 		display: flex;
@@ -356,7 +313,6 @@
 		.button{
 			width:45rpx;
 			height: 45rpx;
-			// font-size: 20rpx;
 			box-shadow: none;
 			margin: 20rpx 0;
 		}

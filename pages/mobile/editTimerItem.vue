@@ -131,11 +131,6 @@
 		
 	}
 	
-	// ::placeholder { 
-	// 	text-align: center;
-	// 	color: green;
-	// }
-	
 	.ringtoneButton{
 		font-size: 35rpx;
 		margin: 30rpx;

@@ -72,7 +72,6 @@
 			this.ringtone = uni.getStorageSync('setting').ringtone;
 			
 			this.ringtoneAudio = uni.createInnerAudioContext()
-			// this.ringtoneAudio.autoplay = true
 			this.ringtoneAudio.src = '../../static/ringtone/' + this.ringtoneList[this.ringtone].label + '.mp3'
 			this.ringtoneAudio.volume = this.volume/100
 		}

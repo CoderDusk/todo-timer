@@ -1,6 +1,5 @@
 <template>
 	<view class="main">
-		<!-- <timer class="singleTimer"></timer> -->
 		<u-toast ref="warningToast" class="warningToast" />
 		<view class="timerSetting">
 			<view v-model="singleTimerString">{{singleTimerString}}</view>
@@ -61,8 +60,6 @@
 						position:'top'
 					})
 				}
-				
-				// console.log(getApp().globalData.currentTimer.time > 0);
 				
 			},
 			gotoSettingPage(){

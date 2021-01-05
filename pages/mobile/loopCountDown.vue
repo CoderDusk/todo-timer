@@ -90,7 +90,6 @@
 				this.$refs.countDown.seconds  = this.timerList[this.currentIndex].time + 1
 			},
 			goback() {
-				// this.$refs.loopTimer.stopCountdown()
 				getApp().globalData.currentTimer = {}
 				uni.navigateTo({
 					url: 'index'
@@ -146,8 +145,6 @@
 			},
 			end(){
 				this.ringtoneAudio.stop()
-				
-				// console.log('结束了');
 				this.currentIndex = this.next(this.currentIndex)
 				
 				// 更新当前步骤信息
@@ -230,8 +227,6 @@
 		width: 100%;
 		display: flex;
 		justify-content: center;
-		// margin-top:10%;
-
 	}
 
 	.nextTimerInfo {

@@ -39,9 +39,7 @@
 				this.state = 'paused'
 			},
 			restart(){
-				// this.$refs.singleTimer.pauseCountdown()
 				this.$refs.singleTimer.startCountdown(true)
-				// console.log('restart');
 			},
 			goback(){
 				getApp().globalData.currentTimer = {}

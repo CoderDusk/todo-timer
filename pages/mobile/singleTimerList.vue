@@ -48,20 +48,9 @@
 		},
 		methods: {
 			goback() {
-				// uni.setStorage({
-				// 	key:'singleTimerList',
-				// 	data:this.originList
-				// })
-
 				uni.navigateTo({
 					url: 'index'
 				})
-				
-				// console.log(this.originList)
-				
-				// this.originList = Array.from(new Set(this.originList))
-				
-				// console.log(this.originList)
 			},
 			confirmPicker(e) {
 				if(e.hour*1+e.minute*1+e.second*1 !== 0){
@@ -72,9 +61,6 @@
 						data: this.originList
 					})
 				}
-			},
-			saveTimer(){
-				// this. Array.from(new Set(this.originList))
 			},
 			remove(index){
 				this.originList.splice(0,1)
@@ -111,9 +97,7 @@
 		height: 100%;
 		display: flex;
 		flex-direction: column;
-		// justify-content: center;
 		align-items: center;
-		// background-color: pink;
 	}
 
 	.timerList {
@@ -127,12 +111,8 @@
 		justify-content: space-between;
 		width: 650rpx;
 		height: 100rpx;
-		// margin-bottom: 40rpx;
-		// margin-left: 50rpx;
-		// margin-right: 50rpx;
 		margin: 0 50rpx 40rpx 50rpx;
 		box-shadow: 0 7rpx 10rpx rgba(0, 0, 0, 0.19);
-		// background-color: pink;
 
 		.time {
 			padding-left: 80rpx;

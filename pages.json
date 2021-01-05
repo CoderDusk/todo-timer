@@ -7,15 +7,6 @@
 				"navigationStyle":"custom"
 			}
 		}
-	    ,{
-            "path" : "pages/mobile/timer",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "土豆计时器",
-                "navigationStyle":"custom"
-            }
-            
-        }
         ,{
             "path" : "pages/mobile/setting",
             "style" :                                                                                    
