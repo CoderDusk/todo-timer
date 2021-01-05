@@ -1,10 +1,11 @@
 <template>
 	<view>
 		<u-toast ref="warningToast" class="warningToast" />
+		<u-modal v-model="isShowSaveModal" :show-title="false" :show-cancel-button="true" @confirm="saveTimerGroup">
+			<input type="text" placeholder="请输入计时器名称" class="inputTitle" placeholder-class="placeholder" v-model="groupTitle">
+		</u-modal>
 		
 		<view class="loopTimer">
-
-
 			<view v-if="tempLoopTimerGroup.timerList.length == 0" class="noListTip">
 				<text>循环计时器组为空，请按</text>
 				<view class="button timerButton" @click="gotoAddTimerItemPage">
@@ -24,9 +25,7 @@
 					</view>
 				</view>
 			</scroll-view>
-			<u-modal v-model="isShowSaveModal" :show-title="false" :show-cancel-button="true" @confirm="saveTimerGroup">
-				<input type="text" placeholder="请输入计时器名称" class="inputTitle" placeholder-class="placeholder" v-model="groupTitle">
-			</u-modal>
+			
 			
 			<view class="count">
 				<text>循环次数</text>
@@ -144,8 +143,7 @@
 					this.groupTitle = ''
 				}
 			},
-			startLoopTimer(){
-				
+			startLoopTimer(){				
 				if(this.tempLoopTimerGroup.timerList.length == 0){
 					
 					this.$refs.warningToast.show({
@@ -198,48 +196,90 @@
 		align-items: center;
 		width: 750rpx;
 		
-		.loopTimerBox {
-			
+		.noListTip{
+			border: dashed gray;
+			width: 75%;
 			display: flex;
+			flex-direction: column;
+			justify-content: center;
 			align-items: center;
-			justify-content: space-between;
-			width: 750rpx;
-			height: 100rpx;
-			font-weight: bold;
-			border-bottom: 3rpx solid gray;
+			flex-wrap:wrap;
+			font-size: 32rpx;
+			padding: 30rpx 0;
 			
-			::last-of-type{
-				border: 0;
-				background-color: pink;
-			}
-			
-
-			.loopTimerTitle {
-				padding-left: 50rpx;
-			}
-
-			.loopTimerTime {
-				padding-right: 50rpx;
+			.button{
+				width:45rpx;
+				height: 45rpx;
+				box-shadow: none;
+				margin: 20rpx 0;
 			}
 		}
 		
-		.loopTimerBox:last-child{
-			border: 0;
+		.timerList {
+			height: 50%;
+			
+			.loopTimerBox {
+				
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				width: 750rpx;
+				height: 100rpx;
+				font-weight: bold;
+				border-bottom: 3rpx solid gray;
+				
+				::last-of-type{
+					border: 0;
+					background-color: pink;
+				}
+				
+			
+				.loopTimerTitle {
+					padding-left: 50rpx;
+				}
+			
+				.loopTimerTime {
+					padding-right: 50rpx;
+				}
+			}
+			
+			.loopTimerBox:last-child{
+				border: 0;
+			}
 		}
-
-		.plusLoopTimerButton {
-			margin-top: 70rpx;
+		
+		.count{
+			font-size: 35rpx;
+			font-weight: bold;
+			display: flex;
+			justify-content: space-around;
+			width: 100%;
+			margin-top: 30rpx;
 		}
-	}
-
-	.bottomButtonGruop {
-		width: 750rpx;
-		bottom: 10%;
-		position: absolute;
-		display: flex;
-		justify-content: space-around;
-
-
+		
+		.buttonGroup {
+			display: flex;
+			width: 75%;
+			justify-content: space-around;
+			margin-top: 60rpx;
+			
+			.button{
+				box-shadow: none;
+				
+				.saveIcon {
+					width: 50rpx;
+					height: 50rpx;
+				}
+			}
+		}
+		
+		.bottomButtonGruop {
+			width: 750rpx;
+			bottom: 10%;
+			position: absolute;
+			display: flex;
+			justify-content: space-around;
+		}
 	}
 
 	.button {
@@ -253,28 +293,9 @@
 		color: rgb(34, 131, 246);
 		box-shadow: 0 7rpx 10rpx rgba(0, 0, 0, 0.19);
 	}
-
-	.saveIcon {
-		width: 50rpx;
-		height: 50rpx;
-	}
-
-	.buttonGroup {
-		display: flex;
-		width: 75%;
-		justify-content: space-around;
-		margin-top: 60rpx;
-		.button{
-			box-shadow: none;
-		}
-	}
-
+	
 	.timerButton {
 		background-color: rgb(34, 131, 246);
-	}
-
-	.timerList {
-		height: 50%;
 	}
 
 	.inputTitle {
@@ -288,33 +309,5 @@
 			text-align: center;
 		}
 
-	}
-	
-	.count{
-		font-size: 35rpx;
-		font-weight: bold;
-		display: flex;
-		justify-content: space-around;
-		width: 100%;
-		margin-top: 30rpx;
-	}
-		
-	.noListTip{
-		border: dashed gray;
-		width: 75%;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		flex-wrap:wrap;
-		font-size: 32rpx;
-		padding: 30rpx 0;
-		
-		.button{
-			width:45rpx;
-			height: 45rpx;
-			box-shadow: none;
-			margin: 20rpx 0;
-		}
 	}
 </style>
