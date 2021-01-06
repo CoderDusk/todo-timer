@@ -40,10 +40,7 @@
 					}
 				],
 				// 当前标签
-				currentTab: 0,
-
-				
-				
+				currentTab: 0,				
 				// 是否显示计数器的设置弹出层
 				showSingleTimerSettingLayer: false,
 			}
@@ -53,14 +50,16 @@
 			// 标签切换时触发
 			tabsChange(index) {
 				this.currentTab = index
+				getApp().globalData.currentTab = index
 			},
 			// 滑块容器切换时触发
 			swiperChange(e) {
 				this.currentTab = e.detail.current
+				getApp().globalData.currentTab = e.detail.current
 			}
 		},
 		onLoad() {
-			
+			this.currentTab = getApp().globalData.currentTab
 		}
 	}
 </script>
