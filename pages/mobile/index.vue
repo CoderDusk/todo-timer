@@ -1,4 +1,5 @@
 <template>
+	<!-- 首页 -->
 	<view class="content">
 		<!-- 标签组 -->
 		<view class="tab">

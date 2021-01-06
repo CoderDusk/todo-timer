@@ -1,5 +1,7 @@
 <template>
+	<!-- 已保存的循环计时器组列表 -->
 	<view class="listPage">
+		<!-- 计时器列表 -->
 		<scroll-view scroll-y="true" class="timerList">
 			<view class="timer" v-for="(item,index) in loopTimerGroupList" :key="index" @click="chooseTimerGroup(index)">
 				<text class="time">{{item.title}}</text>
@@ -7,10 +9,13 @@
 			</view>
 		</scroll-view>
 
+		<!-- 底部按钮组 -->
 		<view class="buttonGroup">
-			<view class="button" @click="goback">
-				<u-icon name="checkmark" size="50"></u-icon>
-			</view>
+			<navigator url="index">
+				<view class="button">
+					<u-icon name="checkmark" size="50"></u-icon>
+				</view>
+			</navigator>			
 		</view>
 	</view>
 </template>
@@ -19,21 +24,12 @@
 	export default {
 		data() {
 			return {
-				isPickerShow: false,
-				pickerParams: {
-					hour: true,
-					minute: true,
-					second: true
-				},
+				// 循环计时器组列表
 				loopTimerGroupList:null
 			}
 		},
 		methods: {
-			goback() {
-				uni.navigateTo({
-					url: 'index'
-				})
-			},
+			// 删除计时器组
 			remove(index){
 				this.loopTimerGroupList.splice(0,1)
 				uni.setStorage({
@@ -41,8 +37,8 @@
 					data: this.loopTimerGroupList
 				})
 			},
+			// 选择计时器组并把它设置为临时循环计时器组
 			chooseTimerGroup(index){
-
 				uni.setStorage({
 					key:'tempLoopTimerGroup',
 					data:{
@@ -56,6 +52,7 @@
 			}
 		},
 		onLoad() {
+			// 从本地存储中获取循环计时器组列表啊
 			this.loopTimerGroupList = uni.getStorageSync('loopTimerGroupList')
 		}
 	}

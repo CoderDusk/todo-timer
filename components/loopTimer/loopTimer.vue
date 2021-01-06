@@ -1,22 +1,28 @@
 <template>
 	<view>
+		<!-- 不在主要页面的弹出组件：错误警告框、输入计时器名称的模态框 -->
 		<u-toast ref="warningToast" class="warningToast" />
 		<u-modal v-model="isShowSaveModal" :show-title="false" :show-cancel-button="true" @confirm="saveTimerGroup">
 			<input type="text" placeholder="请输入计时器名称" class="inputTitle" placeholder-class="placeholder" v-model="groupTitle">
 		</u-modal>
 		
+		<!-- 循环计时器组件主体 -->
 		<view class="loopTimer">
+			
+			<!-- 循环计时器组为空的提示 -->
 			<view v-if="tempLoopTimerGroup.timerList.length == 0" class="noListTip">
 				<text>循环计时器组为空，请按</text>
-				<view class="button timerButton" @click="gotoAddTimerItemPage">
-					<u-icon name="plus" size="27" color="white"></u-icon>
-				</view>
+				<navigator url="../../pages/mobile/addTimerItem">
+					<view class="button timerButton">
+						<u-icon name="plus" size="27" color="white"></u-icon>
+					</view>
+				</navigator>				
 				<text >添加第一个计时器</text>
 			</view>
 
-			<scroll-view scroll-y="true" class="timerList">
-				
-				<view class="loopTimerBox shadow" v-for="(item,index) in tempLoopTimerGroup.timerList" :key="index" @click="gotoEditPage(index)">
+			<!-- 计时器列表 -->
+			<scroll-view scroll-y="true" class="timerList">				
+				<view class="loopTimerBox" v-for="(item,index) in tempLoopTimerGroup.timerList" :key="index" @click="gotoEditPage(index)">
 					<view class="loopTimerTitle">
 						{{item.title}}
 					</view>
@@ -26,12 +32,13 @@
 				</view>
 			</scroll-view>
 			
-			
+			<!-- 循环次数 -->
 			<view class="count">
 				<text>循环次数</text>
 				<u-number-box v-model="tempLoopTimerGroup.count" :min="1" @change="countChange"></u-number-box>
 			</view>
 
+			<!-- 计时器列表按钮组 -->
 			<view class="buttonGroup">
 				<view class="button timerButton" @click="showSaveModal">
 					<svg t="1608343189572" class="saveIcon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
@@ -44,13 +51,16 @@
 						 fill="white" p-id="3726"></path>
 					</svg>
 				</view>
-				<view class="button timerButton" @click="gotoAddTimerItemPage">
-					<u-icon name="plus" size="50" color="white"></u-icon>
-				</view>
+				<navigator url="../../pages/mobile/addTimerItem">
+					<view class="button timerButton">
+						<u-icon name="plus" size="50" color="white"></u-icon>
+					</view>
+				</navigator>
+				
 			</view>
 
+			<!-- 底部按钮组 -->
 			<view class="bottomButtonGruop">
-
 				<navigator url="../../pages/mobile/loopTimerGroupList">
 					<view class="button">
 						<u-icon name="list-dot" size="50"></u-icon>
@@ -61,9 +71,12 @@
 					<u-icon name="play-right-fill" size="50"></u-icon>
 				</view>
 
-				<view class="button" @click="gotoSettingPage">
-					<u-icon name="volume-up-fill" size="50"></u-icon>
-				</view>
+				<navigator url="../../pages/mobile/setting">
+					<view class="button">
+						<u-icon name="volume-up-fill" size="50"></u-icon>
+					</view>
+				</navigator>
+				
 			</view>
 		</view>
 	</view>
@@ -73,21 +86,21 @@
 	export default {
 		data() {
 			return {
-				// 循环计时器相关变量开始
-				// 循环计时器是否开启
-				isLoopTimerStarting: false,
-
-				// 循环计时器次数
-				loopTimerCount: 0,
-				
+				// 临时循环计时器组
 				tempLoopTimerGroup: {},
+				// 是否显示保存计时器组模态框的开关变量
 				isShowSaveModal: false,
+				// 计时器组标题
 				groupTitle: '',
+				// 循环次数
 				count:1
 			};
 		},
 		methods: {
+			
+			// 显示保存计时器组模态框
 			showSaveModal(){
+				// 如果计时器组为空则弹出错误提示并返回
 				if(this.tempLoopTimerGroup.timerList.length == 0){
 					
 					this.$refs.warningToast.show({
@@ -100,25 +113,19 @@
 					return
 				}
 				
+				// 如果检查没有错误则弹出保存模态框
 				this.isShowSaveModal = true
 			},
-			gotoSettingPage() {
-				uni.navigateTo({
-					url: '../../pages/mobile/setting'
-				})
-			},
+			// 前往编辑计时器页面,并且把当前要编辑项目的索引号保存到全局变量中
 			gotoEditPage(index) {
 				getApp().globalData.currentEditTimerItem = index
 				uni.navigateTo({
 					url: '../../pages/mobile/editTimerItem'
 				})
 			},
-			gotoAddTimerItemPage() {
-				uni.navigateTo({
-					url: '../../pages/mobile/addTimerItem'
-				})
-			},
-			saveTimerGroup() {				
+			// 保存计时器组
+			saveTimerGroup() {
+				// 如果计时器组标题为空,弹出错误警告
 				if(this.groupTitle.trim() == ''){
 					
 					this.$refs.warningToast.show({
@@ -127,23 +134,29 @@
 						position:'top'
 					})
 				}else{
+					// 获取当前循环计时器组列表
 					let loopTimerGroupList = uni.getStorageSync('loopTimerGroupList')
 					
+					// 把当前临时循环计时器组添加到循环计时器组列表
 					loopTimerGroupList.push({
 						title: this.groupTitle,
 						timerGroup: this.tempLoopTimerGroup.timerList,
 						count:this.tempLoopTimerGroup.count
 					})
 					
+					// 把新的循环计时器组列表保存到本地存储
 					uni.setStorage({
 						key: 'loopTimerGroupList',
 						data: loopTimerGroupList
 					})
 					
+					// 把循环计时器组标题变量重新设置为空
 					this.groupTitle = ''
 				}
 			},
-			startLoopTimer(){				
+			// 开始循环计时器,跳转到循环计时器页面
+			startLoopTimer(){
+				// 如果循环计时器组为空就弹出警告
 				if(this.tempLoopTimerGroup.timerList.length == 0){
 					
 					this.$refs.warningToast.show({
@@ -154,23 +167,23 @@
 					})
 				}
 				
-				getApp().globalData.currentTimer = {
-					type:'loopTimer',
-					timerList:this.tempLoopTimerGroup.timerList,
-					count:this.tempLoopTimerGroup.count
-				}
+				// 跳转到循环计时器页面
 				uni.navigateTo({
 					url:'../../pages/mobile/loopCountDown'
 				})
 			},
+			// 当循环次数变更时触发的函数
 			countChange(e){
+				// 把当前值更新到循环计时器组的循环次数
 				this.tempLoopTimerGroup.count = e.value
+				// 把新的数值保存到本地存储里
 				uni.setStorage({
 					key:'tempLoopTimerGroup',
 					data:this.tempLoopTimerGroup
 				})
 			}
 		},
+		// 加载组件的时候从本地存储中读取并更新临时计时器组
 		activated() {
 			this.tempLoopTimerGroup = uni.getStorageSync('tempLoopTimerGroup')
 			
@@ -218,33 +231,17 @@
 		.timerList {
 			height: 50%;
 			
-			.loopTimerBox {
-				
+			.loopTimerBox {						
 				display: flex;
 				align-items: center;
 				justify-content: space-between;
-				width: 750rpx;
+				width: 650rpx;
 				height: 100rpx;
-				font-weight: bold;
-				border-bottom: 3rpx solid gray;
-				
-				::last-of-type{
-					border: 0;
-					background-color: pink;
-				}
-				
-			
-				.loopTimerTitle {
-					padding-left: 50rpx;
-				}
-			
-				.loopTimerTime {
-					padding-right: 50rpx;
-				}
-			}
-			
-			.loopTimerBox:last-child{
-				border: 0;
+				margin: 0 50rpx 40rpx 50rpx;
+				box-shadow: 0 7rpx 10rpx rgba(0, 0, 0, 0.19);
+				font-size: 40rpx;
+				padding: 0 50rpx;
+				box-sizing: border-box;
 			}
 		}
 		

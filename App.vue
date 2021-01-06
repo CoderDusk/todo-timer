@@ -1,13 +1,11 @@
 <script>
 	export default {
 		globalData:{
-			currentTimer:{},
 			currentEditTimerItem:null
 		},
 		
 		// 当uni-app 初始化完成时触发（全局只触发一次）
 		onLaunch: function() {
-			// console.log('App Launch')
 			// 以同步方式获取本地存储中 key 为 setting 的值
 			let setting = uni.getStorageSync('setting')
 			// 如果 setting 为空，就设置一个初始值
@@ -33,6 +31,7 @@
 				})
 			}
 			
+			// 以同步方式获取本地存储中的循环计数器组列表，如果不存在就设定一个初始值
 			let loopTimerGroupList = uni.getStorageSync('loopTimerGroupList')
 			if(loopTimerGroupList == ''){
 				uni.setStorage({
@@ -41,33 +40,28 @@
 				})
 			}
 			
+			// 铃声列表
 			uni.setStorage({
 				key:'ringtoneList',
 				data:[
 					{
 					value: 0,
-					label: '叮'
+					label: 'ding'
 					}, 
 					{
 					value: 1,
-					label: '咕咕钟'
+					label: 'gugu'
 					},
 					{
 					value: 2,
-					label: '机械闹钟'
+					label: 'clock'
 					},
 					{
 					value:3,
-					label: '鸟叫和机械铃声'
+					label: 'bird'
 					}
 				]
 			})
-		},
-		onShow: function() {
-			// console.log('App Show')
-		},
-		onHide: function() {
-			// console.log('App Hide')
 		}
 	}
 </script>

@@ -1,19 +1,27 @@
 <template>
+	<!-- 已保存的单次计时器列表页面 -->
 	<view class="listPage">
+		<!-- 计时器列表 -->
 		<scroll-view scroll-y="true" class="timerList">
 			<view class="timer" v-for="(item,index) in computedList" :key="index" @click="chooseTimer(index)">
 				<text class="time">{{item}}</text>
 				<u-icon name="trash" color="red" size="40" class="deleteIcon" @click="remove(index)"></u-icon>
 			</view>
 		</scroll-view>
+
+		<!-- 时间选择器 -->
 		<u-picker v-model="isPickerShow" mode="time" :params="pickerParams" default-time="00:00:00" @confirm="confirmPicker"></u-picker>
+
+		<!-- 底部按钮组 -->
 		<view class="buttonGroup">
 			<view class="button" @click="isPickerShow = true">
 				<u-icon name="plus" size="50"></u-icon>
 			</view>
-			<view class="button" @click="goback">
-				<u-icon name="checkmark" size="50"></u-icon>
-			</view>
+			<navigator url="index">
+				<view class="button">
+					<u-icon name="checkmark" size="50"></u-icon>
+				</view>
+			</navigator>
 		</view>
 	</view>
 </template>
@@ -22,8 +30,13 @@
 	export default {
 		data() {
 			return {
-				originList: [50, 100, 330, 10],
+				// 计时器列表
+				timerList: [],
+				// 计算后用于显示的列表
+				computedList: [],
+				// 是否显示时间选择器
 				isPickerShow: false,
+				// 时间选择器参数
 				pickerParams: {
 					hour: true,
 					minute: true,
@@ -31,59 +44,63 @@
 				},
 			}
 		},
-		computed: {
-			computedList: function() {
-				let sortedList =  this.originList.sort(function(a,b){
-					return a-b
-				})
+		methods: {
+			// 确认时间选择器时触发的函数
+			confirmPicker(e) {
+				// 如果返回的时间不为空进行接下来的流程
+				if (e.hour * 1 + e.minute * 1 + e.second * 1 !== 0) {
+					// 把新计时器追加到计时器列表
+					this.timerList.push(parseInt(e.hour * 3600 + e.minute * 60 + e.second * 1))
+					// 新计时器排序
+					this.timerList = Array.from(new Set(this.timerList))
+					// 把新计时器保存到本地存储
+					uni.setStorage({
+						key: 'singleTimerList',
+						data: this.timerList
+					})
 
+					this.updateComputedList()
+				}
+			},
+			updateComputedList() {
+				// 排序
+				let sortedList = this.timerList.sort(function(a, b) {
+					return a - b
+				})
+				// 把秒数转换成时分秒的字符串
 				let newList = []
 				for (let i = 0; i < sortedList.length; i++) {
 					newList.push(this.mytime.secondsToString(sortedList[i]))
 				}
 
-
-				return newList
-			}
-		},
-		methods: {
-			goback() {
-				uni.navigateTo({
-					url: 'index'
-				})
+				this.computedList = newList
 			},
-			confirmPicker(e) {
-				if(e.hour*1+e.minute*1+e.second*1 !== 0){
-					this.originList.push(parseInt(e.hour * 3600 + e.minute * 60 + e.second * 1))
-					this.originList = Array.from(new Set(this.originList))
-					uni.setStorage({
-						key: 'singleTimerList',
-						data: this.originList
-					})
-				}
-			},
-			remove(index){
-				this.originList.splice(0,1)
+			// 删除计时器
+			remove(index) {
+				this.timerList.splice(0, 1)
 				uni.setStorage({
 					key: 'singleTimerList',
-					data: this.originList
+					data: this.timerList
 				})
 			},
-			chooseTimer(index){
+			// 选择计时器并将其设置为临时单次计时器
+			chooseTimer(index) {
 				uni.setStorage({
-					key:'tempSingleTimer',
-					data:this.originList[index]
+					key: 'tempSingleTimer',
+					data: this.timerList[index]
 				})
 				uni.navigateTo({
-					url:'index'
+					url: 'index'
 				})
 			}
 		},
 		onLoad() {
-			this.originList = uni.getStorageSync('singleTimerList');
-			if(this.originList == ''){
-				this.originList = []
+			// 获取本地存储中的已保存的单次计时器列表
+			this.timerList = uni.getStorageSync('singleTimerList');
+			if (this.timerList == '') {
+				this.timerList = []
 			}
+			this.updateComputedList()
 		}
 	}
 </script>

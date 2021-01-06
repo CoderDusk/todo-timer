@@ -1,9 +1,12 @@
 <template>
+	<!-- 单次计时器页面 -->
 	<view>
-		<vac :left-time="currentTimer.time*1000" ref="singleTimer" @process="onProcess" @finish="finished">
+		<!-- vue awsome countdown组件 -->
+		<vac :left-time="time*1000" ref="singleTimer" @process="onProcess" @finish="finished">
 		  <view class="singleTimerLeftTimeText">{{showTime}}</view>
 		</vac>
 		
+		<!-- 按钮组 -->
 		<view class="buttonGroup">
 			<view class="button" @click="restart">
 				<u-icon name="reload" size="50"></u-icon>
@@ -25,42 +28,50 @@
 	export default {
 		data() {
 			return {
+				// 倒计时时间
 				time:0,
-				currentTimer:{},
+				// 倒计时组件状态，默认为进行中
 				state:'process',
+				// 铃声音频对象
 				ringtoneAudio:null,
-				volume:null,
+				// 显示的时间
 				showTime:''
 			};
 		},
 		methods:{
+			// 暂停
 			pause(){
 				this.$refs.singleTimer.pauseCountdown()
 				this.state = 'paused'
 			},
+			// 重启
 			restart(){
 				this.$refs.singleTimer.startCountdown(true)
 			},
+			// 返回
 			goback(){
-				getApp().globalData.currentTimer = {}
 				this.$refs.singleTimer.stopCountdown()
 				this.ringtoneAudio.stop()
 				uni.navigateTo({
 					url:'index'
 				})
 			},
+			// 继续
 			goOn(){
 				this.$refs.singleTimer.startCountdown()
 				this.state = 'process'
 			},
+			// 计时器组件进行中触发的函数
 			onProcess(){
 				let leftTime = this.$refs.singleTimer.timeObj.ceil.s
 				this.showTime = this.mytime.secondsToString(leftTime)
+				// 剩余时间为5秒的时候开始播放铃声
 				if(leftTime == 5){
 					this.ringtoneAudio.play()
 				}
 				
 			},
+			// 计时器完成时触发的函数
 			finished(){
 				this.ringtoneAudio.stop()
 				this.goback()
@@ -68,26 +79,25 @@
 			
 		},
 		onLoad(){
-			
-			this.currentTimer = getApp().globalData.currentTimer
-			
-			if(this.currentTimer.type == undefined){
+			// 从本地存储中获取临时单次计时器
+			this.time = uni.getStorageSync('tempSingleTimer')
+
+			// 如果时间小于1就退回首页
+			if(this.time < 1){
 				uni.navigateTo({
 					url:'index'
 				})
 			}
 			
+			// 从本地存储中获取设置中的 音量、铃声
 			let volume = uni.getStorageSync('setting').volume;
 			let ringtone = uni.getStorageSync('setting').ringtone;
 			let ringtoneList = uni.getStorageSync('ringtoneList')
-			
+			// 创建音频对象
 			this.ringtoneAudio = uni.createInnerAudioContext()
 			this.ringtoneAudio.src = '../../static/ringtone/' + ringtoneList[ringtone].label + '.mp3'
 			this.ringtoneAudio.volume = volume/100
-			
-			
-			
-		}
+			}
 	}
 </script>
 

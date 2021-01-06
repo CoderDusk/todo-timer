@@ -1,16 +1,24 @@
 <template>
+	<!-- 新增计时器 -->
 	<view class="editPage">
-		<view class="title">计时器名称</view>
-		<input type="text" placeholder="请输入计时器名称" class="inputTitle" placeholder-class="placeholder" v-model="title">
-		<view class="title timerDuration">计时器时长</view>
-		<u-button @click="isPickerShow = true" size="medium" type="primary" class="ringtoneButton" plain>{{time === 0 ?'请设置计时器':showtime}}</u-button>
+		<!-- 主要界面中不显示的 时间选择器和错误提示框 -->
 		<u-picker v-model="isPickerShow" mode="time" :params="pickerParams" default-time="00:00:00"
 		 @confirm="confirmPicker"></u-picker>
 		<u-toast ref="toast" />
+		
+		<!-- 计时器名称 -->
+		<view class="title">计时器名称</view>
+		<input type="text" placeholder="请输入计时器名称" class="inputTitle" placeholder-class="placeholder" v-model="title">
+		
+		<!-- 计时器时长 -->
+		<view class="title timerDuration">计时器时长</view>
+		<u-button @click="isPickerShow = true" size="medium" type="primary" class="ringtoneButton" plain>{{time === 0 ?'请设置计时器':showtime}}</u-button>
+		
+		<!-- 底部按钮组 -->
 		<view class="bottomButtonGruop">
 			<navigator url="index">
 				<view class="button">
-					<u-icon name="close" size="50"></u-icon>
+					<u-icon name="close" size="50" color="red"></u-icon>
 				</view>
 			</navigator>
 			<view class="button" @click="addTimerItem">
@@ -24,24 +32,33 @@
 	export default {
 		data() {
 			return {
+				// 控制时间选择器是否显示的开关变量
 				isPickerShow:false,
+				// 时间选择器参数
 				pickerParams: {
 					hour: true,
 					minute: true,
 					second: true
 				},
+				// 标题
 				title:'',
+				// 时间
 				time:0,
-				showtime:''
-				
+				// 显示的时间
+				showtime:''				
 			}
 		},
 		methods: {
+			// 确认时间选择器时触发的函数
 			confirmPicker(e){
+				// 把时间选择器传回的结果转换成秒数
 				this.time = e.hour*3600 + e.minute*60 + e.second*1 
+				// 把秒数转换成显示用的字符串
 				this.showtime = this.mytime.secondsToString(this.time)
 			},
+			// 添加计时器
 			addTimerItem(){
+				// 如果标题或者时间为空，弹出错误提示
 				if(this.title === '' || this.time === 0){
 					this.$refs.toast.show({
 						title: '请设置所有项目',
@@ -49,29 +66,25 @@
 						position:'top'
 					})
 				}else{
-					
+					// 从本地存储获取临时循环计时器组
 					let newTempLoopTimerGroup  = uni.getStorageSync('tempLoopTimerGroup')
-					
+					// 把当前计时器追加到临时循环计时器组
 					newTempLoopTimerGroup.timerList.push({
 						title:this.title,
 						time:this.time,
 						showtime:this.showtime
-					})
-					
-					
+					})					
+					// 把新的临时循环计时器组更新到本地存储
 					uni.setStorage({
 						key:'tempLoopTimerGroup',
 						data:newTempLoopTimerGroup
 					})
-					
+					// 返回首页
 					uni.navigateTo({
 						url:'index'
 					})
 				}
 			}
-		},
-		onLoad(){
-			
 		}
 	}
 </script>
