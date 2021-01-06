@@ -73,6 +73,7 @@
 
 	.tab {
 		height: 10%;
+		padding-top: 30rpx;
 
 		.swiperTab {
 			padding-top: 50rpx;
