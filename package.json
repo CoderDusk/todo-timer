@@ -1,0 +1,22 @@
+{
+  "name": "todotimer",
+  "version": "1.0.0",
+  "description": "土豆计时器（todoTimer)是一款基于 uni-app 的开源跨平台应用。\r 土豆计时器主要包含两个模块，单次计时器和循环计时器。单次计时器完成后直接退出。循环计时器可编辑计时器组和循环次数，完成所有步骤后退出。\r 土豆计时器可用于厨房计时、HIIT健身计时、行为习惯培养计时等场景。",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CoderDusk/todoTimer.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CoderDusk/todoTimer/issues"
+  },
+  "homepage": "https://github.com/CoderDusk/todoTimer#readme",
+  "dependencies": {
+    "uview-ui": "^1.8.4"
+  }
+}
