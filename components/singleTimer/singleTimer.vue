@@ -2,14 +2,16 @@
 	<view>
 		<!-- 不在主要页面的弹出组件：错误警告框、时间选择器 -->
 		<u-toast ref="warningToast" class="warningToast" />
-		<u-picker v-model="isPickerShow" mode="time" :params="pickerParams" default-time="00:00:00" @confirm="confirmSingleTimerPicker"></u-picker>
+		<u-picker v-model="isPickerShow" mode="time" :params="pickerParams" default-time="00:00:00"
+			@confirm="confirmSingleTimerPicker"></u-picker>
 
 		<!-- 单次计时器组件主体 -->
 		<view class="singleTimer">
 			<!-- 设定计时器 -->
 			<view class="timerSetting">
 				<view v-model="singleTimerString">{{singleTimerString}}</view>
-				<u-button type="primary" plain shape="circle" @click="isPickerShow = true" class="singleTimerSettingButton">设置计时器</u-button>
+				<u-button type="primary" plain shape="circle" @click="isPickerShow = true"
+					class="singleTimerSettingButton">设置计时器</u-button>
 			</view>
 
 			<!-- 底部按钮组 -->
@@ -18,7 +20,7 @@
 					<view class="button">
 						<u-icon name="list-dot" size="50"></u-icon>
 					</view>
-				</navigator>				
+				</navigator>
 				<view class="button" @click="startSingleTimer">
 					<u-icon name="play-right-fill" size="50"></u-icon>
 				</view>
@@ -26,7 +28,7 @@
 					<view class="button">
 						<u-icon name="volume-up-fill" size="50"></u-icon>
 					</view>
-				</navigator>				
+				</navigator>
 			</view>
 		</view>
 
@@ -53,6 +55,7 @@
 		methods: {
 			// 时间选择器被确认时候触发的函数
 			confirmSingleTimerPicker(e) {
+				console.log(e)
 				// 把时间选择传来的结果转换成描述保存到临时单次计时器变量里
 				this.tempSingleTimer = this.mytime.timeToSeconds(e.hour, e.minute, e.second)
 				// 把临时单集计时器时间保存到本地存储中
@@ -64,11 +67,11 @@
 			// 开始单次计时器,跳转到单次计时器页面
 			startSingleTimer() {
 				// 如果临时单次计时器时间大于0才跳转到单次计时器页面
-				if(this.tempSingleTimer > 0){
+				if (this.tempSingleTimer > 0) {
 					uni.navigateTo({
-						url:'../../pages/mobile/singleCountDown'
+						url: '../../pages/mobile/singleCountDown'
 					})
-				// 如果不大于0说明则显示错误提示
+					// 如果不大于0说明则显示错误提示
 				} else {
 					this.$refs.warningToast.show({
 						title: '请先设置计时器',
@@ -90,7 +93,7 @@
 		activated() {
 			this.tempSingleTimer = uni.getStorageSync('tempSingleTimer')
 		},
-		created() {
+		created(){
 			this.tempSingleTimer = uni.getStorageSync('tempSingleTimer')
 		}
 	}
