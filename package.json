@@ -17,7 +17,6 @@
   },
   "homepage": "https://github.com/CoderDusk/todoTimer#readme",
   "dependencies": {
-    "uview-ui": "^1.8.4",
-    "vue-awesome-countdown": "^1.1.4"
+    "uview-ui": "^1.8.4"
   }
 }
