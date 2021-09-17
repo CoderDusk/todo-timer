@@ -110,7 +110,7 @@
         "enable" : false
     },
     "h5" : {
-        "title" : "土豆计时器",
+        "title" : "循环计时器2",
         "domain" : "timer.coderdusk.com",
         "devServer" : {
             "https" : false
@@ -119,6 +119,7 @@
             "treeShaking" : {
                 "enable" : true
             }
-        }
+        },
+        "template" : "template.html"
     }
 }
