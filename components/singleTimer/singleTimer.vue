@@ -55,14 +55,18 @@
 		methods: {
 			// 时间选择器被确认时候触发的函数
 			confirmSingleTimerPicker(e) {
-				console.log(e)
-				// 把时间选择传来的结果转换成描述保存到临时单次计时器变量里
-				this.tempSingleTimer = this.mytime.timeToSeconds(e.hour, e.minute, e.second)
-				// 把临时单集计时器时间保存到本地存储中
-				uni.setStorage({
-					key: 'tempSingleTimer',
-					data: this.tempSingleTimer
-				})
+				const time = e.hour * 3600 + e.minute * 60 + e.second * 1 
+				if(time === 0){
+					this.$u.toast('请设置有效时间')
+				} else{
+					this.tempSingleTimer = time
+					// 把临时单集计时器时间保存到本地存储中
+					uni.setStorage({
+						key: 'tempSingleTimer',
+						data: time
+					})
+				}
+				
 			},
 			// 开始单次计时器,跳转到单次计时器页面
 			startSingleTimer() {

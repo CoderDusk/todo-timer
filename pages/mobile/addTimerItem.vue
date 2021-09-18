@@ -51,10 +51,14 @@
 		methods: {
 			// 确认时间选择器时触发的函数
 			confirmPicker(e){
-				// 把时间选择器传回的结果转换成秒数
-				this.time = e.hour*3600 + e.minute*60 + e.second*1 
-				// 把秒数转换成显示用的字符串
-				this.showtime = this.mytime.secondsToString(this.time)
+				const time = e.hour * 3600 + e.minute * 60 + e.second * 1
+				if(time !== 0){
+					this.time = time
+				}else{
+					this.$u.toast('计时器时长不能为0')
+					// 把秒数转换成显示用的字符串
+					this.showtime = this.mytime.secondsToString(this.time)
+				}
 			},
 			// 添加计时器
 			addTimerItem(){

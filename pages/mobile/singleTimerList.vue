@@ -47,10 +47,11 @@
 		methods: {
 			// 确认时间选择器时触发的函数
 			confirmPicker(e) {
+				const time = e.hour * 3600 + e.minute * 60 + e.second * 1 
 				// 如果返回的时间不为空进行接下来的流程
-				if (e.hour * 1 + e.minute * 1 + e.second * 1 !== 0) {
+				if (time !== 0) {
 					// 把新计时器追加到计时器列表
-					this.timerList.push(parseInt(e.hour * 3600 + e.minute * 60 + e.second * 1))
+					this.timerList.push(time)
 					// 新计时器排序
 					this.timerList = Array.from(new Set(this.timerList))
 					// 把新计时器保存到本地存储
@@ -60,6 +61,8 @@
 					})
 
 					this.updateComputedList()
+				}else{
+					this.$u.toast('请设置正确的时长')
 				}
 			},
 			updateComputedList() {
@@ -67,17 +70,15 @@
 				let sortedList = this.timerList.sort(function(a, b) {
 					return a - b
 				})
-				// 把秒数转换成时分秒的字符串
-				let newList = []
-				for (let i = 0; i < sortedList.length; i++) {
-					newList.push(this.mytime.secondsToString(sortedList[i]))
-				}
 
-				this.computedList = newList
+				this.computedList = []
+				sortedList.forEach(item=>{
+					this.computedList.push(this.mytime.secondsToString(item))
+				})
 			},
 			// 删除计时器
 			remove(index) {
-				this.timerList.splice(0, 1)
+				this.timerList.splice(index, 1)
 				uni.setStorage({
 					key: 'singleTimerList',
 					data: this.timerList
