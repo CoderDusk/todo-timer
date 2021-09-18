@@ -54,14 +54,20 @@
 			// 确认时间选择器时触发的函数
 			confirmPicker(e){
 				// 把时间选择器传回的结果转换成秒数
-				this.time = e.hour*3600 + e.minute*60 + e.second*1 
-				// 把秒数转换成显示用的字符串
-				this.showtime = this.mytime.secondsToString(this.time)
+				const time = this.mytime.timerPickerResultToSeconds(e)
+				if(time !== 0){
+					this.time = time
+					// 把秒数转换成显示用的字符串
+					this.showtime = this.mytime.secondsToString(this.time)
+				}else{
+					this.$u.toast('请设置计时器的时间')
+				}
+				
 			},
 			// 编辑计时器
 			editTimerItem(){
 				// 如果标题或时间为空,弹出错误提示
-				if(this.title === '' || this.time === 0){
+				if(this.title.trim() === '' || this.time === 0){
 					this.$refs.toast.show({
 						title: '请设置所有项目',
 						type: 'error',
@@ -78,6 +84,7 @@
 						key:'tempLoopTimerGroup',
 						data:this.tempLoopTimerGroup
 					})
+					this.$u.toast('编辑成功')
 					// 返回到首页
 					uni.navigateTo({
 						url:'index'
@@ -91,6 +98,7 @@
 					key:'tempLoopTimerGroup',
 					data:this.tempLoopTimerGroup
 				})
+				this.$u.toast('删除成功')
 				
 				uni.navigateTo({
 					url:'index'

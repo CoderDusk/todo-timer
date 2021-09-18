@@ -51,7 +51,7 @@
 		methods: {
 			// 确认时间选择器时触发的函数
 			confirmPicker(e){
-				const time = e.hour * 3600 + e.minute * 60 + e.second * 1
+				const time = this.mytime.timerPickerResultToSeconds(e)
 				if(time !== 0){
 					this.time = time
 				}else{
@@ -63,7 +63,7 @@
 			// 添加计时器
 			addTimerItem(){
 				// 如果标题或者时间为空，弹出错误提示
-				if(this.title === '' || this.time === 0){
+				if(this.title.trim() === '' || this.time === 0){
 					this.$refs.toast.show({
 						title: '请设置所有项目',
 						type: 'error',
