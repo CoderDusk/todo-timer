@@ -55,7 +55,9 @@
 		methods: {
 			// 时间选择器被确认时候触发的函数
 			confirmSingleTimerPicker(e) {
-				const time = e.hour * 3600 + e.minute * 60 + e.second * 1 
+				console.log(e)
+				const time = this.mytime.timerPickerResultToSeconds(e)
+				console.log(time)
 				if(time === 0){
 					this.$u.toast('请设置有效时间')
 				} else{
