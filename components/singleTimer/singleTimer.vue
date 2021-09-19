@@ -49,15 +49,15 @@
 					second: true
 				},
 				// 临时单次计时器时间
-				tempSingleTimer: 0
+				tempSingleTimer: 0,
+				// 本地存储中所有相关变量
+				storage:null,
 			};
 		},
 		methods: {
 			// 时间选择器被确认时候触发的函数
 			confirmSingleTimerPicker(e) {
-				console.log(e)
 				const time = this.mytime.timerPickerResultToSeconds(e)
-				console.log(time)
 				if(time === 0){
 					this.$u.toast('请设置有效时间')
 				} else{
@@ -92,15 +92,18 @@
 			// 界面上显示的单次计时器字符串
 			singleTimerString: function() {
 				// 通过自定义的mytime中的函数把秒数转换成时间字符串
-				return this.mytime.secondsToString(this.tempSingleTimer)
+				return this.$time.secondsToString(this.tempSingleTimer)
 			}
 		},
 		// 加载组件的时候从本地存储中读取并更新单次计时器
 		activated() {
-			this.tempSingleTimer = uni.getStorageSync('tempSingleTimer')
+			// this.tempSingleTimer = uni.getStorageSync('tempSingleTimer')
 		},
 		created(){
-			this.tempSingleTimer = uni.getStorageSync('tempSingleTimer')
+			// this.tempSingleTimer = uni.getStorageSync('tempSingleTimer')
+		},
+		onShow() {
+			console.log('onshow')
 		}
 	}
 </script>

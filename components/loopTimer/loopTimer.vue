@@ -10,7 +10,7 @@
 		<view class="loopTimer">
 			
 			<!-- 循环计时器组为空的提示 -->
-			<view v-if="tempLoopTimerGroup.timerList.length == 0" class="noListTip">
+			<view v-if="0 == 0" class="noListTip">
 				<text>循环计时器组为空，请按</text>
 				<navigator url="../../pages/mobile/addTimerItem">
 					<view class="button timerButton">
