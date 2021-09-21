@@ -1,7 +1,6 @@
 <template>
 	<view>
 		<!-- 不在主要页面的弹出组件：错误警告框、时间选择器 -->
-		<u-toast ref="warningToast" class="warningToast" />
 		<u-picker v-model="isPickerShow" mode="time" :params="pickerParams" default-time="00:00:00"
 			@confirm="confirmSingleTimerPicker"></u-picker>
 
@@ -9,7 +8,7 @@
 		<view class="singleTimer">
 			<!-- 设定计时器 -->
 			<view class="timerSetting">
-				<view v-model="singleTimerString">{{singleTimerString}}</view>
+				<view>{{$time.secondsToString(storage.currentSingleTimer)}}</view>
 				<u-button type="primary" plain shape="circle" @click="isPickerShow = true"
 					class="singleTimerSettingButton">设置计时器</u-button>
 			</view>
@@ -48,63 +47,35 @@
 					minute: true,
 					second: true
 				},
-				// 临时单次计时器时间
-				tempSingleTimer: 0,
-				// 本地存储中所有相关变量
-				storage:null,
 			};
 		},
 		methods: {
 			// 时间选择器被确认时候触发的函数
 			confirmSingleTimerPicker(e) {
-				const time = this.mytime.timerPickerResultToSeconds(e)
+				const time = this.$time.timerPickerResultToSeconds(e)
 				if(time === 0){
 					this.$u.toast('请设置有效时间')
 				} else{
-					this.tempSingleTimer = time
+					this.storage.currentSingleTimer = time
 					// 把临时单集计时器时间保存到本地存储中
-					uni.setStorage({
-						key: 'tempSingleTimer',
-						data: time
-					})
+					this.$tools.updateLocalStorage(this.storage)
 				}
 				
 			},
 			// 开始单次计时器,跳转到单次计时器页面
 			startSingleTimer() {
 				// 如果临时单次计时器时间大于0才跳转到单次计时器页面
-				if (this.tempSingleTimer > 0) {
+				if (this.storage.currentSingleTimer > 0) {
 					uni.navigateTo({
 						url: '../../pages/mobile/singleCountDown'
 					})
 					// 如果不大于0说明则显示错误提示
 				} else {
-					this.$refs.warningToast.show({
-						title: '请先设置计时器',
-						type: 'error',
-						position: 'top'
-					})
+					this.$u.toast('请先设置计时器')
 				}
 
 			}
 		},
-		computed: {
-			// 界面上显示的单次计时器字符串
-			singleTimerString: function() {
-				// 通过自定义的mytime中的函数把秒数转换成时间字符串
-				return this.$time.secondsToString(this.tempSingleTimer)
-			}
-		},
-		// 加载组件的时候从本地存储中读取并更新单次计时器
-		activated() {
-			// this.tempSingleTimer = uni.getStorageSync('tempSingleTimer')
-		},
-		created(){
-			// this.tempSingleTimer = uni.getStorageSync('tempSingleTimer')
-		},
-		onShow() {
-			console.log('onshow')
-		}
 	}
 </script>
 

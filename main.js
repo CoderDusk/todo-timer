@@ -15,6 +15,10 @@ Vue.prototype.$tools = tools
 import vueAwesomeCountdown from 'vue-awesome-countdown'
 Vue.use(vueAwesomeCountdown, 'vac')
 
+// 引入自定义混入
+import mixin from 'mixin/mixin.js'
+Vue.use(mixin)
+
 Vue.config.productionTip = false
 
 App.mpType = 'app'
