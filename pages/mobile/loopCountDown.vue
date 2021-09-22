@@ -3,36 +3,37 @@
 	<view>
 		<view class="main">
 			<!-- 倒计时组件，页面不可见 -->
-			<u-count-down :timestamp="countDownTime" style="display: none;" @change="change" @end="end" ref="countDown"></u-count-down>
-			
+			<u-count-down :timestamp="countDownTime" style="display: none;" @change="change" @end="end" ref="countDown">
+			</u-count-down>
+
 			<!-- 当前步骤的标题 -->
 			<view class="currentTitle">
-				{{currentTitle}}
+				{{currentStep.title}}
 			</view>
-			
+
 			<!-- 当前计时器剩余时间显示在页面上的字符串 -->
-			<span class="loopTimerLeftTimeText">{{showTime}}</span>
+			<span class="loopTimerLeftTimeText">{{currentStep.leftTime}}</span>
 
 			<!-- 辅助线 -->
 			<u-line color="gray" length="75%" margin="30rpx auto" :hair-line="false" />
-			
+
 			<!-- 下一步骤的信息 -->
 			<view class="nextTimerInfo">
 				<!-- 剩余次数 -->
 				<view class="infoBox">
-					<view class="info">{{leftStep}}</view>
-					<view class="description">剩余次数</view>
+					<view class="info">{{currentStep.leftStep}}</view>
+					<view class="description">剩余步骤</view>
 				</view>
 
 				<!-- 下个步骤的名称 -->
 				<view class="infoBox">
-					<view class="info">{{nextTitle}}</view>
+					<view class="info">{{nextStep.title}}</view>
 					<view class="description">下个步骤名称</view>
 				</view>
 
 				<!-- 下个步骤的时长 -->
 				<view class="infoBox">
-					<view class="info">{{nextShowTime}}</view>
+					<view class="info">{{nextStep.time}}</view>
 					<view class="description">下个步骤时长</view>
 				</view>
 			</view>
@@ -45,10 +46,10 @@
 				<view class="button" @click="restart">
 					<u-icon name="reload" size="50"></u-icon>
 				</view>
-				<view class="button" @click="pause" >
+				<view class="button" @click="pause">
 					<u-icon name="pause" size="50"></u-icon>
 				</view>
-				<view class="button" @click="nextStep">
+				<view class="button" @click="goNextStep">
 					<u-icon name="arrow-rightward" size="50"></u-icon>
 				</view>
 			</view>
@@ -71,39 +72,31 @@
 			return {
 				// 计时器组列表
 				timerList: [],
-				leftStep: 0,
-				tempLoopTimerGroup: {},
 
 				// 计时器组件信息
-				showTime: '',
 				countDownTime: 0,
 
 				// 当前步骤信息
-				currentIndex: 0,
-				currentTitle: '',
+				currentStep:{
+					index:0,
+					leftTime:0,
+					title:'',
+					leftStep:0,
+				},
 
 				// 下一步骤信息
-				nextIndex: 0,
-				nextTitle: 0,
-				nextTime: 0,
-				nextShowTime: 0,
-				
+				nextStep:{
+					index:0,
+					title:0,
+					time:0
+				},
+
 				// 暂停功能相关变量
-				isPaused:false,
-				pauseTime:0,
+				isPaused: false,
+				pauseTime: 0,
 			}
 		},
 		methods: {
-			// 创建铃声音频对象
-			createAudio() {
-				let volume = uni.getStorageSync('setting').volume;
-				let ringtone = uni.getStorageSync('setting').ringtone;
-				let ringtoneList = uni.getStorageSync('ringtoneList')
-			
-				this.ringtoneAudio = uni.createInnerAudioContext()
-				this.ringtoneAudio.src = '../../static/ringtone/' + ringtoneList[ringtone].label + '.mp3'
-				this.ringtoneAudio.volume = volume / 100
-			},
 			// 下个索引号
 			next(index) {
 				if (index == this.timerList.length - 1) {
@@ -113,26 +106,23 @@
 				}
 			},
 			// 更新当前步骤信息
-			updateCurrentInfo(){
-				this.countDownTime = this.timerList[this.currentIndex].time
-				this.showTime = this.mytime.secondsToString(this.countDownTime)
-				this.currentTitle = this.timerList[this.currentIndex].title
+			updateCurrentInfo() {
+				this.countDownTime = this.timerList[this.currentStep.index].time
+				this.currentStep.title = this.timerList[this.currentStep.index].title
 			},
 			// 更新下个步骤信息
-			updateNextInfo(){
-				this.nextIndex = this.next(this.nextIndex)
-				this.nextTime = this.timerList[this.nextIndex].time
-				this.nextTitle = this.timerList[this.nextIndex].title
-				this.nextShowTime = this.mytime.secondsToString(this.nextTime)
+			updateNextInfo() {
+				this.nextStep.index = this.next(this.nextStep.index)
+				this.nextStep.time = this.$time.secondsToString(this.timerList[this.nextStep.index].time)
+				this.nextStep.title = this.timerList[this.nextStep.index].title
 			},
-			updateLeftStep(){
-				this.leftStep--
-				
-				if(this.leftStep < 0){
+			updateLeftStep() {
+				this.currentStep.leftStep --
+
+				if (this.currentStep.leftStep < 0) {
 					this.countDownTime = 0
-					uni.navigateTo({
-						url:'index'
-					})
+					this.ringtongAudio.stop()
+					this.gotoIndexPage('loop')
 				}
 			},
 			// 暂停
@@ -153,70 +143,75 @@
 			},
 			// 重启
 			restart() {
-				this.$refs.countDown.seconds  = this.timerList[this.currentIndex].time + 1
+				this.ringtoneAudio.stop()
+				this.$refs.countDown.seconds = this.timerList[this.currentStep.index].time + 1
 			},
 			// 退出返回首页
 			goback() {
-				uni.navigateTo({
-					url: 'index'
-				})
+				this.countDownTime = 0
+				this.ringtoneAudio.stop()
+				this.gotoIndexPage('loop')
 			},
 			// 跳转到下一步骤
-			nextStep(){
+			goNextStep() {
 				// 索引号 + 1
-				this.currentIndex = this.next(this.currentIndex)
+				this.currentStep.index = this.next(this.currentStep.index)
 				// 更新当前步骤信息
 				this.updateCurrentInfo()
 				// 更新下个步骤信息
 				this.updateNextInfo()
 				// 更新剩余步骤
 				this.updateLeftStep()
+				this.ringtoneAudio.stop()
 			},
 			// 计时器进行时触发的函数
-			change(countDownTime){
+			change(countDownTime) {
 				// 更新界面上显示的剩余时间
-				this.showTime = this.mytime.secondsToString(countDownTime)
+				this.currentStep.leftTime = this.$time.secondsToString(countDownTime)
 				// 剩余时间为5秒的时候播放铃声
-				if(countDownTime == 5){
-					console.log('5秒');
+				if (countDownTime <= 5 && countDownTime >= 0 && this.ringtoneAudio.paused) {
 					this.ringtoneAudio.play()
+				}else if(countDownTime <= 0){
+					this.ringtoneAudio.stop()
 				}
 			},
 			// 计时器停止时触发的函数
-			end(){
+			end() {
 				// 停止铃声
 				this.ringtoneAudio.stop()
 				// 当前索引号 + 1
-				this.currentIndex = this.next(this.currentIndex)				
+				this.currentStep.index = this.next(this.currentStep.index)
 				// 更新当前步骤信息
-				this.updateCurrentInfo()				
+				this.updateCurrentInfo()
 				// 更新下个步骤信息
-				this.updateNextInfo()				
+				this.updateNextInfo()
 				// 更新剩余步骤
 				this.updateLeftStep()
 			}
 		},
-		onLoad() {
-			// 从本地存储中读取计时器列表和循环次数
-			this.tempLoopTimerGroup = uni.getStorageSync('tempLoopTimerGroup')
-			this.timerList = this.tempLoopTimerGroup.timerList
-			let loopCount = this.tempLoopTimerGroup.count
-			
-			// 如果计时器列表为空或者循环次数为空,就跳转回首页
-			if(this.timerList.length == 0 && loopCount == 0){
-				uni.navigateTo({
-					url:'index'
-				})
+		created() {
+			this.timerList = this.storage.currentLoopTimer.timerList
+
+			const cycleTimes = this.storage.currentLoopTimer.cycleTimes
+
+			if (this.timerList.length === 0) {
+				this.$u.toast('计时器列表不能为空')
+				this.gotoIndexPage('loop')
+			} else if (cycleTimes <= 0) {
+				this.$u.toast('循环次数必须是正整数')
+				this.gotoIndexPage('loop')
+			} else {
+				// 剩余步骤次数 = 计时器组列表长度 * 循环次数 - 1
+				this.currentStep.leftStep = this.timerList.length * cycleTimes - 1
+				// 创建铃声音频对象
+				this.createRingtoneAudio()
+				// 更新当前步骤信息
+				this.updateCurrentInfo()
+				// 更新下个步骤信息
+				this.updateNextInfo()
 			}
-			
-			// 剩余步骤次数 = 计时器组列表长度 * 循环次数 - 1
-			this.leftStep = this.timerList.length * loopCount - 1
-			// 创建铃声音频对象
-			this.createAudio()
-			// 更新当前步骤信息
-			this.updateCurrentInfo()
-			// 更新下个步骤信息
-			this.updateNextInfo()
+
+
 		}
 	}
 </script>

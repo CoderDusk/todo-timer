@@ -3,11 +3,11 @@
 	<view class="settingPage">
 		<!-- 音量设置 -->
 		<view class="title">音量设置</view>
-		<u-slider v-model="volume" class="volumeSlider" @end="volumeSliderEnd"></u-slider>
+		<u-slider v-model="storage.setting.ringtoneVolume" class="volumeSlider" @end="volumeSliderEnd"></u-slider>
 		<!-- 铃声设置 -->
 		<view class="title">铃声设置</view>
 		<u-select v-model="showRingtoneSetting" :list="ringtoneList" @confirm="confirmRingtone"></u-select>
-		<u-button @click="showRingtoneSetting = true" size="medium" type="primary" class="ringtoneButton" plain>{{ringtoneList[ringtone].label}}</u-button>
+		<u-button @click="showRingtoneSetting = true" size="medium" type="primary" class="ringtoneButton" plain>{{storage.setting.ringtoneName}}</u-button>
 		
 		<!-- 保存按钮 -->
 		<view class="saveButton" @click="saveSetting">
@@ -24,21 +24,13 @@
 				showRingtoneSetting: null,
 				// 铃声列表
 				ringtoneList: [],
-				// 铃声音频对象
-				ringtoneAudio:{}
 			}
 		},
 		methods: {
 			// 保存设置
 			saveSetting(){
 				// 更新本地存储中的设置
-				uni.setStorage({
-					key:'setting',
-					data:{
-						volume:this.volume,
-						ringtone:this.ringtone
-					}
-				})
+				this.updateStorage()
 				// 停止铃声
 				this.ringtoneAudio.stop()
 				// 返回首页
@@ -48,33 +40,53 @@
 			},
 			// 确认铃声选择
 			confirmRingtone(e){
-				// 更新铃声索引号变量
-				this.ringtone = e[0].value
 				// 更新铃声音频对象的音频文件
-				this.ringtoneAudio.src = '../../static/ringtone/' + this.ringtoneList[this.ringtone].label + '.mp3'
-				// 播放试听铃声
+				this.storage.setting.ringtoneFileUrl = e[0].value
+				this.storage.setting.ringtoneName = e[0].label
+				this.updateStorage()
+				// 试听铃声
+				this.createRingtoneAudio()
 				this.ringtoneAudio.play()
 			},
 			// 音量滑块滑动停止时触发的函数
 			volumeSliderEnd(){
-				// 停止播放铃声
-				this.ringtoneAudio.stop()
-				// 重新设置铃声
-				this.ringtoneAudio.volume = this.volume/100
-				// 重新播放铃声
-				this.ringtoneAudio.play()
+				// 设置铃声音频对象的音量大小
+				this.ringtoneAudio.volume = this.storage.setting.ringtoneVolume / 100
+				// 如果音频没有在播放，就开始试听播放
+				if(this.ringtoneAudio.paused){
+					this.ringtoneAudio.play()
+				}
+			},
+			generateRingtoneList(){
+				// 内置铃声列表
+				const innerRingtoneList = [
+					{
+						value:'/static/ringtone/ding.mp3',
+						label:'叮'
+					},
+					{
+						value:'/static/ringtone/bird.mp3',
+						label:'鸟叫'
+					},
+					{
+						value:'/static/ringtone/clock.mp3',
+						label:'机械闹铃'
+					},
+					{
+						value:'/static/ringtone/gugu.mp3',
+						label:'布谷钟'
+					},
+				]
+				// 后期与自定义铃声合并
+				this.ringtoneList = innerRingtoneList
 			}
 		},
-		onLoad(){
-			// 从本地存储中获取设置的音量、铃声
-			this.volume = uni.getStorageSync('setting').volume;
-			this.ringtone = uni.getStorageSync('setting').ringtone;
-			this.ringtoneList = uni.getStorageSync('ringtoneList')
-			// 创建铃声对象
-			this.ringtoneAudio = uni.createInnerAudioContext()
-			this.ringtoneAudio.src = '../../static/ringtone/' + this.ringtoneList[this.ringtone].label + '.mp3'
-			this.ringtoneAudio.volume = this.volume/100
-		}
+		created(){
+			// 创建铃声音频对象
+			this.createRingtoneAudio()
+			// 生成铃声列表
+			this.generateRingtoneList()
+		},
 	}
 </script>
 

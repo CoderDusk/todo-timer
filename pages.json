@@ -35,15 +35,6 @@
             
         }
         ,{
-            "path" : "pages/mobile/addTimerItem",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "新增计时器项目",
-                "navigationStyle":"custom"
-            }
-            
-        }
-        ,{
             "path" : "pages/mobile/loopTimerGroupList",
             "style" :                                                                                    
             {

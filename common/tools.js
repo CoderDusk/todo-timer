@@ -2,7 +2,8 @@ function checkLocalStorage() {
 	const defaultData = {
 		setting: {
 			ringtoneVolume: 30,
-			ringtoneFileUrl: '../../static/ringtone/ding.mp3'
+			ringtoneFileUrl: '/static/ringtone/ding.mp3',
+			ringtoneName:'叮'
 		},
 		currentSingleTimer: 0,
 		currentLoopTimer: {
@@ -25,6 +26,10 @@ function checkLocalStorage() {
 			// 如果设置中铃声音文件地址为空就设置默认一个铃声
 			if (appLocalStorage.setting.ringtoneFileUrl == null || appLocalStorage.setting.ringtoneFileUrl.trim() === '') {
 				appLocalStorage.setting.ringtoneFileUrl = defaultData.setting.ringtoneFileUrl
+			}
+			// 如果设置中铃声名称为空就设置为默认铃声名称
+			if (appLocalStorage.setting.ringtoneName == null || appLocalStorage.setting.ringtoneName.trim() === '') {
+				appLocalStorage.setting.ringtoneName = defaultData.setting.ringtoneName
 			}
 		}
 		

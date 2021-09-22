@@ -14,11 +14,9 @@
 
 		<!-- 底部按钮组 -->
 		<view class="buttonGroup">
-			<navigator url="index">
-				<view class="button">
-					<u-icon name="checkmark" size="50"></u-icon>
-				</view>
-			</navigator>
+			<view class="button" @click="gotoIndexPage('loop')">
+				<u-icon name="checkmark" size="50"></u-icon>
+			</view>
 		</view>
 	</view>
 </template>
@@ -37,14 +35,12 @@
 			// 选择计时器组并把它设置为临时循环计时器组
 			chooseTimerGroup(item) {
 				this.storage.currentLoopTimer = {
-					title:item.title,
-					cycleTimes:item.count,
-					timerList:item.list,
+					title: item.title,
+					cycleTimes: item.count,
+					timerList: item.list,
 				}
 				this.updateStorage()
-				uni.navigateTo({
-					url:'index'
-				})
+				this.gotoIndexPage('loop')
 			}
 		},
 	}

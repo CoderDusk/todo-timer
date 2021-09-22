@@ -46,7 +46,7 @@
 				<view class="button timerButton" @click="showSaveModal">
 					<u-icon name="download" size="50" color="white"></u-icon>
 				</view>
-				<navigator url="../../pages/mobile/addTimerItem">
+				<navigator url="../../pages/mobile/editTimerItem?action=add">
 					<view class="button timerButton">
 						<u-icon name="plus" size="50" color="white"></u-icon>
 					</view>
@@ -103,8 +103,11 @@
 			},
 			// 前往编辑计时器页面,并且把当前要编辑项目的索引号保存到全局变量中
 			gotoEditPage(index) {
+				// uni.navigateTo({
+				// 	url: '../../pages/mobile/editTimerItem?index=' + index
+				// })
 				uni.navigateTo({
-					url: '../../pages/mobile/editTimerItem?index=' + index
+					url:`../../pages/mobile/editTimerItem?action=edit&index=${index}`
 				})
 			},
 			deleteItem(index) {

@@ -48,16 +48,18 @@
 			// 标签切换时触发
 			tabsChange(index) {
 				this.currentTab = index
-				getApp().globalData.currentTab = index
 			},
 			// 滑块容器切换时触发
 			swiperChange(e) {
 				this.currentTab = e.detail.current
-				getApp().globalData.currentTab = e.detail.current
 			}
 		},
-		onLoad() {
-			this.currentTab = getApp().globalData.currentTab
+		onLoad(e) {
+			if(e.tab === 'single'){
+				this.currentTab = 0
+			}else if (e.tab === 'loop'){
+				this.currentTab = 1
+			}
 		}
 	}
 </script>

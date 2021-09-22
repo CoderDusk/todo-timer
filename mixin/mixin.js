@@ -1,10 +1,10 @@
 export default {
-	install(Vue){
+	install(Vue) {
 		Vue.mixin({
-			data(){
+			data() {
 				return {
-					storage:null,
-					ringtoneAudio:null,
+					storage: null,
+					ringtoneAudio: null,
 					// 时间选择器参数
 					pickerParams: {
 						hour: true,
@@ -18,17 +18,22 @@ export default {
 			created() {
 				this.storage = this.$tools.getLocalStorage()
 			},
-			activated(){
+			activated() {
 				this.storage = this.$tools.getLocalStorage()
 			},
-			methods:{
-				testFunction(){
+			beforeDestroy() {
+				if (!!this.ringtoneAudio && !this.ringtongAudio.paused) {
+					this.ringtoneAudio.stop()
+				}
+			},
+			methods: {
+				testFunction() {
 					console.log('test')
 				},
-				getStorage(){
+				getStorage() {
 					this.storage = this.$tools.getLocalStorage()
 				},
-				updateStorage(){
+				updateStorage() {
 					this.$tools.updateLocalStorage(this.storage)
 				},
 				// 创建铃声音频对象
@@ -37,6 +42,24 @@ export default {
 					this.ringtoneAudio = uni.createInnerAudioContext()
 					this.ringtoneAudio.src = this.storage.setting.ringtoneFileUrl
 					this.ringtoneAudio.volume = this.storage.setting.ringtoneVolume / 100
+				},
+				gotoIndexPage(tab) {
+					uni.navigateTo({
+						url: '/pages/mobile/index?tab=' + tab
+					})
+				},
+				toastThenJump(msg, url, animationDuration = 1000) {
+					this.$u.toast(msg)
+					uni.navigateTo({
+						url,
+						animationDuration
+					})
+				},
+				toastThenJumpToIndex(msg, tab = 'single'){
+					this.$u.toast(msg)
+					setTimeout(()=>{
+						this.gotoIndexPage(tab)
+					},1000)
 				}
 			}
 		})

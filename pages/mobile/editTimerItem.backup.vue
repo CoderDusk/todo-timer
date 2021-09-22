@@ -1,29 +1,28 @@
 <template>
-	<!-- 新增计时器 -->
+	<!-- 编辑计时器 -->
 	<view class="editPage">
-		<!-- 主要界面中不显示的 时间选择器和错误提示框 -->
+		<!-- 页面中不显示的 时间选择器、错误提示 -->
 		<u-picker v-model="isPickerShow" mode="time" :params="pickerParams" default-time="00:00:00"
 			@confirm="confirmPicker"></u-picker>
 		<u-toast ref="toast" />
 
 		<!-- 计时器名称 -->
 		<view class="title">计时器名称</view>
-		<input type="text" placeholder="请输入计时器名称" class="inputTitle" placeholder-class="placeholder" v-model="title">
+		<input type="text" placeholder="请输入计时器名称" class="inputTitle" placeholder-class="placeholder"
+			v-model="storage.currentLoopTimer.timerList[index].title">
 
 		<!-- 计时器时长 -->
 		<view class="title timerDuration">计时器时长</view>
 		<u-button @click="isPickerShow = true" size="medium" type="primary" class="ringtoneButton" plain>
-			{{time === 0 ?'请设置计时器':$time.secondsToString(time)}}
+			{{storage.currentLoopTimer.timerList[index].time === 0 ?'请设置计时器':$time.secondsToString(storage.currentLoopTimer.timerList[index].time)}}
 		</u-button>
 
 		<!-- 底部按钮组 -->
 		<view class="bottomButtonGruop">
-			<navigator url="index">
-				<view class="button">
-					<u-icon name="close" size="50" color="red"></u-icon>
-				</view>
-			</navigator>
-			<view class="button" @click="addTimerItem">
+			<view class="button" @click="deleteTimerItem">
+				<u-icon name="trash" size="50" color="red"></u-icon>
+			</view>
+			<view class="button" @click="saveTimerItem">
 				<u-icon name="checkmark" size="50"></u-icon>
 			</view>
 		</view>
@@ -34,51 +33,51 @@
 	export default {
 		data() {
 			return {
-				// 标题
-				title: '',
-				// 时间
-				time: 0,
+				// 要编辑的计时器在临时循环计时器组中的索引号
+				index: null,
 			}
 		},
 		methods: {
 			// 确认时间选择器时触发的函数
 			confirmPicker(e) {
+				// 把时间选择器传回的结果转换成秒数
 				const time = this.$time.timerPickerResultToSeconds(e)
 				if (time !== 0) {
-					this.time = time
+					this.storage.currentLoopTimer.timerList[this.index].time = time
 				} else {
-					this.$u.toast('计时器时长不能为0')
+					this.$u.toast('请设置计时器的时间')
+				}
+
+			},
+			// 保存计时器
+			saveTimerItem() {
+				// 如果标题或时间为空,弹出错误提示
+				if (this.storage.currentLoopTimer.timerList[this.index].trim = '') {
+					this.$u.toast('计时器标题不能为空')
+				} else if (this.storage.currentLoopTimer.timerList[this.index].time === 0) {
+					this.$u.toast('请设置计时器的时长')
+				} else {
+					this.updateStorage()
+					this.$u.toast('保存成功')
+					this.gotoIndexPage('loop')
 				}
 			},
-			// 添加计时器
-			addTimerItem() {
-				// 如果标题或者时间为空，弹出错误提示
-				if (this.title.trim() === '') {
-					this.$u.toast('请设置计时器标题')
-					return
-				}
-				if (this.time === 0) {
-					this.$u.toast('请设置计时器时长')
-					return
-				}
-				if (this.title.trim() === '' || this.time === 0) {
-					this.$refs.toast.show({
-						title: '请设置所有项目',
-						type: 'error',
-						position: 'top'
-					})
-				} else {
-					this.storage.currentLoopTimer.timerList.push({
-						title: this.title,
-						time: this.time,
-						id: new Date().getTime()
-					})
-					this.$tools.updateLocalStorage(this.storage)
-					// 返回首页
-					uni.navigateTo({
-						url: 'index'
-					})
-				}
+			// 删除当前计时器
+			deleteTimerItem() {
+				this.storage.currentLoopTimer.timerList.splice(this.index, 1)
+				this.updateStorage()
+				this.storage.currentLoopTimer.timerList[this.index] = {}
+				this.$u.toast('删除成功')
+				this.gotoIndexPage('loop')
+			}
+		},
+		onLoad(e) {
+			// 从全局变量中获取当前要编辑的计时器在临时循环计时器组中的索引号
+			this.index = Number.parseInt(e.index)
+			// 如果索引号为空就返回首页并终止执行
+			if (!Number.isInteger(this.index) || this.index < 0) {
+				this.$u.toast('参数不正确')
+				this.gotoIndexPage('loop')
 			}
 		}
 	}
@@ -112,7 +111,9 @@
 		border-bottom: 1rpx solid black;
 		text-align: center;
 
+		// background-color: pink;
 		.placeholder {
+			// color: green;
 			text-align: center;
 		}
 
