@@ -37,7 +37,8 @@
 			<!-- 循环次数 -->
 			<view class="count">
 				<text>循环次数</text>
-				<u-number-box v-model="storage.currentLoopTimer.cycleTimes" :min="1" @change="countChange"></u-number-box>
+				<u-number-box v-model="storage.currentLoopTimer.cycleTimes" :min="1" @change="countChange">
+				</u-number-box>
 			</view>
 
 			<!-- 计时器列表按钮组 -->
@@ -103,36 +104,42 @@
 			// 前往编辑计时器页面,并且把当前要编辑项目的索引号保存到全局变量中
 			gotoEditPage(index) {
 				uni.navigateTo({
-					url: '../../pages/mobile/editTimerItem?timerID='+index
+					url: '../../pages/mobile/editTimerItem?index=' + index
 				})
 			},
-			deleteItem(index){
-				console.log(index)
-				// this.storage.currentLoopTimer.timerList.splice(index,1)
-				// this.updateStorage()
+			deleteItem(index) {
+				uni.showModal({
+					title: '提示',
+					content: '确认要删除这个计时器吗？',
+					success: (res) => {
+						if (res.confirm) {
+							this.storage.currentLoopTimer.timerList.splice(index, 1)
+							this.updateStorage()
+						}
+					}
+				})
+
 			},
 			// 保存计时器组
 			saveTimerGroup() {
 				// 如果计时器组标题为空,弹出错误警告
 				if (this.storage.currentLoopTimer.title.trim() == '') {
 					this.$u.toast('请输入计时器名称')
-				} else if(this.storage.currentLoopTimer.timerList.length === 0){
+				} else if (this.storage.currentLoopTimer.timerList.length === 0) {
 					this.$u.toast('计时器列表不能为空')
-				} else if(this.storage.currentLoopTimer.cycleTimes <= 0){
+				} else if (this.storage.currentLoopTimer.cycleTimes <= 0) {
 					this.$u.toast('循环次数请设置为正整数')
 				} else {
 					this.storage.savedLoopTimerList.push({
-						title:this.groupTitle,
-						list:this.storage.currentLoopTimer.timerList,
-						count:this.storage.currentLoopTimer.cycleTimes,
-						id:new Date().getTime()
+						title: this.storage.currentLoopTimer.title,
+						list: this.storage.currentLoopTimer.timerList,
+						count: this.storage.currentLoopTimer.cycleTimes,
+						id: new Date().getTime()
 					})
-					
-					// 把新的循环计时器组列表保存到本地存储
-					this.updateStorage()
-					
 					// 把循环计时器组标题变量重新设置为空
 					this.storage.currentLoopTimer.title = ''
+					// 把新的循环计时器组列表保存到本地存储
+					this.updateStorage()
 				}
 			},
 			// 开始循环计时器,跳转到循环计时器页面
@@ -145,9 +152,9 @@
 						position: 'top',
 						icon: false
 					})
-				}else if(this.storage.currentLoopTimer.cycleTimes <= 0){
+				} else if (this.storage.currentLoopTimer.cycleTimes <= 0) {
 					this.$u.toast('循环次数应当为一个正整数')
-				}else{
+				} else {
 					// 跳转到循环计时器页面
 					uni.navigateTo({
 						url: '../../pages/mobile/loopCountDown'

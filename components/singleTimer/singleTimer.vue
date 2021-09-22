@@ -39,14 +39,7 @@
 	export default {
 		data() {
 			return {
-				// 时间选择器是否显示的开关变量
-				isPickerShow: false,
-				// 时间选择器的参数
-				pickerParams: {
-					hour: true,
-					minute: true,
-					second: true
-				},
+				
 			};
 		},
 		methods: {

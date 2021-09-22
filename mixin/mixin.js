@@ -5,6 +5,14 @@ export default {
 				return {
 					storage:null,
 					ringtoneAudio:null,
+					// 时间选择器参数
+					pickerParams: {
+						hour: true,
+						minute: true,
+						second: true
+					},
+					// 时间选择器是否显示的开关变量
+					isPickerShow: false,
 				}
 			},
 			created() {

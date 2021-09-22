@@ -41,8 +41,6 @@
 				],
 				// 当前标签
 				currentTab: 0,				
-				// 是否显示计数器的设置弹出层
-				showSingleTimerSettingLayer: false,
 			}
 		},
 		methods: {
