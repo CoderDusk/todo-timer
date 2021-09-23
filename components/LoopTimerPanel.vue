@@ -8,10 +8,10 @@
 		</u-modal>
 
 		<!-- 循环计时器组件主体 -->
-		<view class="loopTimer">
+		<view class="main">
 
 			<!-- 循环计时器组为空的提示 -->
-			<view v-if="storage.currentLoopTimer.timerList == 0" class="noListTip">
+			<view v-if="storage.currentLoopTimer.timerList == 0" class="no-list-tip">
 				<text>循环计时器组为空，请按</text>
 				<navigator url="../../pages/mobile/editTimerItem?action=add">
 					<view class="button timerButton">
@@ -22,7 +22,7 @@
 			</view>
 
 			<!-- 计时器列表 -->
-			<scroll-view scroll-y="true" class="timerList">
+			<scroll-view scroll-y class="timerList">
 				<view class="loopTimerBox" v-for="(item,index) in storage.currentLoopTimer.timerList" :key="item.id"
 					@click="gotoEditPage(index)" @longpress="deleteItem(index)">
 					<view class="loopTimerTitle">
@@ -140,7 +140,7 @@
 		width: 400rpx;
 	}
 
-	.loopTimer {
+	.main {
 		height: 100%;
 		padding-top: 50rpx;
 		display: flex;
@@ -148,7 +148,7 @@
 		align-items: center;
 		width: 750rpx;
 
-		.noListTip {
+		.no-list-tip {
 			border: dashed gray;
 			width: 75%;
 			display: flex;

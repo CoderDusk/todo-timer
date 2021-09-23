@@ -1,20 +1,25 @@
 <template>
 	<!-- 新增计时器 -->
-	<view class="editPage">
+	<view class="main">
 		<!-- 主要界面中不显示的 时间选择器和错误提示框 -->
 		<u-picker v-model="isPickerShow" mode="time" :params="pickerParams" default-time="00:00:00"
 			@confirm="confirmPicker"></u-picker>
 		<u-toast ref="toast" />
 
-		<!-- 计时器名称 -->
-		<view class="title">计时器名称</view>
-		<input type="text" placeholder="请输入计时器名称" class="inputTitle" placeholder-class="placeholder" v-model="title">
+		<view class="panel">
+			<!-- 计时器名称 -->
+			<view class="title">计时器名称</view>
+			<input type="text" placeholder="请输入计时器名称" class="inputTitle" placeholder-class="placeholder"
+				v-model="title">
 
-		<!-- 计时器时长 -->
-		<view class="title timerDuration">计时器时长</view>
-		<u-button @click="isPickerShow = true" size="medium" type="primary" class="ringtoneButton" plain>
-			{{time === 0 ?'请设置计时器':$time.secondsToString(time)}}
-		</u-button>
+			<!-- 计时器时长 -->
+			<view class="title timerDuration">计时器时长</view>
+			<u-button @click="isPickerShow = true" size="medium" type="primary" class="ringtoneButton" plain>
+				{{time === 0 ?'请设置计时器':$time.secondsToString(time)}}
+			</u-button>
+		</view>
+
+
 
 		<!-- 底部按钮组 -->
 		<view class="bottomButtonGruop">
@@ -53,17 +58,17 @@
 					if (Number.isInteger(this.index) && this.index >= 0) {
 						this.getEditingItem()
 					} else {
-						this.toastThenJumpToIndex('index必须是正整数','loop')
+						this.toastThenJumpToIndex('index必须是正整数', 'loop')
 					}
 				}
 			} else {
-				this.toastThenJumpToIndex('action不能为空','loop')
+				this.toastThenJumpToIndex('action不能为空', 'loop')
 			}
 		},
 		methods: {
 			getEditingItem() {
 				if (this.storage.currentLoopTimer.timerList[this.index] == null) {
-					this.toastThenJumpToIndex('找不到该项','loop')
+					this.toastThenJumpToIndex('找不到该项', 'loop')
 				} else {
 					this.title = this.storage.currentLoopTimer.timerList[this.index].title
 					this.time = this.storage.currentLoopTimer.timerList[this.index].time
@@ -104,75 +109,81 @@
 					}
 					this.updateStorage()
 					// 返回首页
-					this.toastThenJumpToIndex('保存成功','loop')
+					this.toastThenJumpToIndex('保存成功', 'loop')
 				}
 			},
 			// 删除当前计时器
 			deleteTimerItem() {
 				this.storage.currentLoopTimer.timerList.splice(this.index, 1)
 				this.updateStorage()
-				this.toastThenJumpToIndex('删除成功','loop')
+				this.toastThenJumpToIndex('删除成功', 'loop')
 			}
 		}
 	}
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 	page {
 		height: 100%;
 	}
 
-	.editPage {
+	.main {
 		height: 100%;
 		display: flex;
 		flex-direction: column;
-		// justify-content: center;
-		align-items: center;
-		padding-top: 45%;
-	}
+		justify-content: space-between;
+		box-sizing: border-box;
+		// padding-bottom: 40px;
+		padding: 60px 0 40px 0;
 
-	.title {
-		font-size: 40rpx;
-	}
+		.panel {
+			width: 750rpx;
+			justify-self: start;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
 
-	.timerDuration {
-		margin-top: 50rpx;
-	}
+			.title {
+				font-size: 40rpx;
+			}
 
-	.inputTitle {
-		margin: 25rpx 0;
-		font-size: 40rpx;
-		border-bottom: 1rpx solid black;
-		text-align: center;
+			.timerDuration {
+				margin-top: 50rpx;
+			}
 
-		.placeholder {
-			text-align: center;
+			.inputTitle {
+				margin: 25rpx 0;
+				font-size: 40rpx;
+				border-bottom: 1rpx solid black;
+				text-align: center;
+
+				.placeholder {
+					text-align: center;
+				}
+			}
+
+			.ringtoneButton {
+				font-size: 35rpx;
+				margin: 30rpx;
+			}
+
+			.saveButton {
+				border: 1px solid #F1F1F1;
+				width: 90rpx;
+				height: 90rpx;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				border-radius: 50%;
+				color: rgb(34, 131, 246);
+				box-shadow: 0 7rpx 10rpx rgba(0, 0, 0, 0.19);
+				margin-top: 150rpx;
+			}
 		}
-
-	}
-
-	.ringtoneButton {
-		font-size: 35rpx;
-		margin: 30rpx;
-	}
-
-	.saveButton {
-		border: 1px solid #F1F1F1;
-		width: 90rpx;
-		height: 90rpx;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		border-radius: 50%;
-		color: rgb(34, 131, 246);
-		box-shadow: 0 7rpx 10rpx rgba(0, 0, 0, 0.19);
-		margin-top: 150rpx;
 	}
 
 	.bottomButtonGruop {
 		width: 750rpx;
-		bottom: 10%;
-		position: absolute;
 		display: flex;
 		justify-content: space-around;
 

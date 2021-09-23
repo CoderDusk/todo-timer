@@ -1,32 +1,28 @@
 <template>
 	<!-- 首页 -->
 	<view class="main">
+		<!-- 标签组 -->
+		<view class="tab">
+			<u-tabs-swiper ref="uTabs" :list="tabName" :current="currentTab" @change="tabsChange"
+				:is-scroll="false" :show-bar="false" font-size="45" gutter="10" class="swiperTab">
+			</u-tabs-swiper>
+		</view>
+		<!-- 标签组结束 -->
 		<!-- 滑动组件 -->
 		<swiper :current="currentTab" @change="swiperChange" class="swiper">
+			
 			<!-- 第一个滑动组件页面 单次计时器 -->
 			<swiper-item class="swiperPage">
 				<view class="main">
-					<!-- 标签组 -->
-					<view class="tab">
-						<u-tabs-swiper ref="uTabs" :list="tabName" :current="currentTab" @change="tabsChange"
-							:is-scroll="false" :show-bar="false" font-size="45" gutter="10" class="swiperTab">
-						</u-tabs-swiper>
-					</view>
-					<!-- 标签组结束 -->
-					<SingleTimerPanel class="panel"></SingleTimerPanel>
-					<SingleTimerButtons class="bottom-buttons"></SingleTimerButtons>
+					<SingleTimerPanel class="panel single-timer-panel"></SingleTimerPanel>
+					<SingleTimerButtons class="bottom-buttons single-timer-buttons"></SingleTimerButtons>
 				</view>
 			</swiper-item>
 			<!-- 单次计时器结束 -->
 			<!-- 循环计时器 -->
 			<swiper-item class="swiperPage">
 				<view class="main">
-					<!-- 标签组 -->
-					<u-tabs-swiper ref="uTabs" :list="tabName" :current="currentTab" @change="tabsChange" :is-scroll="false"
-						:show-bar="false" font-size="45" gutter="10" class="swiperTab">
-					</u-tabs-swiper>
-					<!-- 标签组结束 -->
-					<LoopTimerPanel class="panel"></LoopTimerPanel>
+					<LoopTimerPanel class="panel loop-timer-panel"></LoopTimerPanel>
 					<LoopTimerButtons class="bottom-buttons"></LoopTimerButtons>
 				</view>
 			</swiper-item>
@@ -92,12 +88,16 @@
 		box-sizing: border-box;
 		padding: 15px 0 25px 0;
 	}
-
+	
+	.swiper {
+		height: 100%;
+	}
+	
 	.panel {
 		align-self: center;
 	}
-
-	.swiper {
-		height: 100%;
+	
+	.single-timer-panel{
+		margin-top: 40px;
 	}
 </style>

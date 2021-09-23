@@ -1,16 +1,18 @@
 <!-- 设置页面 -->
 <template>
-	<view class="settingPage">
-		<!-- 音量设置 -->
-		<view class="title">音量设置</view>
-		<u-slider v-model="storage.setting.ringtoneVolume" class="volumeSlider" @end="volumeSliderEnd"></u-slider>
-		<!-- 铃声设置 -->
-		<view class="title">铃声设置</view>
-		<u-select v-model="showRingtoneSetting" :list="ringtoneList" @confirm="confirmRingtone"></u-select>
-		<u-button @click="showRingtoneSetting = true" size="medium" type="primary" class="ringtoneButton" plain>{{storage.setting.ringtoneName}}</u-button>
+	<view class="main">
+		<view class="panel">
+			<!-- 音量设置 -->
+			<view class="title">音量设置</view>
+			<u-slider v-model="storage.setting.ringtoneVolume" class="volumeSlider" @end="volumeSliderEnd"></u-slider>
+			<!-- 铃声设置 -->
+			<view class="title">铃声设置</view>
+			<u-select v-model="showRingtoneSetting" :list="ringtoneList" @confirm="confirmRingtone"></u-select>
+			<u-button @click="showRingtoneSetting = true" size="medium" type="primary" class="ringtoneButton" plain>{{storage.setting.ringtoneName}}</u-button>
+		</view>
 		
 		<!-- 保存按钮 -->
-		<view class="saveButton" @click="saveSetting">
+		<view class="save-button" @click="saveSetting">
 			<u-icon name="checkmark" size="50"></u-icon>
 		</view>
 	</view>
@@ -89,34 +91,37 @@
 </script>
 
 <style lang="less" scoped>
-	page {
-		height: 100%;
-	}
-
-	.settingPage {
+	.main {
 		height: 100%;
 		display: flex;
 		flex-direction: column;
+		justify-content: space-around;
 		align-items: center;
-		padding-top: 45% ;
 	}
 	
-	.title{
-		font-size: 40rpx;
+	.panel{
+		width:100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		
+		.title{
+			font-size: 40rpx;
+		}
+		
+		.volumeSlider{
+			width: 70%;
+			margin-top: 40rpx;
+			margin-bottom: 60rpx;
+		}
+		
+		.ringtoneButton{
+			font-size: 35rpx;
+			margin: 30rpx;
+		}
 	}
 	
-	.volumeSlider{
-		width: 70%;
-		margin-top: 40rpx;
-		margin-bottom: 60rpx;
-	}
-	
-	.ringtoneButton{
-		font-size: 35rpx;
-		margin: 30rpx;
-	}
-	
-	.saveButton {
+	.save-button {
 		border: 1px solid #F1F1F1;
 		width: 90rpx;
 		height: 90rpx;

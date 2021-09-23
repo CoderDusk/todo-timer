@@ -54,9 +54,19 @@
 <style lang="scss">
 	.bottomButtonGruop {
 		width: 750rpx;
-		bottom: 10%;
-		position: absolute;
 		display: flex;
 		justify-content: space-around;
+	}
+	
+	.button {
+		border: 1px solid #F1F1F1;
+		width: 90rpx;
+		height: 90rpx;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border-radius: 50%;
+		color: rgb(34, 131, 246);
+		box-shadow: 0 7rpx 10rpx rgba(0, 0, 0, 0.19);
 	}
 </style>

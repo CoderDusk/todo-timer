@@ -96,7 +96,7 @@
 		display: flex;
 		justify-content: space-around;
 		margin-top: 150rpx;
-		bottom: 10%;
+		bottom: 5%;
 		position: absolute;
 
 		.button {

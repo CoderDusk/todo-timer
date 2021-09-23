@@ -1,7 +1,7 @@
 <template>
 	<!-- 循环计时器页面 -->
-	<view>
-		<view class="main">
+	<view class="main">
+		<view class="panel">
 			<!-- 倒计时组件，页面不可见 -->
 			<u-count-down :timestamp="countDownTime" style="display: none;" @change="change" @end="end" ref="countDown">
 			</u-count-down>
@@ -77,18 +77,18 @@
 				countDownTime: 0,
 
 				// 当前步骤信息
-				currentStep:{
-					index:0,
-					leftTime:0,
-					title:'',
-					leftStep:0,
+				currentStep: {
+					index: 0,
+					leftTime: 0,
+					title: '',
+					leftStep: 0,
 				},
 
 				// 下一步骤信息
-				nextStep:{
-					index:0,
-					title:0,
-					time:0
+				nextStep: {
+					index: 0,
+					title: 0,
+					time: 0
 				},
 
 				// 暂停功能相关变量
@@ -117,12 +117,12 @@
 				this.nextStep.title = this.timerList[this.nextStep.index].title
 			},
 			// 更新页面信息
-			updatePageInfo(){
+			updatePageInfo() {
 				this.updateCurrentInfo()
 				this.updateNextInfo()
 			},
 			updateLeftStep() {
-				this.currentStep.leftStep --
+				this.currentStep.leftStep--
 
 				if (this.currentStep.leftStep < 0) {
 					this.countDownTime = 0
@@ -172,7 +172,7 @@
 				// 剩余时间为5秒的时候播放铃声
 				if (countDownTime <= 5 && countDownTime >= 0 && this.ringtoneAudio.paused) {
 					this.ringtoneAudio.play()
-				}else if(countDownTime <= 0){
+				} else if (countDownTime <= 0) {
 					this.ringtoneAudio.stop()
 				}
 			},
@@ -192,9 +192,9 @@
 			const cycleTimes = this.storage.currentLoopTimer.cycleTimes
 
 			if (this.timerList.length === 0) {
-				this.toastThenJumpToIndex('计时器列表不能为空','loop')
+				this.toastThenJumpToIndex('计时器列表不能为空', 'loop')
 			} else if (cycleTimes <= 0) {
-				this.toastThenJumpToIndex('循环次数必须是正整数','loop')
+				this.toastThenJumpToIndex('循环次数必须是正整数', 'loop')
 			} else {
 				// 剩余步骤次数 = 计时器组列表长度 * 循环次数 - 1
 				this.currentStep.leftStep = this.timerList.length * cycleTimes - 1
@@ -207,11 +207,49 @@
 	}
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 	.main {
+		background-color: pink;
+	}
+
+	.panel {
 		position: absolute;
 		top: 15%;
 		width: 100%;
+
+		.loopTimerLeftTimeText {
+			font-size: 150rpx;
+			width: 100%;
+			display: flex;
+			justify-content: center;
+		}
+
+		.nextTimerInfo {
+			display: flex;
+			justify-content: space-around;
+			margin-top: 50rpx;
+
+			.infoBox {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+
+				.info {
+					font-size: 60rpx;
+				}
+
+				.description {
+					font-size: 30rpx;
+					color: gray;
+				}
+			}
+		}
+
+		.currentTitle {
+			text-align: center;
+			font-size: 75rpx;
+			color: gray;
+		}
 	}
 
 	.buttonGroup {
@@ -219,7 +257,7 @@
 		display: flex;
 		justify-content: space-around;
 		margin-top: 150rpx;
-		bottom: 10%;
+		bottom: 5%;
 		position: absolute;
 
 		.button {
@@ -233,39 +271,5 @@
 			color: rgb(34, 131, 246);
 			box-shadow: 0 7rpx 10rpx rgba(0, 0, 0, 0.19);
 		}
-	}
-
-	.loopTimerLeftTimeText {
-		font-size: 150rpx;
-		width: 100%;
-		display: flex;
-		justify-content: center;
-	}
-
-	.nextTimerInfo {
-		display: flex;
-		justify-content: space-around;
-		margin-top: 50rpx;
-
-		.infoBox {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-
-			.info {
-				font-size: 60rpx;
-			}
-
-			.description {
-				font-size: 30rpx;
-				color: gray;
-			}
-		}
-	}
-
-	.currentTitle {
-		text-align: center;
-		font-size: 75rpx;
-		color: gray;
 	}
 </style>
