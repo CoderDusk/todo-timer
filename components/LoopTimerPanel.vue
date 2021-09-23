@@ -51,7 +51,6 @@
 						<u-icon name="plus" size="50" color="white"></u-icon>
 					</view>
 				</navigator>
-
 			</view>
 		</view>
 	</view>
@@ -135,7 +134,7 @@
 	}
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 	.warningToast {
 		font-size: 40rpx;
 		width: 400rpx;
