@@ -161,11 +161,7 @@
 			goNextStep() {
 				// 索引号 + 1
 				this.currentStep.index = this.next(this.currentStep.index)
-				// 更新当前步骤信息
-				this.updateCurrentInfo()
-				// 更新下个步骤信息
-				this.updateNextInfo()
-				// 更新剩余步骤
+				this.updatePageInfo()
 				this.updateLeftStep()
 				this.ringtoneAudio.stop()
 			},
