@@ -48,9 +48,7 @@
 			goback() {
 				this.$refs.singleTimer.stopCountdown()
 				this.ringtoneAudio.stop()
-				uni.navigateTo({
-					url: 'index'
-				})
+				this.gotoIndexPage('loop')
 			},
 			// 继续
 			continueTimer () {
@@ -80,10 +78,7 @@
 		created() {
 			// 如果时间小于1就退回首页
 			if (this.storage.currentSingleTimer < 1) {
-				this.$u.toast('请先设置计时器')
-				uni.navigateTo({
-					url: 'index'
-				})
+				this.toastThenJumpToIndex('请先设置计时器','loop')
 			}
 			
 			this.createRingtoneAudio()

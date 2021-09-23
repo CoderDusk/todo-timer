@@ -13,7 +13,7 @@
 			<!-- 循环计时器组为空的提示 -->
 			<view v-if="storage.currentLoopTimer.timerList == 0" class="noListTip">
 				<text>循环计时器组为空，请按</text>
-				<navigator url="../../pages/mobile/addTimerItem">
+				<navigator url="../../pages/mobile/editTimerItem?action=add">
 					<view class="button timerButton">
 						<u-icon name="plus" size="27" color="white"></u-icon>
 					</view>
@@ -53,34 +53,12 @@
 				</navigator>
 
 			</view>
-
-			<!-- 底部按钮组 -->
-			<view class="bottomButtonGruop">
-				<navigator url="../../pages/mobile/loopTimerGroupList">
-					<view class="button">
-						<u-icon name="list-dot" size="50"></u-icon>
-					</view>
-				</navigator>
-
-				<view class="button" @click="startLoopTimer">
-					<u-icon name="play-right-fill" size="50"></u-icon>
-				</view>
-
-				<navigator url="../../pages/mobile/setting">
-					<view class="button">
-						<u-icon name="volume-up-fill" size="50"></u-icon>
-					</view>
-				</navigator>
-
-			</view>
 		</view>
 	</view>
 </template>
 
 <script>
-	// import Mixin from '@/mixin/mixin.js'
 	export default {
-		// mixins:[Mixin],
 		data() {
 			return {
 				// 是否显示保存计时器组模态框的开关变量
@@ -145,25 +123,7 @@
 					this.updateStorage()
 				}
 			},
-			// 开始循环计时器,跳转到循环计时器页面
-			startLoopTimer() {
-				// 如果循环计时器组为空就弹出警告
-				if (this.storage.currentLoopTimer.timerList.length == 0) {
-					this.$refs.warningToast.show({
-						title: '计时器组至少需要一个计时器',
-						type: 'error',
-						position: 'top',
-						icon: false
-					})
-				} else if (this.storage.currentLoopTimer.cycleTimes <= 0) {
-					this.$u.toast('循环次数应当为一个正整数')
-				} else {
-					// 跳转到循环计时器页面
-					uni.navigateTo({
-						url: '../../pages/mobile/loopCountDown'
-					})
-				}
-			},
+			
 			// 当循环次数变更时触发的函数
 			countChange(e) {
 				// 把当前值更新到循环计时器组的循环次数
@@ -250,13 +210,7 @@
 			}
 		}
 
-		.bottomButtonGruop {
-			width: 750rpx;
-			bottom: 10%;
-			position: absolute;
-			display: flex;
-			justify-content: space-around;
-		}
+		
 	}
 
 	.button {

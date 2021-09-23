@@ -59,7 +59,7 @@ export default {
 					this.$u.toast(msg)
 					setTimeout(()=>{
 						this.gotoIndexPage(tab)
-					},1000)
+					},500)
 				}
 			}
 		})

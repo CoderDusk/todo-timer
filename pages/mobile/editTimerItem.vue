@@ -53,28 +53,17 @@
 					if (Number.isInteger(this.index) && this.index >= 0) {
 						this.getEditingItem()
 					} else {
-						this.$u.toast('参数有误')
-						this.gotoIndexPage('loop')
+						this.toastThenJumpToIndex('index必须是正整数','loop')
 					}
 				}
 			} else {
-				this.gotoIndexPage('loop')
+				this.toastThenJumpToIndex('action不能为空','loop')
 			}
 		},
 		methods: {
 			getEditingItem() {
-				this.index = 9999
-				if (this.storage.currentLoopTimer[this.index] == null) {
-					// this.$u.toast('没有找到这个计时器项目，请检查参数是否有误')
-					// uni.showToast({
-					// 	title:'没有找到这个计时器项目，请检查参数是否有误',
-					// 	icon:'none',
-					// 	duration: 2000,
-					// 	success:() =>{
-					// 		this.gotoIndexPage('loop')
-					// 	}
-					// })
-					this.toastThenJumpToIndex('没有找到这个计时器项目，请检查参数是否有误','loop')
+				if (this.storage.currentLoopTimer.timerList[this.index] == null) {
+					this.toastThenJumpToIndex('找不到该项','loop')
 				} else {
 					this.title = this.storage.currentLoopTimer.timerList[this.index].title
 					this.time = this.storage.currentLoopTimer.timerList[this.index].time
@@ -115,16 +104,14 @@
 					}
 					this.updateStorage()
 					// 返回首页
-					this.gotoIndexPage('loop')
+					this.toastThenJumpToIndex('保存成功','loop')
 				}
 			},
 			// 删除当前计时器
 			deleteTimerItem() {
 				this.storage.currentLoopTimer.timerList.splice(this.index, 1)
 				this.updateStorage()
-				// this.storage.currentLoopTimer.timerList[this.index] = {}
-				this.$u.toast('删除成功')
-				this.gotoIndexPage('loop')
+				this.toastThenJumpToIndex('删除成功','loop')
 			}
 		}
 	}

@@ -34,9 +34,7 @@
 				// 停止铃声
 				this.ringtoneAudio.stop()
 				// 返回首页
-				uni.navigateTo({
-					url:'index'
-				})				
+				this.toastThenJumpToIndex('保存成功','loop')			
 			},
 			// 确认铃声选择
 			confirmRingtone(e){

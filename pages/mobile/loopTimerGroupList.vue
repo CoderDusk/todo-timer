@@ -31,6 +31,7 @@
 			remove(index) {
 				this.storage.savedLoopTimerList.splice(index, 1)
 				this.updateStorage()
+				this.toastThenJumpToIndex('删除成功','loop')
 			},
 			// 选择计时器组并把它设置为临时循环计时器组
 			chooseTimerGroup(item) {
@@ -40,7 +41,7 @@
 					timerList: item.list,
 				}
 				this.updateStorage()
-				this.gotoIndexPage('loop')
+				this.toastThenJumpToIndex('选择成功','loop')
 			}
 		},
 	}

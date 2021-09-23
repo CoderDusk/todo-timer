@@ -58,8 +58,7 @@
 					this.$u.toast('请设置计时器的时长')
 				} else {
 					this.updateStorage()
-					this.$u.toast('保存成功')
-					this.gotoIndexPage('loop')
+					this.toastThenJumpToIndex('保存成功')
 				}
 			},
 			// 删除当前计时器
@@ -67,8 +66,7 @@
 				this.storage.currentLoopTimer.timerList.splice(this.index, 1)
 				this.updateStorage()
 				this.storage.currentLoopTimer.timerList[this.index] = {}
-				this.$u.toast('删除成功')
-				this.gotoIndexPage('loop')
+				this.toastThenJumpToIndex('删除成功')
 			}
 		},
 		onLoad(e) {
@@ -76,8 +74,7 @@
 			this.index = Number.parseInt(e.index)
 			// 如果索引号为空就返回首页并终止执行
 			if (!Number.isInteger(this.index) || this.index < 0) {
-				this.$u.toast('参数不正确')
-				this.gotoIndexPage('loop')
+				this.toastThenJumpToIndex('index必须是非负整数')
 			}
 		}
 	}

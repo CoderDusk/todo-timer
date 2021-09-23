@@ -66,14 +66,13 @@
 			remove(index) {
 				this.storage.savedSingleTimerList.splice(index, 1)
 				this.updateStorage()
+				this.toastThenJumpToIndex('删除成功','loop')
 			},
 			// 选择计时器并将其设置为临时单次计时器
 			chooseTimer(time) {
 				this.storage.currentSingleTimer = time
 				this.updateStorage()
-				uni.navigateTo({
-					url: 'index'
-				})
+				this.toastThenJumpToIndex('设置成功','loop')
 			}
 		},
 	}

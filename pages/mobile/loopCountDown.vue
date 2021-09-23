@@ -116,6 +116,11 @@
 				this.nextStep.time = this.$time.secondsToString(this.timerList[this.nextStep.index].time)
 				this.nextStep.title = this.timerList[this.nextStep.index].title
 			},
+			// 更新页面信息
+			updatePageInfo(){
+				this.updateCurrentInfo()
+				this.updateNextInfo()
+			},
 			updateLeftStep() {
 				this.currentStep.leftStep --
 
@@ -181,11 +186,7 @@
 				this.ringtoneAudio.stop()
 				// 当前索引号 + 1
 				this.currentStep.index = this.next(this.currentStep.index)
-				// 更新当前步骤信息
-				this.updateCurrentInfo()
-				// 更新下个步骤信息
-				this.updateNextInfo()
-				// 更新剩余步骤
+				this.updatePageInfo()
 				this.updateLeftStep()
 			}
 		},
@@ -195,20 +196,14 @@
 			const cycleTimes = this.storage.currentLoopTimer.cycleTimes
 
 			if (this.timerList.length === 0) {
-				this.$u.toast('计时器列表不能为空')
-				this.gotoIndexPage('loop')
+				this.toastThenJumpToIndex('计时器列表不能为空','loop')
 			} else if (cycleTimes <= 0) {
-				this.$u.toast('循环次数必须是正整数')
-				this.gotoIndexPage('loop')
+				this.toastThenJumpToIndex('循环次数必须是正整数','loop')
 			} else {
 				// 剩余步骤次数 = 计时器组列表长度 * 循环次数 - 1
 				this.currentStep.leftStep = this.timerList.length * cycleTimes - 1
-				// 创建铃声音频对象
 				this.createRingtoneAudio()
-				// 更新当前步骤信息
-				this.updateCurrentInfo()
-				// 更新下个步骤信息
-				this.updateNextInfo()
+				this.updatePageInfo()
 			}
 
 
