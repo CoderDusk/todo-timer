@@ -3,9 +3,11 @@
 	<view class="listPage">
 		<!-- 计时器列表 -->
 		<scroll-view scroll-y="true" class="timerList">
-			<view class="timer" v-for="(item,index) in computedList" :key="index" @click="chooseTimer(index)">
-				<text class="time">{{item}}</text>
-				<u-icon name="trash" color="red" size="40" class="deleteIcon" @click="remove(index)"></u-icon>
+			<view class="timer" v-for="(item,index) in storage.savedSingleTimerList" :key="index" @click="chooseTimer(item)">
+				<text class="time">{{$time.secondsToString(item)}}</text>
+				<span @click.stop="remove(index)">
+					<u-icon name="trash" color="red" size="40" class="deleteIcon" ></u-icon>
+				</span>
 			</view>
 		</scroll-view>
 
@@ -30,10 +32,6 @@
 	export default {
 		data() {
 			return {
-				// 计时器列表
-				timerList: [],
-				// 计算后用于显示的列表
-				computedList: [],
 				// 是否显示时间选择器
 				isPickerShow: false,
 				// 时间选择器参数
@@ -47,61 +45,36 @@
 		methods: {
 			// 确认时间选择器时触发的函数
 			confirmPicker(e) {
+				const time = this.$time.timerPickerResultToSeconds(e)
 				// 如果返回的时间不为空进行接下来的流程
-				if (e.hour * 1 + e.minute * 1 + e.second * 1 !== 0) {
+				if (time !== 0) {
 					// 把新计时器追加到计时器列表
-					this.timerList.push(parseInt(e.hour * 3600 + e.minute * 60 + e.second * 1))
-					// 新计时器排序
-					this.timerList = Array.from(new Set(this.timerList))
-					// 把新计时器保存到本地存储
-					uni.setStorage({
-						key: 'singleTimerList',
-						data: this.timerList
+					this.storage.savedSingleTimerList.push(time)
+					// 去重
+					this.storage.savedSingleTimerList = Array.from(new Set(this.storage.savedSingleTimerList))
+					// 排序
+					this.storage.savedSingleTimerList = this.storage.savedSingleTimerList.sort((a,b)=>{
+						return a-b
 					})
-
-					this.updateComputedList()
+					// 把新计时器保存到本地存储
+					this.updateStorage()
+				}else{
+					this.$u.toast('请设置正确的时长')
 				}
-			},
-			updateComputedList() {
-				// 排序
-				let sortedList = this.timerList.sort(function(a, b) {
-					return a - b
-				})
-				// 把秒数转换成时分秒的字符串
-				let newList = []
-				for (let i = 0; i < sortedList.length; i++) {
-					newList.push(this.mytime.secondsToString(sortedList[i]))
-				}
-
-				this.computedList = newList
 			},
 			// 删除计时器
 			remove(index) {
-				this.timerList.splice(0, 1)
-				uni.setStorage({
-					key: 'singleTimerList',
-					data: this.timerList
-				})
+				this.storage.savedSingleTimerList.splice(index, 1)
+				this.updateStorage()
+				this.toastThenJumpToIndex('删除成功','loop')
 			},
 			// 选择计时器并将其设置为临时单次计时器
-			chooseTimer(index) {
-				uni.setStorage({
-					key: 'tempSingleTimer',
-					data: this.timerList[index]
-				})
-				uni.navigateTo({
-					url: 'index'
-				})
+			chooseTimer(time) {
+				this.storage.currentSingleTimer = time
+				this.updateStorage()
+				this.toastThenJumpToIndex('设置成功','loop')
 			}
 		},
-		onLoad() {
-			// 获取本地存储中的已保存的单次计时器列表
-			this.timerList = uni.getStorageSync('singleTimerList');
-			if (this.timerList == '') {
-				this.timerList = []
-			}
-			this.updateComputedList()
-		}
 	}
 </script>
 
@@ -147,7 +120,7 @@
 		display: flex;
 		justify-content: space-around;
 		margin-top: 150rpx;
-		bottom: 10%;
+		bottom: 5%;
 		position: absolute;
 
 		.button {

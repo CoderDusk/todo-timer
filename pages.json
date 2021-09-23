@@ -3,7 +3,7 @@
 		{
 			"path": "pages/mobile/index",
 			"style": {
-				"navigationBarTitleText": "土豆计时器",
+				"navigationBarTitleText": "循环计时器 2",
 				"navigationStyle":"custom"
 			}
 		}
@@ -30,15 +30,6 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "编辑计时器",
-                "navigationStyle":"custom"
-            }
-            
-        }
-        ,{
-            "path" : "pages/mobile/addTimerItem",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "新增计时器项目",
                 "navigationStyle":"custom"
             }
             
@@ -73,7 +64,7 @@
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "循环计时器2",
+		"navigationBarTitleText": "循环计时器 2",
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8",
 		"disableScroll":true

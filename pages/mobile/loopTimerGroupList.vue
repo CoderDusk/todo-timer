@@ -3,19 +3,20 @@
 	<view class="listPage">
 		<!-- 计时器列表 -->
 		<scroll-view scroll-y="true" class="timerList">
-			<view class="timer" v-for="(item,index) in loopTimerGroupList" :key="index" @click="chooseTimerGroup(index)">
+			<view class="timer" v-for="(item,index) in storage.savedLoopTimerList" :key="item.id"
+				@click="chooseTimerGroup(item)">
 				<text class="time">{{item.title}}</text>
-				<u-icon name="trash" color="red" size="40" class="deleteIcon" @click="remove(index)"></u-icon>
+				<span @click.stop="remove(index)">
+					<u-icon name="trash" color="red" size="40" class="deleteIcon"></u-icon>
+				</span>
 			</view>
 		</scroll-view>
 
 		<!-- 底部按钮组 -->
 		<view class="buttonGroup">
-			<navigator url="index">
-				<view class="button">
-					<u-icon name="checkmark" size="50"></u-icon>
-				</view>
-			</navigator>			
+			<view class="button" @click="gotoIndexPage('loop')">
+				<u-icon name="checkmark" size="50"></u-icon>
+			</view>
 		</view>
 	</view>
 </template>
@@ -23,38 +24,26 @@
 <script>
 	export default {
 		data() {
-			return {
-				// 循环计时器组列表
-				loopTimerGroupList:null
-			}
+			return {}
 		},
 		methods: {
 			// 删除计时器组
-			remove(index){
-				this.loopTimerGroupList.splice(0,1)
-				uni.setStorage({
-					key: 'loopTimerGroupList',
-					data: this.loopTimerGroupList
-				})
+			remove(index) {
+				this.storage.savedLoopTimerList.splice(index, 1)
+				this.updateStorage()
+				this.toastThenJumpToIndex('删除成功','loop')
 			},
 			// 选择计时器组并把它设置为临时循环计时器组
-			chooseTimerGroup(index){
-				uni.setStorage({
-					key:'tempLoopTimerGroup',
-					data:{
-						timerList:this.loopTimerGroupList[index].timerGroup,
-						count:this.loopTimerGroupList[index].count
-					}
-				})
-				uni.navigateTo({
-					url:'index'
-				})
+			chooseTimerGroup(item) {
+				this.storage.currentLoopTimer = {
+					title: item.title,
+					cycleTimes: item.count,
+					timerList: item.list,
+				}
+				this.updateStorage()
+				this.toastThenJumpToIndex('选择成功','loop')
 			}
 		},
-		onLoad() {
-			// 从本地存储中获取循环计时器组列表啊
-			this.loopTimerGroupList = uni.getStorageSync('loopTimerGroupList')
-		}
 	}
 </script>
 
@@ -100,7 +89,7 @@
 		display: flex;
 		justify-content: space-around;
 		margin-top: 150rpx;
-		bottom: 10%;
+		bottom: 5%;
 		position: absolute;
 
 		.button {
