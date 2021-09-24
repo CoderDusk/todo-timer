@@ -14,6 +14,7 @@
 			<!-- 第一个滑动组件页面 单次计时器 -->
 			<swiper-item class="swiperPage">
 				<view class="main">
+					<view></view>
 					<SingleTimerPanel class="panel single-timer-panel"></SingleTimerPanel>
 					<SingleTimerButtons class="bottom-buttons single-timer-buttons"></SingleTimerButtons>
 				</view>
@@ -86,7 +87,7 @@
 		flex-direction: column;
 		justify-content: space-between;
 		box-sizing: border-box;
-		padding: 15px 0 25px 0;
+		// padding: 15px 0 25px 0;
 	}
 	
 	.swiper {
@@ -99,5 +100,9 @@
 	
 	.single-timer-panel{
 		margin-top: 40px;
+	}
+	
+	.bottom-buttons{
+		margin-bottom: 40px;
 	}
 </style>

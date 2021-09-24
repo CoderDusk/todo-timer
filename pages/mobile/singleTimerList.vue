@@ -1,19 +1,17 @@
 <template>
 	<!-- 已保存的单次计时器列表页面 -->
-	<view class="listPage">
+	<view class="main">
 		<!-- 计时器列表 -->
-		<scroll-view scroll-y="true" class="timerList">
-			<view class="timer" v-for="(item,index) in storage.savedSingleTimerList" :key="index" @click="chooseTimer(item)">
-				<text class="time">{{$time.secondsToString(item)}}</text>
-				<span @click.stop="remove(index)">
-					<u-icon name="trash" color="red" size="40" class="deleteIcon" ></u-icon>
-				</span>
-			</view>
-		</scroll-view>
-
-		<!-- 时间选择器 -->
-		<u-picker v-model="isPickerShow" mode="time" :params="pickerParams" default-time="00:00:00" @confirm="confirmPicker"></u-picker>
-
+		<div class="timer-list">
+			<scroll-view scroll-y>
+				<view class="timer" v-for="(item,index) in storage.savedSingleTimerList" :key="index" @click="chooseTimer(item)">
+					<text class="time">{{$time.secondsToString(item)}}</text>
+					<span @click.stop="remove(index)">
+						<u-icon name="trash" color="red" size="40" class="deleteIcon" ></u-icon>
+					</span>
+				</view>
+			</scroll-view>
+		</div>
 		<!-- 底部按钮组 -->
 		<view class="buttonGroup">
 			<view class="button" @click="isPickerShow = true">
@@ -25,6 +23,10 @@
 				</view>
 			</navigator>
 		</view>
+		
+		<!-- 不在页面上显示的组件 -->
+		<!-- 时间选择器 -->
+		<u-picker v-model="isPickerShow" mode="time" :params="pickerParams" default-time="00:00:00" @confirm="confirmPicker"></u-picker>
 	</view>
 </template>
 
@@ -79,49 +81,46 @@
 </script>
 
 <style lang="less" scoped>
-	page {
+	.main {
 		height: 100%;
-	}
-
-	.listPage {
-		height: 100%;
+		width: 100%;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-	}
-
-	.timerList {
-		margin-top: 70rpx;
-		height: 800rpx;
-	}
-
-	.timer {
-		display: flex;
-		align-items: center;
 		justify-content: space-between;
-		width: 650rpx;
-		height: 100rpx;
-		margin: 0 50rpx 40rpx 50rpx;
-		box-shadow: 0 7rpx 10rpx rgba(0, 0, 0, 0.19);
+		padding-bottom:40px;
+		box-sizing: border-box;
+	}
 
-		.time {
-			padding-left: 80rpx;
-			font-size: 40rpx;
-			font-weight: bold;
-		}
-
-		.deleteIcon {
-			padding-right: 50rpx;
+	.timer-list{
+		width: 85%;
+		.timer {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			height: 50px;
+			margin: 15px;
+			box-shadow: 0 3px 5px rgba(0, 0, 0, 0.19);
+		
+			.time {
+				padding-left: 80rpx;
+				font-size: 40rpx;
+				font-weight: bold;
+			}
+		
+			.deleteIcon {
+				padding-right: 50rpx;
+			}
 		}
 	}
+
+	
 
 	.buttonGroup {
 		width: 100%;
 		display: flex;
 		justify-content: space-around;
 		margin-top: 150rpx;
-		bottom: 5%;
-		position: absolute;
 
 		.button {
 			border: 1px solid #F1F1F1;

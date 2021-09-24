@@ -1,6 +1,7 @@
 <template>
 	<!-- 单次计时器页面 -->
-	<view>
+	<view class="main">
+		<view></view>
 		<!-- vue awsome countdown组件 -->
 		<vac :left-time="storage.currentSingleTimer *1000" ref="singleTimer" @process="onProcess" @finish="finished">
 			<view class="singleTimerLeftTimeText">{{showTime}}</view>
@@ -91,13 +92,19 @@
 </script>
 
 <style lang="less" scoped>
+	.main {
+		height: 100%;
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		padding-bottom: 40px;
+		box-sizing: border-box;
+	}
 	.buttonGroup {
 		width: 100%;
 		display: flex;
 		justify-content: space-around;
-		margin-top: 150rpx;
-		bottom: 5%;
-		position: absolute;
 
 		.button {
 			border: 1px solid #F1F1F1;
@@ -108,7 +115,7 @@
 			align-items: center;
 			border-radius: 50%;
 			color: rgb(34, 131, 246);
-			box-shadow: 0 7rpx 10rpx rgba(0, 0, 0, 0.19);
+			box-shadow: 0 4px 5px rgba(0, 0, 0, 0.19);
 		}
 	}
 
@@ -117,7 +124,5 @@
 		width: 100%;
 		display: flex;
 		justify-content: center;
-		top: 30%;
-		position: absolute;
 	}
 </style>

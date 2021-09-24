@@ -14,7 +14,15 @@
 	/*每个页面公共css */
 	page{
 		// background-color: pink;
-		width: 750rpx;
+		width: 100%;
 		height: 100%;
+		max-width: 480px;
+		margin: 0 auto;
+	}
+	
+	scroll-view ::-webkit-scrollbar {
+		width: 0;
+		height: 0;
+		background-color: transparent;
 	}
 </style>

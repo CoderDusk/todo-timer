@@ -53,7 +53,7 @@
 
 <style lang="scss">
 	.bottomButtonGruop {
-		width: 750rpx;
+		width: 100%;
 		display: flex;
 		justify-content: space-around;
 	}

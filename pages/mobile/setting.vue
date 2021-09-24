@@ -111,13 +111,13 @@
 		
 		.volumeSlider{
 			width: 70%;
-			margin-top: 40rpx;
-			margin-bottom: 60rpx;
+			margin-top: 20px;
+			margin-bottom: 30px;
 		}
 		
 		.ringtoneButton{
 			font-size: 35rpx;
-			margin: 30rpx;
+			margin: 15px;
 		}
 	}
 	
@@ -130,7 +130,6 @@
 		align-items: center;
 		border-radius: 50%;
 		color: rgb(34, 131, 246);
-		box-shadow: 0 7rpx 10rpx rgba(0, 0, 0, 0.19);
-		margin-top: 150rpx;
+		box-shadow: 0 3px 5px rgba(0, 0, 0, 0.19);
 	}
 </style>
