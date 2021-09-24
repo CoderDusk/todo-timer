@@ -6,6 +6,7 @@
 			@confirm="confirmPicker"></u-picker>
 		<u-toast ref="toast" />
 
+		<view></view>
 		<view class="panel">
 			<!-- 计时器名称 -->
 			<view class="title">计时器名称</view>
@@ -123,21 +124,16 @@
 </script>
 
 <style lang="scss" scoped>
-	page {
-		height: 100%;
-	}
-
 	.main {
 		height: 100%;
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
 		box-sizing: border-box;
-		// padding-bottom: 40px;
-		padding: 60px 0 40px 0;
+		padding-bottom: 40px;
 
 		.panel {
-			width: 750rpx;
+			width: 100%;
 			justify-self: start;
 			display: flex;
 			flex-direction: column;
@@ -148,13 +144,13 @@
 			}
 
 			.timerDuration {
-				margin-top: 50rpx;
+				margin-top: 25px;
 			}
 
 			.inputTitle {
-				margin: 25rpx 0;
+				margin: 12px 0;
 				font-size: 40rpx;
-				border-bottom: 1rpx solid black;
+				border-bottom: 1px solid black;
 				text-align: center;
 
 				.placeholder {
@@ -164,7 +160,7 @@
 
 			.ringtoneButton {
 				font-size: 35rpx;
-				margin: 30rpx;
+				margin: 15px;
 			}
 
 			.saveButton {
@@ -176,14 +172,14 @@
 				align-items: center;
 				border-radius: 50%;
 				color: rgb(34, 131, 246);
-				box-shadow: 0 7rpx 10rpx rgba(0, 0, 0, 0.19);
+				box-shadow: 0 4px 5px rgba(0, 0, 0, 0.19);
 				margin-top: 150rpx;
 			}
 		}
 	}
 
 	.bottomButtonGruop {
-		width: 750rpx;
+		width: 100%;
 		display: flex;
 		justify-content: space-around;
 
@@ -196,7 +192,7 @@
 			align-items: center;
 			border-radius: 50%;
 			color: rgb(34, 131, 246);
-			box-shadow: 0 7rpx 10rpx rgba(0, 0, 0, 0.19);
+			box-shadow: 0 4px 5px rgba(0, 0, 0, 0.19);
 		}
 	}
 </style>

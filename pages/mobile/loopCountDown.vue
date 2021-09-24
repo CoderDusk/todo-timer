@@ -1,6 +1,7 @@
 <template>
 	<!-- 循环计时器页面 -->
 	<view class="main">
+		<view></view>
 		<view class="panel">
 			<!-- 倒计时组件，页面不可见 -->
 			<u-count-down :timestamp="countDownTime" style="display: none;" @change="change" @end="end" ref="countDown">
@@ -209,12 +210,15 @@
 
 <style lang="scss" scoped>
 	.main {
-		background-color: pink;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		padding-bottom: 40px;
+		box-sizing: border-box;
 	}
 
 	.panel {
-		position: absolute;
-		top: 15%;
 		width: 100%;
 
 		.loopTimerLeftTimeText {
@@ -227,7 +231,7 @@
 		.nextTimerInfo {
 			display: flex;
 			justify-content: space-around;
-			margin-top: 50rpx;
+			margin-top: 25px;
 
 			.infoBox {
 				display: flex;
@@ -256,9 +260,7 @@
 		width: 100%;
 		display: flex;
 		justify-content: space-around;
-		margin-top: 150rpx;
-		bottom: 5%;
-		position: absolute;
+
 
 		.button {
 			border: 1px solid #F1F1F1;
@@ -269,7 +271,7 @@
 			align-items: center;
 			border-radius: 50%;
 			color: rgb(34, 131, 246);
-			box-shadow: 0 7rpx 10rpx rgba(0, 0, 0, 0.19);
+			box-shadow: 0 4px 5px rgba(0, 0, 0, 0.19);
 		}
 	}
 </style>

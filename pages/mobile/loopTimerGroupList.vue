@@ -1,8 +1,8 @@
 <template>
 	<!-- 已保存的循环计时器组列表 -->
-	<view class="listPage">
+	<view class="main">
 		<!-- 计时器列表 -->
-		<scroll-view scroll-y="true" class="timerList">
+		<scroll-view scroll-y class="timer-list">
 			<view class="timer" v-for="(item,index) in storage.savedLoopTimerList" :key="item.id"
 				@click="chooseTimerGroup(item)">
 				<text class="time">{{item.title}}</text>
@@ -13,7 +13,7 @@
 		</scroll-view>
 
 		<!-- 底部按钮组 -->
-		<view class="buttonGroup">
+		<view class="button-group">
 			<view class="button" @click="gotoIndexPage('loop')">
 				<u-icon name="checkmark" size="50"></u-icon>
 			</view>
@@ -31,7 +31,7 @@
 			remove(index) {
 				this.storage.savedLoopTimerList.splice(index, 1)
 				this.updateStorage()
-				this.toastThenJumpToIndex('删除成功','loop')
+				this.toastThenJumpToIndex('删除成功', 'loop')
 			},
 			// 选择计时器组并把它设置为临时循环计时器组
 			chooseTimerGroup(item) {
@@ -41,37 +41,35 @@
 					timerList: item.list,
 				}
 				this.updateStorage()
-				this.toastThenJumpToIndex('选择成功','loop')
+				this.toastThenJumpToIndex('选择成功', 'loop')
 			}
 		},
 	}
 </script>
 
 <style lang="less" scoped>
-	page {
-		height: 100%;
-	}
-
-	.listPage {
+	.main {
 		height: 100%;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		justify-content: space-between;
+		padding: 20px 0;
+		box-sizing: border-box;
 	}
 
-	.timerList {
-		margin-top: 70rpx;
-		height: 800rpx;
+	.timer-list {
+		width: 100%;
+		height: 50%;
 	}
 
 	.timer {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		width: 650rpx;
-		height: 100rpx;
-		margin: 0 50rpx 40rpx 50rpx;
-		box-shadow: 0 7rpx 10rpx rgba(0, 0, 0, 0.19);
+		height: 50px;
+		margin: 15px;
+		box-shadow: 0 4px 5px rgba(0, 0, 0, 0.19);
 
 		.time {
 			padding-left: 80rpx;
@@ -84,13 +82,10 @@
 		}
 	}
 
-	.buttonGroup {
+	.button-group {
 		width: 100%;
 		display: flex;
 		justify-content: space-around;
-		margin-top: 150rpx;
-		bottom: 5%;
-		position: absolute;
 
 		.button {
 			border: 1px solid #F1F1F1;
@@ -101,7 +96,7 @@
 			align-items: center;
 			border-radius: 50%;
 			color: rgb(34, 131, 246);
-			box-shadow: 0 7rpx 10rpx rgba(0, 0, 0, 0.19);
+			box-shadow: 0 3px 5px rgba(0, 0, 0, 0.19);
 		}
 	}
 </style>

@@ -146,7 +146,7 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		width: 750rpx;
+		width: 100%;
 
 		.no-list-tip {
 			border: dashed gray;
@@ -190,14 +190,14 @@
 			display: flex;
 			justify-content: space-around;
 			width: 100%;
-			margin-top: 30rpx;
+			margin-top: 20px;
 		}
 
 		.buttonGroup {
 			display: flex;
 			width: 75%;
 			justify-content: space-around;
-			margin-top: 60rpx;
+			margin-top: 25px;
 
 			.button {
 				box-shadow: none;
@@ -229,9 +229,9 @@
 	}
 
 	.inputTitle {
-		margin: 45rpx auto;
+		margin: 25px auto;
 		font-size: 40rpx;
-		border-bottom: 4rpx solid black;
+		border-bottom: 2px solid black;
 		text-align: center;
 		width: 60%;
 
