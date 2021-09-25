@@ -20,9 +20,9 @@
 		margin: 0 auto;
 	}
 	
-	scroll-view ::-webkit-scrollbar {
-		width: 0;
-		height: 0;
-		background-color: transparent;
-	}
+	// scroll-view ::-webkit-scrollbar {
+	// 	width: 0;
+	// 	height: 0;
+	// 	background-color: transparent;
+	// }
 </style>

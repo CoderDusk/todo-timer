@@ -13,13 +13,20 @@ export default {
 					},
 					// 时间选择器是否显示的开关变量
 					isPickerShow: false,
+					// 胶囊按钮信息
+					pillButtonInfo: {},
 				}
 			},
+			onLoad() {
+				// #ifdef  MP-WEIXIN
+				this.pillButtonInfo = uni.getMenuButtonBoundingClientRect()
+				// #endif
+			},
 			created() {
-				this.storage = this.$tools.getLocalStorage()
+				this.getStorage()
 			},
 			activated() {
-				this.storage = this.$tools.getLocalStorage()
+				this.getStorage()
 			},
 			beforeDestroy() {
 				if (!!this.ringtoneAudio && !this.ringtongAudio.paused) {
@@ -55,11 +62,11 @@ export default {
 						animationDuration
 					})
 				},
-				toastThenJumpToIndex(msg, tab = 'single'){
+				toastThenJumpToIndex(msg, tab = 'single') {
 					this.$u.toast(msg)
-					setTimeout(()=>{
+					setTimeout(() => {
 						this.gotoIndexPage(tab)
-					},500)
+					}, 500)
 				}
 			}
 		})
