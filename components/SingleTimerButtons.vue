@@ -22,6 +22,7 @@
 		methods:{
 			// 开始单次计时器,跳转到单次计时器页面
 			startSingleTimer() {
+				this.getStorage()
 				// 如果临时单次计时器时间大于0才跳转到单次计时器页面
 				if (this.storage.currentSingleTimer > 0) {
 					uni.navigateTo({
@@ -33,7 +34,7 @@
 				}
 			
 			}
-		}
+		},
 	}
 </script>
 

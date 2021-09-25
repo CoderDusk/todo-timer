@@ -3,34 +3,38 @@
 	<view class="main">
 		<!-- 标签组 -->
 		<view class="tab">
-			<u-tabs-swiper ref="uTabs" :list="tabName" :current="currentTab" @change="tabsChange"
-				:is-scroll="false" :show-bar="false" font-size="45" gutter="10" class="swiperTab">
-			</u-tabs-swiper>
-		</view>
-		<!-- 标签组结束 -->
-		<!-- 滑动组件 -->
-		<swiper :current="currentTab" @change="swiperChange" class="swiper">
-			
-			<!-- 第一个滑动组件页面 单次计时器 -->
-			<swiper-item class="swiperPage">
-				<view class="main">
-					<view></view>
-					<SingleTimerPanel class="panel single-timer-panel"></SingleTimerPanel>
-					<SingleTimerButtons class="bottom-buttons single-timer-buttons"></SingleTimerButtons>
+			<view class="padding-for-mp-wexin">
+				<view class="status-bar"></view>
+				<view class="pill-button" :style="{'height':`${pillButtonInfo.height}px`}"></view>
+			</view>
+			<u-tabs-swiper ref=" uTabs" :list="tabName" :current="currentTab" @change="tabsChange" :is-scroll="false"
+					:show-bar="false" font-size="45" gutter="10" class="swiperTab">
+					</u-tabs-swiper>
 				</view>
-			</swiper-item>
-			<!-- 单次计时器结束 -->
-			<!-- 循环计时器 -->
-			<swiper-item class="swiperPage">
-				<view class="main">
-					<LoopTimerPanel class="panel loop-timer-panel"></LoopTimerPanel>
-					<LoopTimerButtons class="bottom-buttons"></LoopTimerButtons>
-				</view>
-			</swiper-item>
-			<!-- 循环计时器结束 -->
-		</swiper>
-		<!-- 滑动组件结束 -->
-	</view>
+				<!-- 标签组结束 -->
+				<!-- 滑动组件 -->
+				<swiper :current="currentTab" @change="swiperChange" class="swiper">
+
+					<!-- 第一个滑动组件页面 单次计时器 -->
+					<swiper-item class="swiperPage">
+						<view class="main">
+							<view></view>
+							<SingleTimerPanel class="panel single-timer-panel"></SingleTimerPanel>
+							<SingleTimerButtons class="bottom-buttons single-timer-buttons"></SingleTimerButtons>
+						</view>
+					</swiper-item>
+					<!-- 单次计时器结束 -->
+					<!-- 循环计时器 -->
+					<swiper-item class="swiperPage">
+						<view class="main">
+							<LoopTimerPanel class="panel loop-timer-panel"></LoopTimerPanel>
+							<LoopTimerButtons class="bottom-buttons"></LoopTimerButtons>
+						</view>
+					</swiper-item>
+					<!-- 循环计时器结束 -->
+				</swiper>
+				<!-- 滑动组件结束 -->
+			</view>
 </template>
 <script>
 	import SingleTimerPanel from '../../components/SingleTimerPanel.vue'
@@ -76,11 +80,18 @@
 			} else if (e.tab === 'loop') {
 				this.currentTab = 1
 			}
+			// #ifdef  MP-WEIXIN
+			this.pillButtonInfo = uni.getMenuButtonBoundingClientRect()
+			// #endif
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
+	.status-bar{
+		height: var(--status-bar-height);
+	}
+	
 	.main {
 		height: 100%;
 		display: flex;
@@ -88,21 +99,26 @@
 		justify-content: space-between;
 		box-sizing: border-box;
 		// padding: 15px 0 25px 0;
+
+		/* #ifdef H5 */
+		padding-top: 20px;
+		/* #endif */
 	}
-	
+
 	.swiper {
 		height: 100%;
 	}
-	
+
 	.panel {
 		align-self: center;
+		width: 100%;
 	}
-	
-	.single-timer-panel{
+
+	.single-timer-panel {
 		margin-top: 40px;
 	}
-	
-	.bottom-buttons{
+
+	.bottom-buttons {
 		margin-bottom: 40px;
 	}
 </style>

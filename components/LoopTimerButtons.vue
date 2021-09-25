@@ -30,6 +30,7 @@
 		methods: {
 			// 开始循环计时器,跳转到循环计时器页面
 			startLoopTimer() {
+				this.getStorage()
 				// 如果循环计时器组为空就弹出警告
 				if (this.storage.currentLoopTimer.timerList.length == 0) {
 					this.$refs.warningToast.show({
