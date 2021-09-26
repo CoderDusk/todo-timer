@@ -1,40 +1,44 @@
 <template>
-	<view style="height: 100%;">
-		<!-- 不在页面上显示的组件 -->
-		<!-- 时间选择器 -->
-		<u-picker v-model="isPickerShow" mode="time" :params="pickerParams" default-time="00:00:00"
-			@confirm="confirmPicker"></u-picker>
-		<!-- 已保存的单次计时器列表页面 -->
-		<view class="main">
-			<!-- 计时器列表 -->
-			<view class="timer-list">
-				<view v-if="storage.savedSingleTimerList.length === 0">
-					<u-empty text="没有已保存的单次计时器"></u-empty>
-				</view>
-				<scroll-view v-else scroll-y>
-					<view class="timer" v-for="(item,index) in storage.savedSingleTimerList" :key="index"
-						@click="chooseTimer(item)">
-						<text class="time">{{$time.secondsToString(item)}}</text>
-						<span @click.stop="remove(index)">
-							<u-icon name="trash" color="red" size="40" class="deleteIcon"></u-icon>
-						</span>
-					</view>
-				</scroll-view>
+	<view class="main">
+		<!-- 计时器列表 -->
+		<view class="timer-list">
+			<!-- 不在页面上显示的组件 -->
+			<!-- 时间选择器 -->
+			<u-picker v-model="isPickerShow" mode="time" :params="pickerParams" default-time="00:00:00"
+				@confirm="confirmPicker"></u-picker>
+			<!--  #ifdef  MP-WEIXIN -->
+			<!-- 如果是微信小程序，就添加两个空白的区域，用以填充状态栏和胶囊按钮区域 -->
+			<view class="padding-for-mp-weixin">
+				<view class="status-bar"></view>
+				<view class="pill-buttons" :style="{ height: `${pillButtonInfo.height}px` }"></view>
 			</view>
-			<!-- 底部按钮组 -->
-			<view class="buttonGroup">
-				<view class="button" @click="isPickerShow = true">
-					<u-icon name="plus" size="50"></u-icon>
-				</view>
-				<navigator url="index">
-					<view class="button">
-						<u-icon name="checkmark" size="50"></u-icon>
-					</view>
-				</navigator>
+			<!--  #endif -->
+			<!-- 已保存的单次计时器列表页面 -->
+			<view v-if="storage.savedSingleTimerList.length === 0">
+				<u-empty text="没有已保存的单次计时器"></u-empty>
 			</view>
+			<scroll-view v-else scroll-y>
+				<view class="timer" v-for="(item,index) in storage.savedSingleTimerList" :key="index"
+					@click="chooseTimer(item)">
+					<text class="time">{{$time.secondsToString(item)}}</text>
+					<span @click.stop="remove(index)">
+						<u-icon name="trash" color="red" size="40" class="deleteIcon"></u-icon>
+					</span>
+				</view>
+			</scroll-view>
+		</view>
+		<!-- 底部按钮组 -->
+		<view class="buttonGroup">
+			<view class="button" @click="isPickerShow = true">
+				<u-icon name="plus" size="50"></u-icon>
+			</view>
+			<navigator url="index">
+				<view class="button">
+					<u-icon name="checkmark" size="50"></u-icon>
+				</view>
+			</navigator>
 		</view>
 	</view>
-
 </template>
 
 <script>
@@ -94,8 +98,9 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		justify-content: space-around;
 		box-sizing: border-box;
+		justify-content: space-between;
+		padding-bottom: 20px;
 	}
 
 	.timer-list {

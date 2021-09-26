@@ -1,7 +1,6 @@
 <template>
 	<view>
 		<!-- 不在主要页面的弹出组件：错误警告框、输入计时器名称的模态框 -->
-		<u-toast ref="warningToast" class="warningToast" />
 		<u-modal v-model="isShowSaveModal" :show-title="false" :show-cancel-button="true" @confirm="saveTimerGroup">
 			<input type="text" placeholder="请输入计时器名称" class="inputTitle" placeholder-class="placeholder"
 				v-model="storage.currentLoopTimer.title">
@@ -13,8 +12,8 @@
 			<!-- 循环计时器组为空的提示 -->
 			<view @click="addTimerItem()" v-if="storage.currentLoopTimer.timerList == 0" class="no-list-tip">
 				<text>循环计时器组为空，请按</text>
-				<view class="button timerButton">
-					<u-icon name="plus" size="27" color="white"></u-icon>
+				<view class="button timerButton add-item-button">
+					<u-icon name="plus" size="33" color="white"></u-icon>
 				</view>
 				<text>添加第一个计时器</text>
 			</view>
@@ -135,14 +134,9 @@
 </script>
 
 <style lang="scss" scoped>
-	.warningToast {
-		font-size: 40rpx;
-		width: 400rpx;
-	}
-
 	.main {
 		height: 100%;
-		padding-top: 50rpx;
+		padding-top: 25px;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -174,12 +168,12 @@
 				display: flex;
 				align-items: center;
 				justify-content: space-between;
-				width: 650rpx;
-				height: 100rpx;
+				width: 90%;
+				height: 50px;
 				margin: 0 50rpx 40rpx 50rpx;
 				box-shadow: 0 7rpx 10rpx rgba(0, 0, 0, 0.19);
 				font-size: 40rpx;
-				padding: 0 50rpx;
+				padding: 0 25px;
 				box-sizing: border-box;
 			}
 		}

@@ -52,9 +52,8 @@
 		onLoad(e) {
 			this.action = e.action
 			this.index = Number.parseInt(e.index)
-		},
-		created() {
-			if (this.action != null) {
+			
+			if (this.action != null && this.action !== '') {
 				if (this.action === 'edit') {
 					if (Number.isInteger(this.index) && this.index >= 0) {
 						this.getEditingItem()
@@ -173,7 +172,7 @@
 				border-radius: 50%;
 				color: rgb(34, 131, 246);
 				box-shadow: 0 4px 5px rgba(0, 0, 0, 0.19);
-				margin-top: 150rpx;
+				margin-top: 75px;
 			}
 		}
 	}

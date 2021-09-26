@@ -23,8 +23,9 @@
 				<u-icon name="close" size="50"></u-icon>
 			</view>
 		</view>
-		
-		<u-count-down style="display: none;" ref="uCountDown" :timestamp="countDownTime" @change="change" @end="finished()"></u-count-down>
+
+		<u-count-down style="display: none;" ref="uCountDown" :timestamp="countDownTime" @change="change()"
+			@end="finished()"></u-count-down>
 	</view>
 </template>
 
@@ -33,25 +34,25 @@
 		data() {
 			return {
 				// 倒计时组件状态，默认为进行中
-				isPaused:false,
+				isPaused: false,
 				// 界面上显示的剩余时间
-				showTime:'',
+				showTime: '',
 				// 剩余时间
-				leftTime:0,
+				leftTime: 0,
 				// 计时器组件时间
-				countDownTime:0,
+				countDownTime: 0,
 				// 暂停时临时保存时间的
-				tempPauseTime:0,
+				tempPauseTime: 0,
 			};
 		},
 		methods: {
-			change(e){
+			change(e) {
 				this.leftTime = e
 				// 剩余时间为5秒的时候开始播放铃声
 				if (e <= 5 && e > 0 && this.ringtoneAudio.paused !== false) {
 					this.ringtoneAudio.play()
 				}
-				if(e === 0 ){
+				if (e <= 0) {
 					this.ringtoneAudio.stop()
 				}
 			},
@@ -59,22 +60,22 @@
 			pause() {
 				this.tempPauseTime = this.leftTime
 				this.countDownTime = 0
+				this.ringtoneAudio.stop()
 				this.isPaused = true
 			},
 			// 重启
 			restart() {
-				this.countDownTime = 0
-				console.log('重启')
-				this.countDownTime = this.storage.currentSingleTimer
+				this.ringtoneAudio.stop()
+				this.$refs.uCountDown.seconds = this.storage.currentSingleTimer + 1
 			},
 			// 返回
 			goback() {
 				this.countDownTime = 0
 				this.ringtoneAudio.stop()
-				this.gotoIndexPage('loop')
+				this.gotoIndexPage('single')
 			},
 			// 继续
-			continueTimer () {
+			continueTimer() {
 				this.countDownTime = this.tempPauseTime
 				this.isPaused = false
 			},
@@ -83,17 +84,17 @@
 				this.ringtoneAudio.stop()
 				this.goback()
 			},
-			
+
 		},
 		created() {
 			// 如果时间小于1就退回首页
 			if (this.storage.currentSingleTimer < 1) {
-				this.toastThenJumpToIndex('请先设置计时器','loop')
+				this.toastThenJumpToIndex('请先设置计时器')
 			}
-			
+
 			this.createRingtoneAudio()
-			
-			this.countDownTime = this.storage.currentSingleTimer
+
+			this.countDownTime = this.storage.currentSingleTimer + 1
 		},
 		beforeDestroy() {
 			this.$refs.singleTimer.stopCountdown()
@@ -112,6 +113,7 @@
 		padding-bottom: 40px;
 		box-sizing: border-box;
 	}
+
 	.buttonGroup {
 		width: 100%;
 		display: flex;

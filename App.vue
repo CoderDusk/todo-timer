@@ -19,7 +19,13 @@
 		max-width: 480px;
 		margin: 0 auto;
 	}
+	.status-bar{
+		height: var(--status-bar-height);
+	}
 	
+	.pink{
+		background-color: pink;
+	}
 	// scroll-view ::-webkit-scrollbar {
 	// 	width: 0;
 	// 	height: 0;
