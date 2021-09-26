@@ -1,33 +1,40 @@
 <template>
-	<!-- 已保存的单次计时器列表页面 -->
-	<view class="main">
-		<!-- 计时器列表 -->
-		<div class="timer-list">
-			<scroll-view scroll-y>
-				<view class="timer" v-for="(item,index) in storage.savedSingleTimerList" :key="index" @click="chooseTimer(item)">
-					<text class="time">{{$time.secondsToString(item)}}</text>
-					<span @click.stop="remove(index)">
-						<u-icon name="trash" color="red" size="40" class="deleteIcon" ></u-icon>
-					</span>
-				</view>
-			</scroll-view>
-		</div>
-		<!-- 底部按钮组 -->
-		<view class="buttonGroup">
-			<view class="button" @click="isPickerShow = true">
-				<u-icon name="plus" size="50"></u-icon>
-			</view>
-			<navigator url="index">
-				<view class="button">
-					<u-icon name="checkmark" size="50"></u-icon>
-				</view>
-			</navigator>
-		</view>
-		
+	<view style="height: 100%;">
 		<!-- 不在页面上显示的组件 -->
 		<!-- 时间选择器 -->
-		<u-picker v-model="isPickerShow" mode="time" :params="pickerParams" default-time="00:00:00" @confirm="confirmPicker"></u-picker>
+		<u-picker v-model="isPickerShow" mode="time" :params="pickerParams" default-time="00:00:00"
+			@confirm="confirmPicker"></u-picker>
+		<!-- 已保存的单次计时器列表页面 -->
+		<view class="main">
+			<!-- 计时器列表 -->
+			<view class="timer-list">
+				<view v-if="storage.savedSingleTimerList.length === 0">
+					<u-empty text="没有已保存的单次计时器"></u-empty>
+				</view>
+				<scroll-view v-else scroll-y>
+					<view class="timer" v-for="(item,index) in storage.savedSingleTimerList" :key="index"
+						@click="chooseTimer(item)">
+						<text class="time">{{$time.secondsToString(item)}}</text>
+						<span @click.stop="remove(index)">
+							<u-icon name="trash" color="red" size="40" class="deleteIcon"></u-icon>
+						</span>
+					</view>
+				</scroll-view>
+			</view>
+			<!-- 底部按钮组 -->
+			<view class="buttonGroup">
+				<view class="button" @click="isPickerShow = true">
+					<u-icon name="plus" size="50"></u-icon>
+				</view>
+				<navigator url="index">
+					<view class="button">
+						<u-icon name="checkmark" size="50"></u-icon>
+					</view>
+				</navigator>
+			</view>
+		</view>
 	</view>
+
 </template>
 
 <script>
@@ -55,12 +62,12 @@
 					// 去重
 					this.storage.savedSingleTimerList = Array.from(new Set(this.storage.savedSingleTimerList))
 					// 排序
-					this.storage.savedSingleTimerList = this.storage.savedSingleTimerList.sort((a,b)=>{
-						return a-b
+					this.storage.savedSingleTimerList = this.storage.savedSingleTimerList.sort((a, b) => {
+						return a - b
 					})
 					// 把新计时器保存到本地存储
 					this.updateStorage()
-				}else{
+				} else {
 					this.$u.toast('请设置正确的时长')
 				}
 			},
@@ -68,13 +75,13 @@
 			remove(index) {
 				this.storage.savedSingleTimerList.splice(index, 1)
 				this.updateStorage()
-				this.toastThenJumpToIndex('删除成功','loop')
+				this.toastThenJumpToIndex('删除成功')
 			},
 			// 选择计时器并将其设置为临时单次计时器
 			chooseTimer(time) {
 				this.storage.currentSingleTimer = time
 				this.updateStorage()
-				this.toastThenJumpToIndex('设置成功','loop')
+				this.toastThenJumpToIndex('设置成功')
 			}
 		},
 	}
@@ -87,13 +94,13 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		justify-content: space-between;
-		padding-bottom:40px;
+		justify-content: space-around;
 		box-sizing: border-box;
 	}
 
-	.timer-list{
+	.timer-list {
 		width: 85%;
+
 		.timer {
 			display: flex;
 			align-items: center;
@@ -101,26 +108,26 @@
 			height: 50px;
 			margin: 15px;
 			box-shadow: 0 3px 5px rgba(0, 0, 0, 0.19);
-		
+
 			.time {
 				padding-left: 80rpx;
 				font-size: 40rpx;
 				font-weight: bold;
 			}
-		
+
 			.deleteIcon {
 				padding-right: 50rpx;
 			}
 		}
 	}
 
-	
+
 
 	.buttonGroup {
 		width: 100%;
 		display: flex;
 		justify-content: space-around;
-		margin-top: 150rpx;
+		// margin-top: 150rpx;
 
 		.button {
 			border: 1px solid #F1F1F1;
@@ -131,7 +138,7 @@
 			align-items: center;
 			border-radius: 50%;
 			color: rgb(34, 131, 246);
-			box-shadow: 0 7rpx 10rpx rgba(0, 0, 0, 0.19);
+			box-shadow: 0 4px 5px rgba(0, 0, 0, 0.19);
 		}
 	}
 </style>

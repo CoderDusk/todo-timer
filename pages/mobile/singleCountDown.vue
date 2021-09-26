@@ -3,9 +3,10 @@
 	<view class="main">
 		<view></view>
 		<!-- vue awsome countdown组件 -->
-		<vac :left-time="storage.currentSingleTimer *1000" ref="singleTimer" @process="onProcess" @finish="finished">
+		<!-- <vac :left-time="storage.currentSingleTimer *1000" ref="singleTimer" @process="onProcess" @finish="finished">
 			<view class="singleTimerLeftTimeText">{{showTime}}</view>
-		</vac>
+		</vac> -->
+		<view class="singleTimerLeftTimeText">{{$time.secondsToString(leftTime)}}</view>
 
 		<!-- 按钮组 -->
 		<view class="buttonGroup">
@@ -22,6 +23,8 @@
 				<u-icon name="close" size="50"></u-icon>
 			</view>
 		</view>
+		
+		<u-count-down style="display: none;" ref="uCountDown" :timestamp="countDownTime" @change="change" @end="finished()"></u-count-down>
 	</view>
 </template>
 
@@ -33,41 +36,47 @@
 				isPaused:false,
 				// 界面上显示的剩余时间
 				showTime:'',
+				// 剩余时间
+				leftTime:0,
+				// 计时器组件时间
+				countDownTime:0,
+				// 暂停时临时保存时间的
+				tempPauseTime:0,
 			};
 		},
 		methods: {
+			change(e){
+				this.leftTime = e
+				// 剩余时间为5秒的时候开始播放铃声
+				if (e <= 5 && e > 0 && this.ringtoneAudio.paused !== false) {
+					this.ringtoneAudio.play()
+				}
+				if(e === 0 ){
+					this.ringtoneAudio.stop()
+				}
+			},
 			// 暂停
 			pause() {
-				this.$refs.singleTimer.pauseCountdown()
+				this.tempPauseTime = this.leftTime
+				this.countDownTime = 0
 				this.isPaused = true
 			},
 			// 重启
 			restart() {
-				this.$refs.singleTimer.startCountdown(true)
+				this.countDownTime = 0
+				console.log('重启')
+				this.countDownTime = this.storage.currentSingleTimer
 			},
 			// 返回
 			goback() {
-				this.$refs.singleTimer.stopCountdown()
+				this.countDownTime = 0
 				this.ringtoneAudio.stop()
 				this.gotoIndexPage('loop')
 			},
 			// 继续
 			continueTimer () {
-				this.$refs.singleTimer.startCountdown()
+				this.countDownTime = this.tempPauseTime
 				this.isPaused = false
-			},
-			// 计时器组件进行中触发的函数
-			onProcess() {
-				let leftTime = this.$refs.singleTimer.timeObj.ceil.s
-				this.showTime = this.$time.secondsToString(leftTime)
-				// 剩余时间为5秒的时候开始播放铃声
-				if (leftTime <= 5 && leftTime > 0 && this.ringtoneAudio.paused !== false) {
-					this.ringtoneAudio.play()
-				}
-				if(leftTime === 0 ){
-					this.ringtoneAudio.stop()
-				}
-
 			},
 			// 计时器完成时触发的函数
 			finished() {
@@ -83,6 +92,8 @@
 			}
 			
 			this.createRingtoneAudio()
+			
+			this.countDownTime = this.storage.currentSingleTimer
 		},
 		beforeDestroy() {
 			this.$refs.singleTimer.stopCountdown()
@@ -124,6 +135,5 @@
 		width: 100%;
 		display: flex;
 		justify-content: center;
-		background-color: pink;
 	}
 </style>
