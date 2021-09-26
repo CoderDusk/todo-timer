@@ -136,7 +136,7 @@
 <style lang="scss" scoped>
 	.main {
 		height: 100%;
-		padding-top: 50rpx;
+		padding-top: 25px;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -195,8 +195,6 @@
 
 			.button {
 				box-shadow: none;
-				// display: flex;
-				// justify-content: center;
 
 				.saveIcon {
 					width: 50rpx;
