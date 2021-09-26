@@ -172,7 +172,7 @@
 				border-radius: 50%;
 				color: rgb(34, 131, 246);
 				box-shadow: 0 4px 5px rgba(0, 0, 0, 0.19);
-				margin-top: 150rpx;
+				margin-top: 75px;
 			}
 		}
 	}

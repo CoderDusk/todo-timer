@@ -1,7 +1,6 @@
 <template>
 	<view>
 		<!-- 不在主要页面的弹出组件：错误警告框、输入计时器名称的模态框 -->
-		<u-toast ref="warningToast" class="warningToast" />
 		<u-modal v-model="isShowSaveModal" :show-title="false" :show-cancel-button="true" @confirm="saveTimerGroup">
 			<input type="text" placeholder="请输入计时器名称" class="inputTitle" placeholder-class="placeholder"
 				v-model="storage.currentLoopTimer.title">
@@ -135,11 +134,6 @@
 </script>
 
 <style lang="scss" scoped>
-	.warningToast {
-		font-size: 40rpx;
-		width: 400rpx;
-	}
-
 	.main {
 		height: 100%;
 		padding-top: 50rpx;
@@ -203,8 +197,6 @@
 				box-shadow: none;
 				// display: flex;
 				// justify-content: center;
-				// align-items: center;
-				// background-color: pink;
 
 				.saveIcon {
 					width: 50rpx;

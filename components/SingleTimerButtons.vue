@@ -40,7 +40,6 @@
 
 <style lang="scss" scoped>
 	.bottomButtonGruop {
-		// width: 750rpx;
 		width: 100%;
 		display: flex;
 		background-color: white;
