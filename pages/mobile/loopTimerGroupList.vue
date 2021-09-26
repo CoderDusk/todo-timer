@@ -3,7 +3,17 @@
 	<view class="main">
 		<!-- 计时器列表 -->
 		<scroll-view scroll-y class="timer-list">
-			<view class="timer" v-for="(item,index) in storage.savedLoopTimerList" :key="item.id"
+			<!--  #ifdef  MP-WEIXIN -->
+			<!-- 如果是微信小程序，就添加两个空白的区域，用以填充状态栏和胶囊按钮区域 -->
+			<view class="padding-for-mp-weixin">
+				<view class="status-bar"></view>
+				<view class="pill-buttons" :style="{ height: `${pillButtonInfo.height}px` }"></view>
+			</view>
+			<!--  #endif -->
+			<view v-if="storage.savedLoopTimerList.length === 0">
+				<u-empty text="没有已保存的循环计时器"></u-empty>
+			</view>
+			<view v-else class="timer" v-for="(item,index) in storage.savedLoopTimerList" :key="item.id"
 				@click="chooseTimerGroup(item)">
 				<text class="time">{{item.title}}</text>
 				<span @click.stop="remove(index)">
@@ -19,6 +29,7 @@
 			</view>
 		</view>
 	</view>
+
 </template>
 
 <script>
@@ -50,12 +61,13 @@
 <style lang="less" scoped>
 	.main {
 		height: 100%;
+		flex: 1;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		justify-content: space-between;
-		padding: 20px 0;
 		box-sizing: border-box;
+		justify-content: space-between;
+		padding-bottom: 20px;
 	}
 
 	.timer-list {

@@ -13,8 +13,8 @@
 			<!-- 循环计时器组为空的提示 -->
 			<view @click="addTimerItem()" v-if="storage.currentLoopTimer.timerList == 0" class="no-list-tip">
 				<text>循环计时器组为空，请按</text>
-				<view class="button timerButton">
-					<u-icon name="plus" size="27" color="white"></u-icon>
+				<view class="button timerButton add-item-button">
+					<u-icon name="plus" size="33" color="white"></u-icon>
 				</view>
 				<text>添加第一个计时器</text>
 			</view>
@@ -174,12 +174,12 @@
 				display: flex;
 				align-items: center;
 				justify-content: space-between;
-				width: 650rpx;
-				height: 100rpx;
+				width: 90%;
+				height: 50px;
 				margin: 0 50rpx 40rpx 50rpx;
 				box-shadow: 0 7rpx 10rpx rgba(0, 0, 0, 0.19);
 				font-size: 40rpx;
-				padding: 0 50rpx;
+				padding: 0 25px;
 				box-sizing: border-box;
 			}
 		}
@@ -201,6 +201,10 @@
 
 			.button {
 				box-shadow: none;
+				// display: flex;
+				// justify-content: center;
+				// align-items: center;
+				// background-color: pink;
 
 				.saveIcon {
 					width: 50rpx;

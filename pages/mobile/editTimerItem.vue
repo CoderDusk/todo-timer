@@ -52,9 +52,8 @@
 		onLoad(e) {
 			this.action = e.action
 			this.index = Number.parseInt(e.index)
-		},
-		created() {
-			if (this.action != null) {
+			
+			if (this.action != null && this.action !== '') {
 				if (this.action === 'edit') {
 					if (Number.isInteger(this.index) && this.index >= 0) {
 						this.getEditingItem()
