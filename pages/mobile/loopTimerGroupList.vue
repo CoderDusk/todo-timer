@@ -3,6 +3,11 @@
 	<view class="main">
 		<!-- 计时器列表 -->
 		<scroll-view scroll-y class="timer-list">
+			<!--  #ifdef  APP-PLUS -->
+			<view class="padding-for-app">
+				<view class="status-bar"></view>
+			</view>
+			<!--  #endif -->
 			<!--  #ifdef  MP-WEIXIN -->
 			<!-- 如果是微信小程序，就添加两个空白的区域，用以填充状态栏和胶囊按钮区域 -->
 			<view class="padding-for-mp-weixin">

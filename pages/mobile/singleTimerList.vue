@@ -6,6 +6,11 @@
 			<!-- 时间选择器 -->
 			<u-picker v-model="isPickerShow" mode="time" :params="pickerParams" default-time="00:00:00"
 				@confirm="confirmPicker"></u-picker>
+			<!--  #ifdef  APP-PLUS -->
+			<view class="padding-for-app">
+				<view class="status-bar"></view>
+			</view>
+			<!--  #endif -->
 			<!--  #ifdef  MP-WEIXIN -->
 			<!-- 如果是微信小程序，就添加两个空白的区域，用以填充状态栏和胶囊按钮区域 -->
 			<view class="padding-for-mp-weixin">
@@ -101,6 +106,11 @@
 		box-sizing: border-box;
 		justify-content: space-between;
 		padding-bottom: 20px;
+		// background-color: pink;
+
+		/* #ifdef APP-PLUS */
+		padding-top: 20px;
+		/* #endif */
 	}
 
 	.timer-list {

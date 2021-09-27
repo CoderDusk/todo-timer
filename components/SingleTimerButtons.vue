@@ -9,7 +9,7 @@
 		<view class="button" @click="startSingleTimer">
 			<u-icon name="play-right-fill" size="50"></u-icon>
 		</view>
-		<navigator url="../../pages/mobile/setting">
+		<navigator url="setting?from=single">
 			<view class="button">
 				<u-icon name="volume-up-fill" size="50"></u-icon>
 			</view>
