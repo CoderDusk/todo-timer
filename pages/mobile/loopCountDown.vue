@@ -13,7 +13,7 @@
 			</view>
 
 			<!-- 当前计时器剩余时间显示在页面上的字符串 -->
-			<span class="loopTimerLeftTimeText">{{currentStep.leftTime}}</span>
+			<span class="loopTimerLeftTimeText">{{$time.secondsToString(currentStep.leftTime)}}</span>
 
 			<!-- 辅助线 -->
 			<u-line color="gray" length="75%" margin="30rpx auto" :hair-line="false" />
@@ -106,6 +106,21 @@
 					return index + 1
 				}
 			},
+			playAudio() {
+				const {
+					paused
+				} = this.ringtoneAudio
+				const {
+					leftTime
+				} = this.currentStep
+				// console.log(paused && !this.isPaused ) 
+				if (paused && !this.isPaused && leftTime <= 5 && leftTime >= 0) {
+					this.ringtoneAudio.play()
+				}
+			},
+			stopAudio() {
+				this.ringtoneAudio.stop()
+			},
 			// 更新当前步骤信息
 			updateCurrentInfo() {
 				this.countDownTime = this.timerList[this.currentStep.index].time
@@ -123,24 +138,24 @@
 				this.updateNextInfo()
 			},
 			updateLeftStep() {
-				this.currentStep.leftStep--
+				this.stopAudio()
 
-				if (this.currentStep.leftStep < 0) {
+				if (this.currentStep.leftStep <= 0) {
 					this.countDownTime = 0
-					this.ringtongAudio.stop()
 					this.gotoIndexPage('loop')
+				} else {
+					this.currentStep.leftStep--
 				}
 			},
 			// 暂停
 			pause() {
+				this.stopAudio()
 				// 把计时器当前剩余时间保存到暂停时间变量中
 				this.pauseTime = this.$refs.countDown.seconds
 				// 暂停状态变量设置为暂停
 				this.isPaused = true
 				// 计时器组件时间设置为0,即停止计时器
 				this.countDownTime = 0
-				// 停止铃声
-				this.ringtoneAudio.stop()
 			},
 			// 继续
 			goOn() {
@@ -149,38 +164,34 @@
 			},
 			// 重启
 			restart() {
-				this.ringtoneAudio.stop()
+				this.stopAudio()
 				this.$refs.countDown.seconds = this.timerList[this.currentStep.index].time + 1
 			},
 			// 退出返回首页
 			goback() {
+				this.stopAudio()
 				this.countDownTime = 0
-				this.ringtoneAudio.stop()
 				this.gotoIndexPage('loop')
 			},
 			// 跳转到下一步骤
 			goNextStep() {
+				this.stopAudio()
 				// 索引号 + 1
 				this.currentStep.index = this.next(this.currentStep.index)
 				this.updatePageInfo()
 				this.updateLeftStep()
-				this.ringtoneAudio.stop()
 			},
 			// 计时器进行时触发的函数
 			change(countDownTime) {
 				// 更新界面上显示的剩余时间
-				this.currentStep.leftTime = this.$time.secondsToString(countDownTime)
+				this.currentStep.leftTime = countDownTime
 				// 剩余时间为5秒的时候播放铃声
-				if (countDownTime <= 5 && countDownTime >= 0 && this.ringtoneAudio.paused) {
-					this.ringtoneAudio.play()
-				} else if (countDownTime <= 0) {
-					this.ringtoneAudio.stop()
-				}
+				// this.stopAudio()
+				this.playAudio()
 			},
 			// 计时器停止时触发的函数
 			end() {
-				// 停止铃声
-				this.ringtoneAudio.stop()
+				this.stopAudio()
 				// 当前索引号 + 1
 				this.currentStep.index = this.next(this.currentStep.index)
 				this.updatePageInfo()
@@ -202,9 +213,12 @@
 				this.createRingtoneAudio()
 				this.updatePageInfo()
 			}
-
-
-		}
+		},
+		beforeDestroy() {
+			if (this.ringtoneAudio) {
+				this.ringtoneAudio.stop()
+			}
+		},
 	}
 </script>
 
