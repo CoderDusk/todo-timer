@@ -1,13 +1,12 @@
 <template>
 	<!-- 新增计时器 -->
 	<view class="main">
-		<!-- 主要界面中不显示的 时间选择器和错误提示框 -->
-		<u-picker v-model="isPickerShow" mode="time" :params="pickerParams" default-time="00:00:00"
-			@confirm="confirmPicker"></u-picker>
-		<u-toast ref="toast" />
-
-		<view></view>
+		
 		<view class="panel">
+			<!-- 主要界面中不显示的 时间选择器和错误提示框 -->
+			<u-picker v-model="isPickerShow" mode="time" :params="pickerParams" default-time="00:00:00"
+				@confirm="confirmPicker"></u-picker>
+
 			<!-- 计时器名称 -->
 			<view class="title">计时器名称</view>
 			<input type="text" placeholder="请输入计时器名称" class="inputTitle" placeholder-class="placeholder"
@@ -52,18 +51,9 @@
 		onLoad(e) {
 			this.action = e.action
 			this.index = Number.parseInt(e.index)
-			
-			if (this.action != null && this.action !== '') {
-				if (this.action === 'edit') {
-					if (Number.isInteger(this.index) && this.index >= 0) {
-						this.getEditingItem()
-					} else {
-						this.toastThenJumpToIndex('index必须是正整数', 'loop')
-					}
-				}
-			} else {
-				this.toastThenJumpToIndex('action不能为空', 'loop')
-			}
+		},
+		mounted(){
+			this.initData()
 		},
 		methods: {
 			getEditingItem() {
@@ -72,6 +62,19 @@
 				} else {
 					this.title = this.storage.currentLoopTimer.timerList[this.index].title
 					this.time = this.storage.currentLoopTimer.timerList[this.index].time
+				}
+			},
+			initData(){
+				if (this.action != null && this.action !== '') {
+					if (this.action === 'edit') {
+						if (Number.isInteger(this.index) && this.index >= 0) {
+							this.getEditingItem()
+						} else {
+							this.toastThenJumpToIndex('index必须是正整数', 'loop')
+						}
+					}
+				} else {
+					this.toastThenJumpToIndex('action不能为空', 'loop')
 				}
 			},
 			// 确认时间选择器时触发的函数
@@ -127,13 +130,12 @@
 		height: 100%;
 		display: flex;
 		flex-direction: column;
-		justify-content: space-between;
+		justify-content: space-around;
 		box-sizing: border-box;
 		padding-bottom: 40px;
 
 		.panel {
 			width: 100%;
-			justify-self: start;
 			display: flex;
 			flex-direction: column;
 			align-items: center;

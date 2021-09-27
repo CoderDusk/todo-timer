@@ -2,10 +2,6 @@
 	<!-- 单次计时器页面 -->
 	<view class="main">
 		<view></view>
-		<!-- vue awsome countdown组件 -->
-		<!-- <vac :left-time="storage.currentSingleTimer *1000" ref="singleTimer" @process="onProcess" @finish="finished">
-			<view class="singleTimerLeftTimeText">{{showTime}}</view>
-		</vac> -->
 		<view class="singleTimerLeftTimeText">{{$time.secondsToString(leftTime)}}</view>
 
 		<!-- 按钮组 -->
