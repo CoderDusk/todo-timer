@@ -26,6 +26,8 @@
 				showRingtoneSetting: null,
 				// 铃声列表
 				ringtoneList: [],
+				// 来自哪个页面
+				from:'',
 			}
 		},
 		methods: {
@@ -36,7 +38,7 @@
 				// 停止铃声
 				this.ringtoneAudio.stop()
 				// 返回首页
-				this.toastThenJumpToIndex('保存成功','loop')			
+				this.toastThenJumpToIndex('保存成功',this.from)			
 			},
 			// 确认铃声选择
 			confirmRingtone(e){
@@ -86,6 +88,9 @@
 			this.createRingtoneAudio()
 			// 生成铃声列表
 			this.generateRingtoneList()
+		},
+		onLoad(e) {
+			this.from = e.from
 		},
 	}
 </script>

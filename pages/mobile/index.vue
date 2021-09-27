@@ -3,6 +3,11 @@
 	<view class="main">
 		<!-- 标签组 -->
 		<view class="tab">
+			<!--  #ifdef  APP-PLUS -->
+			<view class="padding-for-app">
+				<view class="status-bar"></view>
+			</view>
+			<!--  #endif -->
 			<!--  #ifdef  MP-WEIXIN -->
 			<!-- 如果是微信小程序，就添加两个空白的区域，用以填充状态栏和胶囊按钮区域 -->
 			<view class="padding-for-mp-weixin">
@@ -91,17 +96,12 @@
 </script>
 
 <style lang="scss" scoped>
-	.status-bar {
-		height: var(--status-bar-height);
-	}
-
 	.main {
 		height: 100%;
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
 		box-sizing: border-box;
-		// padding: 15px 0 25px 0;
 
 		/* #ifdef H5 */
 		padding-top: 20px;

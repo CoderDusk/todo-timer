@@ -7,11 +7,11 @@
 		<!-- 单次计时器组件主体 -->
 		<view class="main">
 			<!-- 设定计时器 -->
-			<view class="time">{{$time.secondsToString(storage.currentSingleTimer)}}</view>
-			<view>
+			<view class="time" @click="isPickerShow = true">{{$time.secondsToString(storage.currentSingleTimer)}}</view>
+			<!-- <view>
 				<u-button type="primary" plain shape="circle" @click="isPickerShow = true" class="button">
 					设置计时器</u-button>
-			</view>
+			</view> -->
 		</view>
 	</view>
 </template>
