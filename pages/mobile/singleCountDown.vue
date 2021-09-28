@@ -2,7 +2,9 @@
 	<!-- 单次计时器页面 -->
 	<view class="main">
 		<view></view>
-		<view class="singleTimerLeftTimeText">{{$time.secondsToString(leftTime)}}</view>
+		<view class="singleTimerLeftTimeText">
+		{{$time.secondsToString(leftTime)}}
+		</view>
 
 		<!-- 按钮组 -->
 		<view class="buttonGroup">
@@ -20,7 +22,7 @@
 			</view>
 		</view>
 
-		<u-count-down style="display: none;" ref="uCountDown" :timestamp="countDownTime" @change="change()"
+		<u-count-down style="display: none;" ref="singleTimer" :timestamp="countDownTime" @change="change()"
 			@end="finished()"></u-count-down>
 	</view>
 </template>
@@ -43,12 +45,12 @@
 		},
 		methods: {
 			change(e) {
-				this.leftTime = e
+				this.leftTime = this.$refs.singleTimer.seconds
 				// 剩余时间为5秒的时候开始播放铃声
-				if (e <= 5 && e > 0 && this.ringtoneAudio.paused !== false) {
+				if (this.leftTime <= 5 && this.leftTime > 0 && this.ringtoneAudio.paused != false) {
 					this.ringtoneAudio.play()
 				}
-				if (e <= 0) {
+				if (this.leftTime <= 0) {
 					this.ringtoneAudio.stop()
 				}
 			},
@@ -62,7 +64,7 @@
 			// 重启
 			restart() {
 				this.ringtoneAudio.stop()
-				this.$refs.uCountDown.seconds = this.storage.currentSingleTimer + 1
+				this.$refs.singleTimer.seconds = this.storage.currentSingleTimer + 1
 			},
 			// 返回
 			goback() {
