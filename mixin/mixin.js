@@ -52,7 +52,7 @@ export default {
 				},
 				gotoIndexPage(tab) {
 					uni.navigateTo({
-						url: '/pages/mobile/index?tab=' + tab
+						url: '/pages/index?tab=' + tab
 					})
 				},
 				toastThenJump(msg, url, animationDuration = 1000) {

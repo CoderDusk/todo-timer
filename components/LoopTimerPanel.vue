@@ -43,7 +43,7 @@
 				<view class="button timerButton" @click="showSaveModal">
 					<u-icon name="download" size="50" color="white"></u-icon>
 				</view>
-				<navigator url="../../pages/mobile/editTimerItem?action=add">
+				<navigator url="/pages/editTimerItem?action=add">
 					<view class="button timerButton">
 						<u-icon name="plus" size="50" color="white"></u-icon>
 					</view>

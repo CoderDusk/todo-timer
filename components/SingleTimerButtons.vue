@@ -1,7 +1,7 @@
 <template>
 	<!-- 底部按钮组 -->
 	<view class="bottomButtonGruop">
-		<navigator url="../../pages/mobile/singleTimerList">
+		<navigator url="/pages/singleTimerList">
 			<view class="button">
 				<u-icon name="list-dot" size="50"></u-icon>
 			</view>
@@ -26,7 +26,7 @@
 				// 如果临时单次计时器时间大于0才跳转到单次计时器页面
 				if (this.storage.currentSingleTimer > 0) {
 					uni.navigateTo({
-						url: '../../pages/mobile/singleCountDown'
+						url: '/pages/singleCountDown'
 					})
 					// 如果不大于0说明则显示错误提示
 				} else {

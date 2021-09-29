@@ -84,7 +84,7 @@
 			remove(index) {
 				this.storage.savedSingleTimerList.splice(index, 1)
 				this.updateStorage()
-				this.toastThenJumpToIndex('删除成功')
+				this.$u.toast('删除成功')
 			},
 			// 选择计时器并将其设置为临时单次计时器
 			chooseTimer(time) {
@@ -96,7 +96,7 @@
 	}
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 	.main {
 		height: 100%;
 		width: 100%;

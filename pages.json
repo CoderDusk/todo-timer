@@ -1,14 +1,14 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
-			"path": "pages/mobile/index",
+			"path": "pages/index",
 			"style": {
 				"navigationBarTitleText": "循环计时器 2",
 				"navigationStyle":"custom"
 			}
 		}
         ,{
-            "path" : "pages/mobile/setting",
+            "path" : "pages/setting",
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "设置",
@@ -17,7 +17,7 @@
             
         }
         ,{
-            "path" : "pages/mobile/singleTimerList",
+            "path" : "pages/singleTimerList",
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "已保存单次计时器",
@@ -26,7 +26,7 @@
             
         }
         ,{
-            "path" : "pages/mobile/editTimerItem",
+            "path" : "pages/editTimerItem",
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "编辑计时器",
@@ -35,7 +35,7 @@
             
         }
         ,{
-            "path" : "pages/mobile/loopTimerGroupList",
+            "path" : "pages/loopTimerGroupList",
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "已保存循环计时器",
@@ -44,7 +44,7 @@
             
         }
         ,{
-            "path" : "pages/mobile/singleCountDown",
+            "path" : "pages/singleCountDown",
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "单次计时器",
@@ -53,7 +53,7 @@
             
         }
         ,{
-            "path" : "pages/mobile/loopCountDown",
+            "path" : "pages/loopCountDown",
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "循环计时器",

@@ -45,10 +45,10 @@
 	</view>
 </template>
 <script>
-	import SingleTimerPanel from '../../components/SingleTimerPanel.vue'
-	import SingleTimerButtons from '../../components/SingleTimerButtons.vue'
-	import LoopTimerPanel from '../../components/LoopTimerPanel.vue'
-	import LoopTimerButtons from '../../components/LoopTimerButtons.vue'
+	import SingleTimerPanel from '../components/SingleTimerPanel.vue'
+	import SingleTimerButtons from '../components/SingleTimerButtons.vue'
+	import LoopTimerPanel from '../components/LoopTimerPanel.vue'
+	import LoopTimerButtons from '../components/LoopTimerButtons.vue'
 	export default {
 		data() {
 			return {
