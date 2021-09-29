@@ -16,7 +16,7 @@
 			</view>
 			<!--  #endif -->
 			<view v-if="storage.savedLoopTimerList.length === 0">
-				<u-empty text="没有已保存的循环计时器"></u-empty>
+				<u-empty class="empty-tips" text="没有已保存的循环计时器"></u-empty>
 			</view>
 			<view v-else class="timer" v-for="(item,index) in storage.savedLoopTimerList" :key="item.id"
 				@click="chooseTimerGroup(item)">
@@ -73,6 +73,10 @@
 		box-sizing: border-box;
 		justify-content: space-between;
 		padding-bottom: 20px;
+	}
+	
+	.empty-tips{
+		padding-top: 40px;
 	}
 
 	.timer-list {
