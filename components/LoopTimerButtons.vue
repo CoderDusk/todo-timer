@@ -1,6 +1,6 @@
 <template>
 	<view class="bottomButtonGruop">
-		<navigator url="../../pages/mobile/loopTimerGroupList">
+		<navigator url="/pages/loopTimerGroupList">
 			<view class="button">
 				<u-icon name="list-dot" size="50"></u-icon>
 			</view>
@@ -39,7 +39,7 @@
 				} else {
 					// 跳转到循环计时器页面
 					uni.navigateTo({
-						url: '../../pages/mobile/loopCountDown'
+						url: '/pages/loopCountDown'
 					})
 				}
 			},
