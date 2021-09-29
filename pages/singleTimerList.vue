@@ -20,7 +20,7 @@
 			<!--  #endif -->
 			<!-- 已保存的单次计时器列表页面 -->
 			<view v-if="storage.savedSingleTimerList.length === 0">
-				<u-empty text="没有已保存的单次计时器"></u-empty>
+				<u-empty class="empty-tips" text="没有已保存的单次计时器"></u-empty>
 			</view>
 			<scroll-view v-else scroll-y>
 				<view class="timer" v-for="(item,index) in storage.savedSingleTimerList" :key="index"
@@ -106,11 +106,14 @@
 		box-sizing: border-box;
 		justify-content: space-between;
 		padding-bottom: 20px;
-		// background-color: pink;
 
 		/* #ifdef APP-PLUS */
 		padding-top: 20px;
 		/* #endif */
+	}
+	
+	.empty-tips{
+		padding-top: 40px;
 	}
 
 	.timer-list {
