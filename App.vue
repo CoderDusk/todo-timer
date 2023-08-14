@@ -13,7 +13,7 @@
 	@import "uview-ui/theme.scss";
 	/*每个页面公共css */
 	page{
-		// background-color: pink;
+		background-color: #f5f5f5;
 		width: 100%;
 		height: 100%;
 		max-width: 480px;
@@ -22,13 +22,4 @@
 	.status-bar{
 		height: var(--status-bar-height);
 	}
-	
-	.pink{
-		background-color: pink;
-	}
-	// scroll-view ::-webkit-scrollbar {
-	// 	width: 0;
-	// 	height: 0;
-	// 	background-color: transparent;
-	// }
 </style>

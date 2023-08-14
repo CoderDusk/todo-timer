@@ -106,6 +106,7 @@
 		box-sizing: border-box;
 		justify-content: space-between;
 		padding-bottom: 20px;
+		background-color: white;
 
 		/* #ifdef APP-PLUS */
 		padding-top: 20px;

@@ -102,6 +102,7 @@
 		flex-direction: column;
 		justify-content: space-around;
 		align-items: center;
+		background-color: white;
 	}
 	
 	.panel{

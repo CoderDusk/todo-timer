@@ -102,6 +102,7 @@
 		flex-direction: column;
 		justify-content: space-between;
 		box-sizing: border-box;
+		background-color: white;
 
 		/* #ifdef H5 */
 		padding-top: 20px;

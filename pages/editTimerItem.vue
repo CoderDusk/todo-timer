@@ -133,6 +133,7 @@
 		justify-content: space-around;
 		box-sizing: border-box;
 		padding-bottom: 40px;
+		background-color: white;
 
 		.panel {
 			width: 100%;
