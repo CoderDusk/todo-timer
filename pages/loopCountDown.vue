@@ -200,7 +200,7 @@
 		},
 		created() {
 			this.timerList = this.storage.currentLoopTimer.timerList
-
+			this.currentStep.leftTime = this.timerList[this.currentStep.index].time 
 			const cycleTimes = this.storage.currentLoopTimer.cycleTimes
 
 			if (this.timerList.length === 0) {

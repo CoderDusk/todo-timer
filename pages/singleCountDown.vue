@@ -91,8 +91,8 @@
 			}
 
 			this.createRingtoneAudio()
-
-			this.countDownTime = this.storage.currentSingleTimer + 1
+			this.leftTime = this.storage.currentSingleTimer
+			this.countDownTime = this.storage.currentSingleTimer
 		},
 		beforeDestroy() {
 			this.$refs.singleTimer.stopCountdown()
