@@ -11,7 +11,7 @@
 		</view>
 		<navigator url="setting?from=single">
 			<view class="button">
-				<u-icon name="volume-up-fill" size="50"></u-icon>
+				<u-icon name="setting-fill" size="50"></u-icon>
 			</view>
 		</navigator>
 	</view>

@@ -3,7 +3,9 @@ function checkLocalStorage() {
 		setting: {
 			ringtoneVolume: 30,
 			ringtoneFileUrl: '/static/ringtone/ding.mp3',
-			ringtoneName:'叮'
+			ringtoneName: '叮',
+			timerSwitchTypeTitle: "自动",
+			timerSwitchType: "auto"
 		},
 		currentSingleTimer: 0,
 		currentLoopTimer: {
@@ -21,10 +23,11 @@ function checkLocalStorage() {
 		// 如果设置不是一个对象，就把它设置成默认对象
 		if (typeof appLocalStorage.setting !== 'object') {
 			appLocalStorage.setting = defaultData.setting
-		}else{
-			
+		} else {
+
 			// 如果设置中铃声音文件地址为空就设置默认一个铃声
-			if (appLocalStorage.setting.ringtoneFileUrl == null || appLocalStorage.setting.ringtoneFileUrl.trim() === '') {
+			if (appLocalStorage.setting.ringtoneFileUrl == null || appLocalStorage.setting.ringtoneFileUrl.trim() ===
+				'') {
 				appLocalStorage.setting.ringtoneFileUrl = defaultData.setting.ringtoneFileUrl
 			}
 			// 如果设置中铃声名称为空就设置为默认铃声名称
@@ -32,7 +35,7 @@ function checkLocalStorage() {
 				appLocalStorage.setting.ringtoneName = defaultData.setting.ringtoneName
 			}
 		}
-		
+
 		// 如果当前单次计时器不是非负正整数，就把它设置为0
 		if (!Number.isInteger(appLocalStorage.currentSingleTimer) || appLocalStorage.currentSingleTimer < 0) {
 			appLocalStorage.currentSingleTimer = 0
@@ -44,10 +47,10 @@ function checkLocalStorage() {
 			if (!Number.isInteger(appLocalStorage.currentLoopTimer.cycleTimes)) {
 				appLocalStorage.currentLoopTimer.cycleTimes = 1
 			}
-			if(!Array.isArray(appLocalStorage.currentLoopTimer.timerList)){
+			if (!Array.isArray(appLocalStorage.currentLoopTimer.timerList)) {
 				appLocalStorage.currentLoopTimer.timerList = []
 			}
-			if(typeof appLocalStorage.currentLoopTimer.title !== 'string'){
+			if (typeof appLocalStorage.currentLoopTimer.title !== 'string') {
 				appLocalStorage.currentLoopTimer.title = ''
 			}
 		}

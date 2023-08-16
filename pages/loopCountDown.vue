@@ -175,6 +175,7 @@
 			},
 			// 跳转到下一步骤
 			goNextStep() {
+				console.log('goNextStep')
 				this.stopAudio()
 				// 索引号 + 1
 				this.currentStep.index = this.next(this.currentStep.index)
@@ -193,14 +194,19 @@
 			end() {
 				this.stopAudio()
 				// 当前索引号 + 1
-				this.currentStep.index = this.next(this.currentStep.index)
-				this.updatePageInfo()
-				this.updateLeftStep()
+				console.clear()
+				console.log(this.storage.setting.timerSwitchType)
+				return;
+				if (this.storage.setting.timerSwitchType !== 'auto') {
+					this.currentStep.index = this.next(this.currentStep.index)
+					this.updatePageInfo()
+					this.updateLeftStep()
+				}
 			}
 		},
 		created() {
 			this.timerList = this.storage.currentLoopTimer.timerList
-			this.currentStep.leftTime = this.timerList[this.currentStep.index].time 
+			this.currentStep.leftTime = this.timerList[this.currentStep.index].time
 			const cycleTimes = this.storage.currentLoopTimer.cycleTimes
 
 			if (this.timerList.length === 0) {
