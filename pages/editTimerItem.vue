@@ -119,7 +119,8 @@
 			deleteTimerItem() {
 				this.storage.currentLoopTimer.timerList.splice(this.index, 1)
 				this.updateStorage()
-				this.$u.toast('删除成功')
+				// 返回首页
+				this.toastThenJumpToIndex('删除成功', 'loop')
 			}
 		}
 	}
