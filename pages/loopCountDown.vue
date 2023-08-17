@@ -4,8 +4,8 @@
 		<view></view>
 		<view class="panel">
 			<!-- 倒计时组件，页面不可见 -->
-			<u-count-down :timestamp="countDownTime" style="display: none;" @change="change" @end="end" ref="countDown">
-			</u-count-down>
+			<!-- <u-count-down :timestamp="countDownTime" style="display: none;" @change="change" @end="end" ref="countDown">
+			</u-count-down> -->
 
 			<!-- 当前步骤的标题 -->
 			<view class="currentTitle">
@@ -95,6 +95,27 @@
 				// 暂停功能相关变量
 				isPaused: false,
 				pauseTime: 0,
+				// 定时器ID
+				timerId: "",
+				// 剩余步骤
+				leftStep: 0,
+				// 剩余时间
+				leftTime: 0
+			}
+		},
+		watch: {
+			leftStep(value) {
+				if (value <= 0) {
+					this.countDownTime = 0
+					this.gotoIndexPage('loop')
+				}
+			},
+			leftTime(value) {
+				if (value === 5) {
+					// this.createRingtoneAudio()
+				} else if (value === 1) {
+					this.stopAudio()
+				}
 			}
 		},
 		methods: {
@@ -113,7 +134,6 @@
 				const {
 					leftTime
 				} = this.currentStep
-				// console.log(paused && !this.isPaused ) 
 				if (paused && !this.isPaused && leftTime <= 5 && leftTime >= 0) {
 					this.ringtoneAudio.play()
 				}
@@ -124,6 +144,7 @@
 			// 更新当前步骤信息
 			updateCurrentInfo() {
 				this.countDownTime = this.timerList[this.currentStep.index].time
+				console.log(this.countDownTime)
 				this.currentStep.title = this.timerList[this.currentStep.index].title
 			},
 			// 更新下个步骤信息
@@ -194,36 +215,48 @@
 			end() {
 				this.stopAudio()
 				// 当前索引号 + 1
+				this.currentStep.index = this.next(this.currentStep.index)
 				console.clear()
-				console.log(this.storage.setting.timerSwitchType)
+				this.updatePageInfo()
+				this.updateLeftStep()
 				return;
 				if (this.storage.setting.timerSwitchType !== 'auto') {
 					this.currentStep.index = this.next(this.currentStep.index)
 					this.updatePageInfo()
 					this.updateLeftStep()
 				}
+			},
+			startTimer() {
+				this.timerId = setInterval(() => {
+					console.log(this.countDownTime)
+					this.countDownTime--
+				}, 1000)
 			}
 		},
 		created() {
-			this.timerList = this.storage.currentLoopTimer.timerList
-			this.currentStep.leftTime = this.timerList[this.currentStep.index].time
-			const cycleTimes = this.storage.currentLoopTimer.cycleTimes
 
-			if (this.timerList.length === 0) {
+			console.clear()
+			const {
+				timerList,
+				cycleTimes
+			} = this.storage.currentLoopTimer;
+
+			if (timerList.length === 0) {
 				this.toastThenJumpToIndex('计时器列表不能为空', 'loop')
 			} else if (cycleTimes <= 0) {
 				this.toastThenJumpToIndex('循环次数必须是正整数', 'loop')
 			} else {
 				// 剩余步骤次数 = 计时器组列表长度 * 循环次数 - 1
-				this.currentStep.leftStep = this.timerList.length * cycleTimes - 1
+				this.leftStep = timerList.length * cycleTimes - 1
 				this.createRingtoneAudio()
-				this.updatePageInfo()
+				// this.updatePageInfo()
 			}
 		},
 		beforeDestroy() {
 			if (this.ringtoneAudio) {
 				this.ringtoneAudio.stop()
 			}
+			clearInterval(this.timerId)
 		},
 	}
 </script>
