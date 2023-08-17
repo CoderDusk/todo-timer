@@ -29,7 +29,7 @@ export default {
 				this.getStorage()
 			},
 			beforeDestroy() {
-				if (!!this.ringtoneAudio && !this.ringtongAudio.paused) {
+				if (this.ringtoneAudio && this.ringtongAudio?.paused === false) {
 					this.ringtoneAudio.stop()
 				}
 			},
