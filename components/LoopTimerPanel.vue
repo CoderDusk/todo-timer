@@ -49,21 +49,42 @@
 					</view>
 				</navigator>
 			</view>
+
+			<u-button @click="play">开始播放</u-button>
+			<u-button @click="stop">暂停播放</u-button>
+			<u-button @click="destroyAudio">销毁音频</u-button>
 		</view>
 	</view>
 </template>
 
 <script>
 	export default {
+		created() {
+			// this.createRingtoneAudio()
+			this.audio = uni.createInnerAudioContext();
+			this.audio.autoplay = true;
+			this.audio.src =
+				'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-hello-uniapp/2cc220e0-c27a-11ea-9dfb-6da8e309e0d8.mp3';
+			this.audio.onPlay(() => {
+				console.log('开始播放');
+			});
+		},
 		data() {
 			return {
 				// 是否显示保存计时器组模态框的开关变量
 				isShowSaveModal: false,
 				// 计时器组标题
 				groupTitle: '',
+				audio: "",
 			};
 		},
 		methods: {
+			play() {
+				this.audio.play()
+			},
+			stop() {
+				this.audio.stop()
+			},
 			// 显示保存计时器组模态框
 			showSaveModal() {
 				// 如果计时器组为空则弹出错误提示并返回
@@ -81,9 +102,9 @@
 					url: `editTimerItem?action=edit&index=${index}`
 				})
 			},
-			addTimerItem(){
+			addTimerItem() {
 				uni.navigateTo({
-					url:'editTimerItem?action=add'
+					url: 'editTimerItem?action=add'
 				})
 			},
 			deleteItem(index) {
@@ -234,7 +255,7 @@
 		}
 
 	}
-	
+
 	scroll-view ::-webkit-scrollbar {
 		width: 0;
 		height: 0;

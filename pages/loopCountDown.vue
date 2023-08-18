@@ -18,7 +18,7 @@
 			<view class="nextTimerInfo">
 				<!-- 剩余次数 -->
 				<view class="infoBox">
-					<view class="info">{{ leftStep }}</view>
+					<view class="info">{{ timerList.length - 1 }}</view>
 					<view class="description">剩余步骤</view>
 				</view>
 
@@ -76,22 +76,16 @@
 				pauseTime: 0,
 				// 定时器ID
 				timerId: "",
-				// 剩余步骤
-				leftStep: 0,
 				// 剩余时间
 				leftTime: 0,
 				// 总循环次数
 				cycleTimes: 0,
 				timerIndex: 0,
-				nextTimerIndex: 0
+				nextTimerIndex: 0,
+				currentIndex: 0,
 			}
 		},
 		watch: {
-			leftStep(value) {
-				if (value < 0) {
-					this.gotoIndexPage('loop')
-				}
-			},
 			leftTime(value) {
 				if (value === 5) {
 					this.playAudio()
@@ -99,19 +93,20 @@
 					this.stopAudio()
 				} else if (value === 0) {
 					this.timerList.shift()
+					if (this.timerList.length === 0) {
+						this.gotoIndexPage('loop')
+					}
+				}
+			},
+			timerList(value) {
+				if (value.length - 1 < 0) {
+					this.gotoIndexPage('loop')
 				}
 			}
 		},
 		computed: {
-			leftStep() {
-				const leftStep = this.timerList.length - 1
-				if (leftStep < 0) {
-					this.gotoIndexPage('loop')
-				}
-				return leftStep
-			},
 			nextStep() {
-				if (!this.timerList[1]) {
+				if (!this.timerList[this.currentIndex + 1]) {
 					return {
 						title: "无",
 						time: this.$time.secondsToString(0)
@@ -120,14 +115,14 @@
 				const {
 					time,
 					title
-				} = this.timerList[1]
+				} = this.timerList[this.currentIndex + 1]
 				return {
 					title,
 					time: this.$time.secondsToString(time)
 				}
 			},
 			currentStep() {
-				if (!this.timerList[0]) {
+				if (!this.timerList[this.currentIndex]) {
 					return {
 						title: "无",
 						time: this.$time.secondsToString(0)
@@ -136,7 +131,7 @@
 				const {
 					time,
 					title
-				} = this.timerList[0]
+				} = this.timerList[this.currentIndex]
 				this.leftTime = time
 				return {
 					title,
@@ -153,41 +148,50 @@
 					this.ringtoneAudio.play()
 				}
 			},
-			stopAudio() {
-				this.ringtoneAudio.stop()
-			},
+			// stopAudio() {
+			// 	console.log('stopAudio')
+			// 	// this.ringtoneAudio.stop()
+			// 	console.log(this.ringtoneAudio)
+			// },
 			// 暂停
 			pause() {
 				this.stopAudio()
-				// 把计时器当前剩余时间保存到暂停时间变量中
-				this.pauseTime = this.$refs.countDown.seconds
+				clearInterval(this.timerId)
 				// 暂停状态变量设置为暂停
 				this.isPaused = true
 			},
 			// 继续
 			goOn() {
-				this.countDownTime = this.pauseTime
+				this.startTimer()
 				this.isPaused = false
 			},
 			// 重启
 			restart() {
 				this.stopAudio()
 				this.$refs.countDown.seconds = this.timerList[this.currentStep.index].time + 1
+				clearInterval(this.timerId)
+				this.leftTime = this.timerList[0].time
+				this.startTimer()
 			},
 			// 退出返回首页
 			goback() {
 				this.stopAudio()
-				this.countDownTime = 0
+				this.leftTime = 0
+				clearInterval(this.timerId)
 				this.gotoIndexPage('loop')
 			},
 			// 跳转到下一步骤
 			goNextStep() {
 				this.stopAudio()
 				// 索引号 + 1
-				this.currentStep.index = this.next(this.currentStep.index)
+				// this.currentStep.index = this.next(this.currentStep.index)
+				clearInterval(this.timerId)
+				this.timerList.shift()
+				this.startTimer()
 			},
 			startTimer() {
 				this.timerId = setInterval(() => {
+					this.leftTime--
 					if (this.leftTime === 0) {
 						clearInterval(this.timerId)
 						if (this.leftStep !== 0) {
@@ -218,7 +222,6 @@
 					this.timerList = [...this.timerList, ...timerList]
 				}
 				this.leftTime = timerList[0].time
-				this.leftStep = this.timerList.length - 1
 				this.createRingtoneAudio()
 				this.startTimer()
 

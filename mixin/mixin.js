@@ -50,6 +50,17 @@ export default {
 					this.ringtoneAudio.src = this.storage.setting.ringtoneFileUrl
 					this.ringtoneAudio.volume = this.storage.setting.ringtoneVolume / 100
 				},
+				playAudio() {
+					this.ringtoneAudio.play()
+				},
+				stopAudio() {
+					console.log('stop audio')
+					this.ringtoneAudio.stop()
+					// console.log(this.ringtoneAudio.pause)
+				},
+				destroyAudio() {
+					this.ringtoneAudio.destroy()
+				},
 				gotoIndexPage(tab) {
 					uni.navigateTo({
 						url: '/pages/index?tab=' + tab
