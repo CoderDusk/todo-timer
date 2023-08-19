@@ -55,10 +55,10 @@
 				// 标签相关变量
 				// 标签页标题
 				tabName: [{
-						name: '单次'
+						name: this.$t('index.tabs.single')
 					},
 					{
-						name: '循环'
+						name: this.$t('index.tabs.cycle')
 					}
 				],
 				// 当前标签

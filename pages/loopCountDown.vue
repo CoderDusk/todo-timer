@@ -19,19 +19,19 @@
 				<!-- 剩余次数 -->
 				<view class="infoBox">
 					<view class="info">{{ timerList.length - 1 }}</view>
-					<view class="description">剩余步骤</view>
+					<view class="description">{{$t('cycle.leftSteps')}}</view>
 				</view>
 
 				<!-- 下个步骤的名称 -->
 				<view class="infoBox">
 					<view class="info">{{ nextStep.title }}</view>
-					<view class="description">下个步骤名称</view>
+					<view class="description">{{$t('cycle.nextTimerName')}}</view>
 				</view>
 
 				<!-- 下个步骤的时长 -->
 				<view class="infoBox">
 					<view class="info">{{ nextStep.time }}</view>
-					<view class="description">下个步骤时长</view>
+					<view class="description">{{$t('cycle.nextTimerDuration')}}</view>
 				</view>
 			</view>
 		</view>
@@ -112,7 +112,7 @@
 			nextStep() {
 				if (!this.timerList[this.currentIndex + 1]) {
 					return {
-						title: "无",
+						title: this.$t('system.none'),
 						time: this.$time.secondsToString(0)
 					}
 				}
@@ -128,7 +128,7 @@
 			currentStep() {
 				if (!this.timerList[this.currentIndex]) {
 					return {
-						title: "无",
+						title: this.$t('system.none'),
 						time: this.$time.secondsToString(0)
 					}
 				}
@@ -185,7 +185,6 @@
 			goNextStep() {
 				this.stopAudio()
 				// 索引号 + 1
-				// this.currentStep.index = this.next(this.currentStep.index)
 				clearInterval(this.timerId)
 				this.timerList.shift()
 				this.startTimer()
@@ -219,9 +218,9 @@
 			}
 
 			if (timerList.length === 0) {
-				this.toastThenJumpToIndex('计时器列表不能为空', 'loop')
+				this.toastThenJumpToIndex(this.$t('index.cycle.timerListCannotBeEmpty'), 'loop')
 			} else if (cycleTimes <= 0) {
-				this.toastThenJumpToIndex('循环次数必须是正整数', 'loop')
+				this.toastThenJumpToIndex(this.$t('index.cycle.cyclceTimesWrongTip'), 'loop')
 			} else {
 				for (let i = 0; i < cycleTimes; i++) {
 					this.timerList = [...this.timerList, ...timerList]

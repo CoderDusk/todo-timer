@@ -16,7 +16,7 @@
 			</view>
 			<!--  #endif -->
 			<view v-if="storage.savedLoopTimerList.length === 0">
-				<u-empty class="empty-tips" text="没有已保存的循环计时器"></u-empty>
+				<u-empty class="empty-tips" :text="$t('index.cycle.noGroupTips')"></u-empty>
 			</view>
 			<view v-else class="timer" v-for="(item,index) in storage.savedLoopTimerList" :key="item.id"
 				@click="chooseTimerGroup(item)">
@@ -47,7 +47,7 @@
 			remove(index) {
 				this.storage.savedLoopTimerList.splice(index, 1)
 				this.updateStorage()
-				this.toastThenJumpToIndex('删除成功', 'loop')
+				this.toastThenJumpToIndex(this.$t('system.deleteSuccess'), 'loop')
 			},
 			// 选择计时器组并把它设置为临时循环计时器组
 			chooseTimerGroup(item) {
@@ -57,7 +57,7 @@
 					timerList: item.list,
 				}
 				this.updateStorage()
-				this.toastThenJumpToIndex('选择成功', 'loop')
+				this.toastThenJumpToIndex(this.$t('system.setSuccess'), 'loop')
 			}
 		},
 	}
@@ -75,8 +75,8 @@
 		padding-bottom: 20px;
 		background-color: white;
 	}
-	
-	.empty-tips{
+
+	.empty-tips {
 		padding-top: 40px;
 	}
 

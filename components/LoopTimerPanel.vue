@@ -2,20 +2,19 @@
 	<view>
 		<!-- 不在主要页面的弹出组件：错误警告框、输入计时器名称的模态框 -->
 		<u-modal v-model="isShowSaveModal" :show-title="false" :show-cancel-button="true" @confirm="saveTimerGroup">
-			<input type="text" placeholder="请输入计时器名称" class="inputTitle" placeholder-class="placeholder"
-				v-model="storage.currentLoopTimer.title">
+			<input type="text" :placeholder="$t('index.cycle.timerNameInputPlaceholder')" class="inputTitle"
+				placeholder-class="placeholder" v-model="storage.currentLoopTimer.title">
 		</u-modal>
 
 		<!-- 循环计时器组件主体 -->
 		<view class="main">
-
 			<!-- 循环计时器组为空的提示 -->
 			<view @click="addTimerItem()" v-if="storage.currentLoopTimer.timerList == 0" class="no-list-tip">
-				<text>循环计时器组为空，请按</text>
+				<text>{{$t('index.cycle.emptyGroupBefore')}}</text>
 				<view class="button timerButton add-item-button">
 					<u-icon name="plus" size="33" color="white"></u-icon>
 				</view>
-				<text>添加第一个计时器</text>
+				<text>{{$t('index.cycle.emptyGroupAfter')}}</text>
 			</view>
 
 			<!-- 计时器列表 -->
@@ -33,7 +32,7 @@
 
 			<!-- 循环次数 -->
 			<view class="count">
-				<text>循环次数</text>
+				<text>{{$t('index.cycle.cycleTimes')}}</text>
 				<u-number-box v-model="storage.currentLoopTimer.cycleTimes" :min="1" @change="countChange">
 				</u-number-box>
 			</view>
@@ -69,7 +68,7 @@
 			showSaveModal() {
 				// 如果计时器组为空则弹出错误提示并返回
 				if (this.storage.currentLoopTimer.timerList.length === 0) {
-					this.$u.toast('计时器列表不能为空')
+					this.$u.toast(this.$t('index.cycle.cycleTimerGroupEmptyTip'))
 					return
 				} else {
 					// 如果检查没有错误则弹出保存模态框
@@ -89,8 +88,8 @@
 			},
 			deleteItem(index) {
 				uni.showModal({
-					title: '提示',
-					content: '确认要删除这个计时器吗？',
+					title: this.$t('system.tip'),
+					content: this.$t('index.cycle.deleteTimerConfirm'),
 					success: (res) => {
 						if (res.confirm) {
 							this.storage.currentLoopTimer.timerList.splice(index, 1)
@@ -104,11 +103,11 @@
 			saveTimerGroup() {
 				// 如果计时器组标题为空,弹出错误警告
 				if (this.storage.currentLoopTimer.title.trim() == '') {
-					this.$u.toast('请输入计时器名称')
+					this.$u.toast(this.$t('index.cycle.timerNameInputPlaceholder'))
 				} else if (this.storage.currentLoopTimer.timerList.length === 0) {
-					this.$u.toast('计时器列表不能为空')
+					this.$u.toast(this.$t('index.cycle.cycleTimerGroupEmptyTip'))
 				} else if (this.storage.currentLoopTimer.cycleTimes <= 0) {
-					this.$u.toast('循环次数请设置为正整数')
+					this.$u.toast(this.$t('index.cycle.cyclceTimesWrongTip'))
 				} else {
 					this.storage.savedLoopTimerList.push({
 						title: this.storage.currentLoopTimer.title,
@@ -154,6 +153,10 @@
 			font-size: 32rpx;
 			padding: 30rpx 0;
 
+			text {
+				text-align: center;
+			}
+
 			.button {
 				width: 45rpx;
 				height: 45rpx;
@@ -181,7 +184,6 @@
 
 		.count {
 			font-size: 35rpx;
-			font-weight: bold;
 			display: flex;
 			justify-content: space-around;
 			width: 100%;

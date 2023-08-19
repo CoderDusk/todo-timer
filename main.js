@@ -19,11 +19,21 @@ Vue.use(vueAwesomeCountdown, 'vac')
 import mixin from 'mixin/mixin.js'
 Vue.use(mixin)
 
+// 国际化
+import VueI18n from 'vue-i18n'
+import messages from './common/lang.js'
+Vue.use(VueI18n)
+const i18n = new VueI18n({
+	locale: 'zh-CN', // 默认选择的语言
+	messages
+})
+
 Vue.config.productionTip = false
 
 App.mpType = 'app'
 
 const app = new Vue({
-    ...App
+	i18n,
+	...App
 })
 app.$mount()

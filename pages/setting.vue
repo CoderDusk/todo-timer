@@ -3,14 +3,14 @@
 	<view class="main">
 		<view class="panel">
 			<!-- 音量设置 -->
-			<view class="title">音量设置</view>
+			<view class="title">{{$t('setting.volumeSetting')}}</view>
 			<u-slider v-model="storage.setting.ringtoneVolume" class="volumeSlider" @end="volumeSliderEnd"></u-slider>
 			<!-- 铃声设置 -->
-			<view class="title">铃声设置</view>
+			<view class="title">{{$t('setting.ringtoneSetting')}}</view>
 			<u-select v-model="showRingtoneSetting" :list="ringtoneList" @confirm="confirmRingtone"></u-select>
 			<u-button @click="showRingtoneSetting = true" size="medium" type="primary" class="select-button"
 				plain>{{storage.setting.ringtoneName}}</u-button>
-			<view class="title">循环计时器切换方式</view>
+			<view class="title">{{$t('setting.cycleTimerSwitchMethod')}}</view>
 			<u-select v-model="isShowTimerSwitchTypeSelect" :list="timerSwitchTypeOptions"
 				@confirm="confirmTimerSwitchType"></u-select>
 			<u-button @click="isShowTimerSwitchTypeSelect = true" size="medium" type="primary" class="select-button"
@@ -37,11 +37,11 @@
 				isShowTimerSwitchTypeSelect: false,
 				timerSwitchTypeOptions: [{
 						value: 'auto',
-						label: '自动'
+						label: this.$t('setting.switchType.auto')
 					},
 					{
 						value: 'manual',
-						label: '手动'
+						label: this.$t('setting.switchType.manual')
 					}
 				],
 			}
@@ -54,7 +54,7 @@
 				// 停止铃声
 				this.ringtoneAudio.stop()
 				// 返回首页
-				this.toastThenJumpToIndex('保存成功', this.from)
+				this.toastThenJumpToIndex(this.$t('system.saveSuccess'), this.from)
 			},
 			// 确认铃声选择
 			confirmRingtone(e) {
@@ -85,19 +85,19 @@
 				// 内置铃声列表
 				const innerRingtoneList = [{
 						value: '/static/ringtone/ding.mp3',
-						label: '叮'
+						label: this.$t('setting.ringtone.ding')
 					},
 					{
 						value: '/static/ringtone/bird.mp3',
-						label: '鸟叫'
+						label: this.$t('setting.ringtone.bird')
 					},
 					{
 						value: '/static/ringtone/clock.mp3',
-						label: '机械闹铃'
+						label: this.$t('setting.ringtone.clock')
 					},
 					{
 						value: '/static/ringtone/gugu.mp3',
-						label: '布谷钟'
+						label: this.$t('setting.ringtone.gugu')
 					},
 				]
 				// 后期与自定义铃声合并

@@ -3,7 +3,7 @@
 	<view class="main">
 		<view></view>
 		<view class="singleTimerLeftTimeText">
-		{{$time.secondsToString(leftTime)}}
+			{{$time.secondsToString(leftTime)}}
 		</view>
 
 		<!-- 按钮组 -->
@@ -87,7 +87,7 @@
 		created() {
 			// 如果时间小于1就退回首页
 			if (this.storage.currentSingleTimer < 1) {
-				this.toastThenJumpToIndex('请先设置计时器')
+				this.toastThenJumpToIndex(this.$t('index.single.noSavedTimerTips'))
 			}
 
 			this.createRingtoneAudio()

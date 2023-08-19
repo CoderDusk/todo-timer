@@ -33,9 +33,9 @@
 				this.getStorage()
 				// 如果循环计时器组为空就弹出警告
 				if (this.storage.currentLoopTimer.timerList.length == 0) {
-					this.$u.toast('计时器组至少需要一个计时器')
+					this.$u.toast(this.$t('index.cycle.cycleTimerGroupEmptyTip'))
 				} else if (this.storage.currentLoopTimer.cycleTimes <= 0) {
-					this.$u.toast('循环次数应当为一个正整数')
+					this.$u.toast(this.$t('index.cycle.cyclceTimesWrongTip'))
 				} else {
 					// 跳转到循环计时器页面
 					uni.navigateTo({
@@ -53,7 +53,7 @@
 		display: flex;
 		justify-content: space-around;
 	}
-	
+
 	.button {
 		border: 1px solid #F1F1F1;
 		width: 90rpx;

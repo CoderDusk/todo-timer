@@ -19,7 +19,7 @@
 
 <script>
 	export default {
-		methods:{
+		methods: {
 			// 开始单次计时器,跳转到单次计时器页面
 			startSingleTimer() {
 				this.getStorage()
@@ -30,9 +30,9 @@
 					})
 					// 如果不大于0说明则显示错误提示
 				} else {
-					this.$u.toast('请先设置计时器')
+					this.$u.toast(this.$t('index.single.noTimerTips'))
 				}
-			
+
 			}
 		},
 	}
@@ -44,7 +44,7 @@
 		display: flex;
 		background-color: white;
 		justify-content: space-around;
-	
+
 		.button {
 			border: 1px solid #F1F1F1;
 			width: 90rpx;

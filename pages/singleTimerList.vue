@@ -5,6 +5,7 @@
 			<!-- 不在页面上显示的组件 -->
 			<!-- 时间选择器 -->
 			<u-picker v-model="isPickerShow" mode="time" :params="pickerParams" default-time="00:00:00"
+				:confirm-text="$t('system.confirm')" :cancel-text="$t('system.cancel')"
 				@confirm="confirmPicker"></u-picker>
 			<!--  #ifdef  APP-PLUS -->
 			<view class="padding-for-app">
@@ -20,7 +21,7 @@
 			<!--  #endif -->
 			<!-- 已保存的单次计时器列表页面 -->
 			<view v-if="storage.savedSingleTimerList.length === 0">
-				<u-empty class="empty-tips" text="没有已保存的单次计时器"></u-empty>
+				<u-empty class="empty-tips" :text="$t('index.single.noSavedTimerTips')"></u-empty>
 			</view>
 			<scroll-view v-else scroll-y>
 				<view class="timer" v-for="(item,index) in storage.savedSingleTimerList" :key="index"
@@ -77,20 +78,20 @@
 					// 把新计时器保存到本地存储
 					this.updateStorage()
 				} else {
-					this.$u.toast('请设置正确的时长')
+					this.$u.toast(this.$('index.single.noSavedTimerTips'))
 				}
 			},
 			// 删除计时器
 			remove(index) {
 				this.storage.savedSingleTimerList.splice(index, 1)
 				this.updateStorage()
-				this.$u.toast('删除成功')
+				this.$u.toast(this.$('system.deleteSuccess'))
 			},
 			// 选择计时器并将其设置为临时单次计时器
 			chooseTimer(time) {
 				this.storage.currentSingleTimer = time
 				this.updateStorage()
-				this.toastThenJumpToIndex('设置成功')
+				this.toastThenJumpToIndex(this.$('system.setSuccess'))
 			}
 		},
 	}
@@ -112,8 +113,8 @@
 		padding-top: 20px;
 		/* #endif */
 	}
-	
-	.empty-tips{
+
+	.empty-tips {
 		padding-top: 40px;
 	}
 
