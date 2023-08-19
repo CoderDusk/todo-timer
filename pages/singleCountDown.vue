@@ -3,7 +3,7 @@
 	<view class="main">
 		<view></view>
 		<view class="singleTimerLeftTimeText">
-			{{$time.secondsToString(leftTime)}}
+			{{ $time.secondsToString(leftTime) }}
 		</view>
 
 		<!-- 按钮组 -->
@@ -21,120 +21,140 @@
 				<u-icon name="close" size="50"></u-icon>
 			</view>
 		</view>
-
-		<u-count-down style="display: none;" ref="singleTimer" :timestamp="countDownTime" @change="change()"
-			@end="finished()"></u-count-down>
 	</view>
 </template>
 
 <script>
-	export default {
-		data() {
-			return {
-				// 倒计时组件状态，默认为进行中
-				isPaused: false,
-				// 界面上显示的剩余时间
-				showTime: '',
-				// 剩余时间
-				leftTime: 0,
-				// 计时器组件时间
-				countDownTime: 0,
-				// 暂停时临时保存时间的
-				tempPauseTime: 0,
-			};
-		},
-		methods: {
-			change(e) {
-				this.leftTime = this.$refs.singleTimer.seconds
-				// 剩余时间为5秒的时候开始播放铃声
-				if (this.leftTime <= 5 && this.leftTime > 0 && this.ringtoneAudio.paused != false) {
-					this.ringtoneAudio.play()
-				}
-				if (this.leftTime <= 0) {
-					this.ringtoneAudio.stop()
-				}
-			},
-			// 暂停
-			pause() {
-				this.tempPauseTime = this.leftTime
-				this.countDownTime = 0
-				this.ringtoneAudio.stop()
-				this.isPaused = true
-			},
-			// 重启
-			restart() {
-				this.ringtoneAudio.stop()
-				this.$refs.singleTimer.seconds = this.storage.currentSingleTimer + 1
-			},
-			// 返回
-			goback() {
-				this.countDownTime = 0
-				this.ringtoneAudio.stop()
+export default {
+	data() {
+		return {
+			// 剩余时间
+			leftTime: 0,
+			// 定时器ID
+			timerId: "",
+			isPaused: false,
+		};
+	},
+	watch: {
+		leftTime(value) {
+			if (value === 5) {
+				this.playAudio()
+			} else if (value === 0) {
+				this.stopAudio()
+				clearInterval(this.timerId)
 				this.gotoIndexPage('single')
-			},
-			// 继续
-			continueTimer() {
-				this.countDownTime = this.tempPauseTime
-				this.isPaused = false
-			},
-			// 计时器完成时触发的函数
-			finished() {
-				this.ringtoneAudio.stop()
-				this.goback()
-			},
-
-		},
-		created() {
-			// 如果时间小于1就退回首页
-			if (this.storage.currentSingleTimer < 1) {
-				this.toastThenJumpToIndex(this.$t('index.single.noSavedTimerTips'))
 			}
-
-			this.createRingtoneAudio()
-			this.leftTime = this.storage.currentSingleTimer
-			this.countDownTime = this.storage.currentSingleTimer
 		},
-		beforeDestroy() {
-			this.$refs.singleTimer.stopCountdown()
+	},
+	methods: {
+		startTimer() {
+			this.timerId = setInterval(() => {
+				this.leftTime--
+				if (this.leftTime === 0) {
+					clearInterval(this.timerId)
+				}
+			}, 1000)
+		},
+		playAudio() {
+			const {
+				paused
+			} = this.ringtoneAudio
+
+			if (paused && !this.isPaused && this.leftTime <= 5 && this.leftTime >= 1) {
+				this.ringtoneAudio.play()
+			}
+		},
+		leavePage() {
+			this.ringtoneAudio.destroy()
+			clearInterval(this.timerId)
+		},
+		stopAudio() {
 			this.ringtoneAudio.stop()
+		},
+		// 暂停
+		pause() {
+			this.stopAudio()
+			clearInterval(this.timerId)
+			// 暂停状态变量设置为暂停
+			this.isPaused = true
+		},
+		// 重启
+		restart() {
+			this.stopAudio()
+			clearInterval(this.timerId)
+			this.leftTime = this.storage.currentSingleTimer
+			this.startTimer()
+		},
+		// 返回
+		goback() {
+			this.stopAudio()
+			this.leftTime = 0
+			clearInterval(this.timerId)
+			this.gotoIndexPage('single')
+		},
+		// 继续
+		continueTimer() {
+			this.startTimer()
+			this.isPaused = false
+		},
+
+	},
+	created() {
+		// 如果时间小于1就退回首页
+		if (this.storage.currentSingleTimer < 1) {
+			this.toastThenJumpToIndex(this.$t('index.single.noSavedTimerTips'))
 		}
-	}
+
+		this.createRingtoneAudio()
+		this.leftTime = this.storage.currentSingleTimer
+		this.startTimer()
+	},
+	onUnload() {
+		this.leavePage()
+	},
+	beforeDestroy() {
+		this.leavePage()
+	},
+	onHide() {
+		this.leavePage()
+	},
+}
 </script>
 
 <style lang="scss" scoped>
-	.main {
-		height: 100%;
-		width: 100%;
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-		padding-bottom: 40px;
-		box-sizing: border-box;
-		background-color: white;
-	}
+.main {
+	height: 100%;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	padding-bottom: 40px;
+	box-sizing: border-box;
+	background-color: white;
+}
 
-	.buttonGroup {
-		width: 100%;
-		display: flex;
-		justify-content: space-around;
+.buttonGroup {
+	width: 100%;
+	display: flex;
+	justify-content: space-around;
 
-		.button {
-			border: 1px solid #F1F1F1;
-			width: 90rpx;
-			height: 90rpx;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			border-radius: 50%;
-			color: rgb(34, 131, 246);
-			box-shadow: 0 4px 5px rgba(0, 0, 0, 0.19);
-		}
-	}
-
-	.singleTimerLeftTimeText {
-		font-size: 150rpx;
-		width: 100%;
+	.button {
+		border: 1px solid #F1F1F1;
+		width: 90rpx;
+		height: 90rpx;
 		display: flex;
 		justify-content: center;
+		align-items: center;
+		border-radius: 50%;
+		color: rgb(34, 131, 246);
+		box-shadow: 0 4px 5px rgba(0, 0, 0, 0.19);
 	}
+}
+
+.singleTimerLeftTimeText {
+	font-size: 150rpx;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+}
 </style>
