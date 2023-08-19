@@ -11,10 +11,6 @@ Vue.prototype.$time = myTimeTools
 import tools from 'common/tools.js'
 Vue.prototype.$tools = tools
 
-// 引入 vue-awesome-countdown
-import vueAwesomeCountdown from 'vue-awesome-countdown'
-Vue.use(vueAwesomeCountdown, 'vac')
-
 // 引入自定义混入
 import mixin from 'mixin/mixin.js'
 Vue.use(mixin)

@@ -33,8 +33,18 @@
 			<!-- 循环次数 -->
 			<view class="count">
 				<text>{{$t('index.cycle.cycleTimes')}}</text>
+				<!--  #ifndef  H5 -->
 				<u-number-box v-model="storage.currentLoopTimer.cycleTimes" :min="1" @change="countChange">
 				</u-number-box>
+				<!--  #endif -->
+				<!--  #ifdef  H5 -->
+				<u-number-box class="pc-u-number-box" v-if="!isMobile" v-model="storage.currentLoopTimer.cycleTimes"
+					:min="1" @change="countChange">
+				</u-number-box>
+				<u-number-box v-else v-model="storage.currentLoopTimer.cycleTimes" :min="1" @change="countChange">
+				</u-number-box>
+				<!--  #endif -->
+
 			</view>
 
 			<!-- 计时器列表按钮组 -->
@@ -61,7 +71,13 @@
 				// 计时器组标题
 				groupTitle: '',
 				audio: "",
+				isMobile: null,
 			};
+		},
+		created() {
+			this.isMobile = navigator.userAgent.match(
+				/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i
+			) ? true : false;
 		},
 		methods: {
 			// 显示保存计时器组模态框
@@ -242,5 +258,15 @@
 		width: 0;
 		height: 0;
 		background-color: transparent;
+	}
+
+	.pc-u-number-box {
+		/deep/ .u-icon-minus {
+			display: none;
+		}
+
+		/deep/ .u-icon-plus {
+			display: none;
+		}
 	}
 </style>
