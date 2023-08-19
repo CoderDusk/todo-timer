@@ -90,11 +90,15 @@
 				if (value === 5) {
 					this.playAudio()
 				} else if (value === 1) {
-					this.stopAudio()
+					// this.stopAudio()
 				} else if (value === 0) {
-					this.timerList.shift()
-					if (this.timerList.length === 0) {
-						this.gotoIndexPage('loop')
+					this.stopAudio()
+					clearInterval(this.timerId)
+					if (this.storage.setting.timerSwitchType === 'auto') {
+						this.timerList.shift()
+						if (this.timerList.length === 0) {
+							this.gotoIndexPage('loop')
+						}
 					}
 				}
 			},
@@ -148,11 +152,9 @@
 					this.ringtoneAudio.play()
 				}
 			},
-			// stopAudio() {
-			// 	console.log('stopAudio')
-			// 	// this.ringtoneAudio.stop()
-			// 	console.log(this.ringtoneAudio)
-			// },
+			stopAudio() {
+				this.ringtoneAudio.stop()
+			},
 			// 暂停
 			pause() {
 				this.stopAudio()
@@ -168,7 +170,6 @@
 			// 重启
 			restart() {
 				this.stopAudio()
-				this.$refs.countDown.seconds = this.timerList[this.currentStep.index].time + 1
 				clearInterval(this.timerId)
 				this.leftTime = this.timerList[0].time
 				this.startTimer()
@@ -199,6 +200,10 @@
 						}
 					}
 				}, 1000)
+			},
+			leavePage() {
+				this.ringtoneAudio.destroy()
+				clearInterval(this.timerId)
 			}
 		},
 		created() {
@@ -227,11 +232,14 @@
 
 			}
 		},
+		onUnload() {
+			this.leavePage()
+		},
 		beforeDestroy() {
-			if (this.ringtoneAudio && this.ringtongAudio?.paused === false) {
-				this.ringtoneAudio.stop()
-			}
-			clearInterval(this.timerId)
+			this.leavePage()
+		},
+		onHide() {
+			this.leavePage()
 		},
 	}
 </script>

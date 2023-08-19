@@ -18,6 +18,7 @@
   "homepage": "https://github.com/CoderDusk/interval-timer-2",
   "dependencies": {
     "uview-ui": "^1.8.4",
-    "vue-awesome-countdown": "^1.1.4"
+    "vue-awesome-countdown": "^1.1.4",
+    "vue-i18n": "^9.2.2"
   }
 }
