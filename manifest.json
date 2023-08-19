@@ -1,6 +1,6 @@
 {
     "name" : "土豆计时器",
-    "appid" : "__UNI__EBBAD52",
+    "appid" : "__UNI__D19603E",
     "description" : "",
     "versionName" : "1.0.0",
     "versionCode" : "100",
@@ -23,7 +23,8 @@
             /* android打包配置 */
             "android" : {
                 "permissions" : [],
-                "autoSdkPermissions" : false
+                "autoSdkPermissions" : false,
+                "abiFilters" : [ "armeabi-v7a", "arm64-v8a", "x86" ]
             },
             /* ios打包配置 */
             "ios" : {
@@ -35,33 +36,33 @@
             },
             "icons" : {
                 "android" : {
-                    "hdpi" : "unpackage/res/icons/72x72.png",
-                    "xhdpi" : "unpackage/res/icons/96x96.png",
-                    "xxhdpi" : "unpackage/res/icons/144x144.png",
-                    "xxxhdpi" : "unpackage/res/icons/192x192.png"
+                    "hdpi" : "static/logo.png",
+                    "xhdpi" : "static/logo.png",
+                    "xxhdpi" : "static/logo.png",
+                    "xxxhdpi" : "static/logo.png"
                 },
                 "ios" : {
-                    "appstore" : "unpackage/res/icons/1024x1024.png",
+                    "appstore" : "static/logo.png",
                     "ipad" : {
-                        "app" : "unpackage/res/icons/76x76.png",
-                        "app@2x" : "unpackage/res/icons/152x152.png",
-                        "notification" : "unpackage/res/icons/20x20.png",
-                        "notification@2x" : "unpackage/res/icons/40x40.png",
-                        "proapp@2x" : "unpackage/res/icons/167x167.png",
-                        "settings" : "unpackage/res/icons/29x29.png",
-                        "settings@2x" : "unpackage/res/icons/58x58.png",
-                        "spotlight" : "unpackage/res/icons/40x40.png",
-                        "spotlight@2x" : "unpackage/res/icons/80x80.png"
+                        "app" : "static/logo.png",
+                        "app@2x" : "static/logo.png",
+                        "notification" : "static/logo.png",
+                        "notification@2x" : "static/logo.png",
+                        "proapp@2x" : "static/logo.png",
+                        "settings" : "static/logo.png",
+                        "settings@2x" : "static/logo.png",
+                        "spotlight" : "static/logo.png",
+                        "spotlight@2x" : "static/logo.png"
                     },
                     "iphone" : {
-                        "app@2x" : "unpackage/res/icons/120x120.png",
-                        "app@3x" : "unpackage/res/icons/180x180.png",
-                        "notification@2x" : "unpackage/res/icons/40x40.png",
-                        "notification@3x" : "unpackage/res/icons/60x60.png",
-                        "settings@2x" : "unpackage/res/icons/58x58.png",
-                        "settings@3x" : "unpackage/res/icons/87x87.png",
-                        "spotlight@2x" : "unpackage/res/icons/80x80.png",
-                        "spotlight@3x" : "unpackage/res/icons/120x120.png"
+                        "app@2x" : "static/logo.png",
+                        "app@3x" : "static/logo.png",
+                        "notification@2x" : "static/logo.png",
+                        "notification@3x" : "static/logo.png",
+                        "settings@2x" : "static/logo.png",
+                        "settings@3x" : "static/logo.png",
+                        "spotlight@2x" : "static/logo.png",
+                        "spotlight@3x" : "static/logo.png"
                     }
                 }
             }
@@ -74,7 +75,7 @@
     "quickapp" : {},
     /* 小程序特有相关 */
     "mp-weixin" : {
-        "appid" : "wx4817885cadcabdf4",
+        "appid" : "wx1d4aa5ca4bf1bfce",
         "setting" : {
             "urlCheck" : false,
             "minified" : true
