@@ -1,5 +1,5 @@
 {
-    "name" : "土豆计时器",
+    "name" : "ToDo Timer",
     "appid" : "__UNI__D19603E",
     "description" : "",
     "versionName" : "1.0.0",
@@ -24,11 +24,13 @@
             "android" : {
                 "permissions" : [],
                 "autoSdkPermissions" : false,
-                "abiFilters" : [ "armeabi-v7a", "arm64-v8a", "x86" ]
+                "abiFilters" : [ "armeabi-v7a", "arm64-v8a", "x86" ],
+                "targetSdkVersion" : 31
             },
             /* ios打包配置 */
             "ios" : {
-                "idfa" : true
+                "idfa" : true,
+                "dSYMs" : false
             },
             /* SDK配置 */
             "sdkConfigs" : {
@@ -135,5 +137,6 @@
         "uniStatistics" : {
             "enable" : true
         }
-    }
+    },
+    "locale" : "auto"
 }

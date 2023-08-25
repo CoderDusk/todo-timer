@@ -205,7 +205,6 @@
 			}
 		},
 		created() {
-			console.clear()
 			const {
 				timerList,
 				cycleTimes
