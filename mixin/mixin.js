@@ -66,7 +66,7 @@ export default {
 						this.gotoIndexPage(tab)
 					}, 500)
 				}
-			}
+			},
 		})
 	}
 }

@@ -9,12 +9,17 @@
 			<view class="title">{{$t('setting.ringtoneSetting')}}</view>
 			<u-select v-model="showRingtoneSetting" :list="ringtoneList" @confirm="confirmRingtone"></u-select>
 			<u-button @click="showRingtoneSetting = true" size="medium" type="primary" class="select-button"
-				plain>{{storage.setting.ringtoneName}}</u-button>
+				plain>{{ringtoneTitle}}</u-button>
 			<view class="title">{{$t('setting.cycleTimerSwitchMethod')}}</view>
 			<u-select v-model="isShowTimerSwitchTypeSelect" :list="timerSwitchTypeOptions"
 				@confirm="confirmTimerSwitchType"></u-select>
 			<u-button @click="isShowTimerSwitchTypeSelect = true" size="medium" type="primary" class="select-button"
-				plain>{{storage.setting.timerSwitchTypeTitle}}</u-button>
+				plain>{{timerSwitchTypeTitle}}</u-button>
+			<view class="title">{{$t('setting.languageSetting')}}</view>
+			<u-select v-model="isShowLanguageSelect" :list="languageSwitchTypeOptions"
+				@confirm="confirmLanguageSelect"></u-select>
+			<u-button @click="isShowLanguageSelect = true" size="medium" type="primary" class="select-button"
+				plain>{{languageTitle}}</u-button>
 		</view>
 
 		<!-- 保存按钮 -->
@@ -44,6 +49,31 @@
 						label: this.$t('setting.switchType.manual')
 					}
 				],
+				isShowLanguageSelect: false,
+				languageSwitchTypeOptions: [{
+						value: "auto",
+						label: this.$t('setting.language.auto')
+					},
+					{
+						value: "en",
+						label: this.$t('setting.language.en')
+					},
+					{
+						value: "zh",
+						label: this.$t('setting.language.zh')
+					}
+				]
+			}
+		},
+		computed: {
+			languageTitle() {
+				return this.$t(`setting.language.${this.storage.setting.language}`)
+			},
+			timerSwitchTypeTitle() {
+				return this.$t(`setting.switchType.${this.storage.setting.timerSwitchType}`)
+			},
+			ringtoneTitle() {
+				return this.$t(`setting.ringtone.${this.storage.setting.ringtone}`)
 			}
 		},
 		methods: {
@@ -60,7 +90,7 @@
 			confirmRingtone(e) {
 				// 更新铃声音频对象的音频文件
 				this.storage.setting.ringtoneFileUrl = e[0].value
-				this.storage.setting.ringtoneName = e[0].label
+				this.storage.setting.ringtone = e[0].value.replace("/static/ringtone/", "").replace(".mp3", "")
 				this.updateStorage()
 				// 试听铃声
 				this.createRingtoneAudio()
@@ -68,8 +98,23 @@
 			},
 			// 确认计时器切换方式选择
 			confirmTimerSwitchType(e) {
-				this.storage.setting.timerSwitchTypeTitle = e[0].label
 				this.storage.setting.timerSwitchType = e[0].value
+				this.updateStorage()
+			},
+			confirmLanguageSelect(e) {
+				const result = e[0].value
+				this.storage.setting.language = result
+				if (result === 'auto') {
+					const res = uni.getSystemInfoSync();
+					lan = res.language
+					if (lan.startsWith('zh')) {
+						this.$i18n.locale = 'zh'
+					} else {
+						this.$i18n.locale = 'en'
+					}
+				} else {
+					this.$i18n.locale = result
+				}
 				this.updateStorage()
 			},
 			// 音量滑块滑动停止时触发的函数
@@ -85,19 +130,20 @@
 				// 内置铃声列表
 				const innerRingtoneList = [{
 						value: '/static/ringtone/ding.mp3',
-						label: this.$t('setting.ringtone.ding')
+						label: this.$t('setting.ringtone.ding'),
+
 					},
 					{
 						value: '/static/ringtone/bird.mp3',
-						label: this.$t('setting.ringtone.bird')
+						label: this.$t('setting.ringtone.bird'),
 					},
 					{
 						value: '/static/ringtone/clock.mp3',
-						label: this.$t('setting.ringtone.clock')
+						label: this.$t('setting.ringtone.clock'),
 					},
 					{
 						value: '/static/ringtone/gugu.mp3',
-						label: this.$t('setting.ringtone.gugu')
+						label: this.$t('setting.ringtone.gugu'),
 					},
 				]
 				// 后期与自定义铃声合并
@@ -112,6 +158,15 @@
 		},
 		onLoad(e) {
 			this.from = e.from
+		},
+		onUnload() {
+			this.ringtoneAudio.destroy()
+		},
+		beforeDestroy() {
+			this.ringtoneAudio.destroy()
+		},
+		onHide() {
+			this.ringtoneAudio.destroy()
 		},
 	}
 </script>

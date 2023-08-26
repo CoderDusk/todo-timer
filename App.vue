@@ -1,23 +1,29 @@
 <script>
 	export default {
 		globalData: {},
-
 		// 当uni-app 初始化完成时触发（全局只触发一次）
 		onLaunch: function() {
 			this.$tools.checkLocalStorage()
 			let lan = 'zh'
 			try {
-				const res = uni.getSystemInfoSync();
-				lan = res.language
+				console.clear()
+				if (!this.storage.setting.language || this.storage.setting.language === 'auto') {
+					const res = uni.getSystemInfoSync();
+					lan = res.language
+					if (lan.startsWith('zh')) {
+						this.$i18n.locale = 'zh'
+					} else {
+						this.$i18n.locale = 'en'
+					}
+				} else {
+					this.$i18n.locale = this.storage.setting.language
+				}
+
 			} catch (e) {
 				console.log('error=' + e)
 			}
-			if (lan.startsWith('zh')) {
-				this.$i18n.locale = 'zh-CN'
-			} else {
-				this.$i18n.locale = 'en'
-			}
-		}
+
+		},
 	}
 </script>
 

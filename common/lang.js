@@ -10,9 +10,10 @@ export default {
 			setSuccess: "Set success",
 		},
 		setting: {
-			volumeSetting: "Volume setting",
-			ringtoneSetting: "Ringtone setting",
+			volumeSetting: "Volume",
+			ringtoneSetting: "Ringtone",
 			cycleTimerSwitchMethod: "Cycle timer swtich method",
+			languageSetting: "Language",
 			switchType: {
 				manual: "manual",
 				auto: "auto"
@@ -21,7 +22,13 @@ export default {
 				ding: 'ding',
 				bird: "bird",
 				clock: 'clock',
-				gugu: 'gugu'
+				gugu: 'gugu',
+				custom: "custom"
+			},
+			language: {
+				auto: "Auto",
+				en: "English",
+				zh: "Chinese"
 			}
 		},
 		index: {
@@ -60,7 +67,7 @@ export default {
 		}
 
 	},
-	'zh-CN': {
+	'zh': {
 		system: {
 			confirm: "确认",
 			cancel: "取消",
@@ -71,9 +78,10 @@ export default {
 			setSuccess: "设置成功"
 		},
 		setting: {
-			volumeSetting: "音量设置",
-			ringtoneSetting: "铃声设置",
+			volumeSetting: "音量",
+			ringtoneSetting: "铃声",
 			cycleTimerSwitchMethod: "循环计时器切换方式",
+			languageSetting: "语言",
 			switchType: {
 				manual: "手动",
 				auto: "自动"
@@ -82,7 +90,13 @@ export default {
 				ding: '叮',
 				bird: "鸟叫",
 				clock: '机械闹铃',
-				gugu: '布谷钟'
+				gugu: '布谷钟',
+				custom: "自定义"
+			},
+			language: {
+				auto: "自动",
+				en: "英文",
+				zh: "中文"
 			}
 		},
 		index: {
