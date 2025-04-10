@@ -21,7 +21,7 @@
       <!-- 循环计时器组为空的提示 -->
       <view
         @click="addTimerItem()"
-        v-if="storage.currentLoopTimer.timerList == 0"
+        v-if="storage.currentLoopTimer.timerList.length === 0"
         class="no-list-tip"
       >
         <text>{{ $t('index.cycle.emptyGroupBefore') }}</text>
